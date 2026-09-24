@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver producto</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <!-- <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
+</head>
+
+<body>
+
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                                    class="fas fa-bars"></i></a></li>
+                    </ul>
+                    <div class="search-element">
+                        <a href="main.html"><img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%"></a>
+                    </div>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown"><a href="#" data-toggle="dropdown"
+                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="assets/img/avatar-4.png" class="rounded-circle mr-1">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-title">Usuario</div>
+                            <a href="features-profile.html" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="main.html"><img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
+                                alt="resum_letter" height="72%" width="106%"></a>
+                    </div>
+                    <div class="sidebar-brand">
+                        <a href="main.html"><img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
+                                width="40%"></a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">Stock and pos</li>
+                        <li>
+                            <a href="main.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+                        </li>
+                        <li class="menu-header">Inventario</li>
+                        <li>
+                            <a href="Stock.html"><i class="fas fa-boxes"></i> <span>Stock</span></a>
+                        </li>
+                        <li class="menu-header">Vender</li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i>
+                                <span>Ventas</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#"><i class="fas fa-cart-plus"></i> A&ntilde;adir
+                                        venta</a></li>
+                                <li><a class="nav-link" href="#"><i class="fas fa-history"></i>
+                                        Historial de ventas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </aside>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section" style="padding-top: 6% !important;">
+                    <a href="Stock.html" class="btn btn-outline-info">
+                        &lt;&lt; Volver</a>
+                            <br>
+                            <br>
+                            <table class="table table-bordered border-black">
+                                <thead>
+                                    <tr>
+                                        <th class="border border-2 border-black" scope="col" colspan="4">
+                                            <div class="text-center">
+                                                <img class="img-fluid" src="assets/img/images.png" alt="producto"
+                                                    width="25%" height="25%">
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="2">Nombre producto:</td>
+                                        <td class="border border-2 border-black" colspan="2">codigo interno del producto:####</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="4">Cantidad total en inventario:####</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="2" style="width: 30%;">Producto percedero: Si/No</td>
+                                        <td class="border border-2 border-black" colspan="2">Fechas de vencimiento:
+                                            <ol class="list-group list-group-numbered">
+                                                <li class="list-group-item">24/09/2026 - Vence: Lote:986520</li>
+                                                <li class="list-group-item border-top border-1 border border-secondary-subtle">01/10/2026 - Vence: Lote:145893</li>
+                                                <li class="list-group-item">25/10/2026 - Vence: Lote:596321</li>
+                                            </ol>
+                                            <br>
+
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4>Calendario</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="fc-overflow">
+                                                        <div id="myEvent-1"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+    <!-- <script src="assets/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script> -->
+    <!-- JS Libraies -->
+    <script src="assets/modules/fullcalendar/fullcalendar.min.js"></script>
+    <script src="assets/modules/fullcalendar/locale/es.js"></script>
+    <script src="assets/js/page/modules-calendar.js"></script>
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>
