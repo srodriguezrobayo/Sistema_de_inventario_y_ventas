@@ -453,7 +453,7 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-  background-color: #6777ef;
+  background-color: #263238;
 }
 
 /* 1.10 Dropzone */

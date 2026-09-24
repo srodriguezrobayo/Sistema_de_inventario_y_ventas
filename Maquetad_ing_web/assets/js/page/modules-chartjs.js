@@ -1,5 +1,42 @@
 "use strict";
 
+var ctx = document.getElementById("myChart4").getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'pie',
+  data: {
+    datasets: [{
+      data: [
+        50,
+        15,
+        20,
+        25,
+        45,
+      ],
+      backgroundColor: [
+        '#C85B88',
+        '#6BB18E',
+        '#DC9658',
+        '#DA6353',
+        '#6C7BB3',
+      ],
+      label: 'Dataset 1'
+    }],
+    labels: [
+      'Arroz',
+      'Galletas',
+      'Gomitas',
+      'Chocolates',
+      'Aceite'
+    ],
+  },
+  options: {
+    responsive: true,
+    legend: {
+      position: 'bottom',
+    },
+  }
+});
+
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'line',
@@ -97,43 +134,6 @@ var myChart = new Chart(ctx, {
         40,
         30,
         20,
-      ],
-      backgroundColor: [
-        '#191d21',
-        '#63ed7a',
-        '#ffa426',
-        '#fc544b',
-        '#6777ef',
-      ],
-      label: 'Dataset 1'
-    }],
-    labels: [
-      'Black',
-      'Green',
-      'Yellow',
-      'Red',
-      'Blue'
-    ],
-  },
-  options: {
-    responsive: true,
-    legend: {
-      position: 'bottom',
-    },
-  }
-});
-
-var ctx = document.getElementById("myChart4").getContext('2d');
-var myChart = new Chart(ctx, {
-  type: 'pie',
-  data: {
-    datasets: [{
-      data: [
-        80,
-        50,
-        40,
-        30,
-        100,
       ],
       backgroundColor: [
         '#191d21',

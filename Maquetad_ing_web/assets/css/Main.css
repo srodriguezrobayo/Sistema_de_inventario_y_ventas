@@ -1,4 +1,4 @@
-body{
+body {
     font-family: Helvetica, sans-serif !important;
 }
 
@@ -36,4 +36,18 @@ body{
 
 .form-inline {
     flex-flow: row nowrap !important;
+}
+
+.fc button.fc-state-active {
+    background-color: #67d0ef !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }

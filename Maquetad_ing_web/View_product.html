@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver producto</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <!-- General CSS Files -->
     <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/Main.css">
+    <!-- <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
     <!-- Template CSS -->
@@ -28,6 +29,7 @@
 </head>
 
 <body>
+
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -97,49 +99,58 @@
             <!-- Main Content -->
             <div class="main-content">
                 <section class="section" style="padding-top: 6% !important;">
-                    <div class="section-body">
-                        <h2 class="text-center"><span style="color: black;">Hola, Usuario ¿Que deseas realizar?</span></h2>
-                    </div>
-                    <br>
-                    <div class="section-body">
-                        <div class="row">
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Calendario</h4>
+                    <a href="Stock.html" class="btn btn-outline-info">
+                        &lt;&lt; Volver</a>
+                            <br>
+                            <br>
+                            <table class="table table-bordered border-black">
+                                <thead>
+                                    <tr>
+                                        <th class="border border-2 border-black" scope="col" colspan="4">
+                                            <div class="text-center">
+                                                <img class="img-fluid" src="assets/img/images.png" alt="producto"
+                                                    width="25%" height="25%">
                                             </div>
-                                            <div class="card-body">
-                                                <div class="fc-overflow">
-                                                    <div id="myEvent"></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="2">Nombre producto:</td>
+                                        <td class="border border-2 border-black" colspan="2">codigo interno del producto:####</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="4">Cantidad total en inventario:####</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-2 border-black" colspan="2" style="width: 30%;">Producto percedero: Si/No</td>
+                                        <td class="border border-2 border-black" colspan="2">Fechas de vencimiento:
+                                            <ol class="list-group list-group-numbered">
+                                                <li class="list-group-item">24/09/2026 - Vence: Lote:986520</li>
+                                                <li class="list-group-item border-top border-1 border border-secondary-subtle">01/10/2026 - Vence: Lote:145893</li>
+                                                <li class="list-group-item">25/10/2026 - Vence: Lote:596321</li>
+                                            </ol>
+                                            <br>
+
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4>Calendario</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="fc-overflow">
+                                                        <div id="myEvent-1"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Grafica de productos</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="myChart4"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                 </section>
             </div>
         </div>
     </div>
-
     <!-- General JS Scripts -->
     <script src="assets/modules/jquery.min.js"></script>
     <script src="assets/modules/popper.js"></script>
@@ -148,15 +159,11 @@
     <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
     <script src="assets/modules/moment.min.js"></script>
     <script src="assets/js/stisla.js"></script>
-
+    <!-- <script src="assets/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script> -->
     <!-- JS Libraies -->
     <script src="assets/modules/fullcalendar/fullcalendar.min.js"></script>
     <script src="assets/modules/fullcalendar/locale/es.js"></script>
     <script src="assets/js/page/modules-calendar.js"></script>
-    <script src="assets/modules/fullcalendar/locale-all.js"></script>
-    <script src="assets/modules/chart.min.js"></script>
-    <!-- Page Specific JS File -->
-    <script src="assets/js/page/modules-chartjs.js"></script>
     <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>

@@ -4757,8 +4757,8 @@ textarea.form-control-lg {
 .page-link:hover {
   z-index: 2;
   color: var(--bs-pagination-hover-color);
-  background-color: var(--bs-pagination-hover-bg);
-  border-color: var(--bs-pagination-hover-border-color);
+  background-color: #263238;
+  border-color: #D9E2E3;
 }
 .page-link:focus {
   z-index: 3;

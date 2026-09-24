@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.css">
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.min.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                                    class="fas fa-bars"></i></a></li>
+                    </ul>
+                    <div class="search-element">
+                        <a href="main.html"><img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%"></a>
+                    </div>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown"><a href="#" data-toggle="dropdown"
+                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="assets/img/avatar-4.png" class="rounded-circle mr-1">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-title">Usuario</div>
+                            <a href="features-profile.html" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="main.html"><img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
+                                alt="resum_letter" height="72%" width="106%"></a>
+                    </div>
+                    <div class="sidebar-brand">
+                        <a href="main.html"><img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
+                                width="40%"></a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">Stock and pos</li>
+                        <li>
+                            <a href="main.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+                        </li>
+                        <li class="menu-header">Inventario</li>
+                        <li>
+                            <a href="Stock.html"><i class="fas fa-boxes"></i> <span>Stock</span></a>
+                        </li>
+                        <li class="menu-header">Vender</li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i>
+                                <span>Ventas</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="#"><i class="fas fa-cart-plus"></i> A&ntilde;adir
+                                        venta</a></li>
+                                <li><a class="nav-link" href="#"><i class="fas fa-history"></i>
+                                        Historial de ventas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </aside>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section" style="padding-top: 6% !important;">
+                    <div class="section-body">
+                        <h2 class="text-center"><span style="color: black;">¡Tienes # de productos registrados!</span>
+                        </h2>
+                    </div>
+                    <br>
+                    <div class="section-body">
+                        <!-- Buscador y botón -->
+                        <div class="row align-items-center mb-3">
+
+                            <!-- Buscador -->
+                            <div class="col-12 col-md-5 col-lg-4 mb-2 mb-md-0">
+                                <div class="input-group">
+                                    <input class="form-control" type="search" placeholder="Buscar producto"
+                                        aria-label="Buscar producto">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Filtro / Checkbox -->
+                            <div class="col-12 col-md-3 col-lg-4 mb-2 mb-md-0">
+                                <div class="form-check d-flex align-items-center gap-2">
+                                    <input class="form-check-input" type="checkbox" id="checkDefault">
+                                    <label class="form-check-label user-select-none" for="checkDefault">
+                                        Productos con poco stock
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Botón Agregar -->
+                            <div class="col-12 col-md-4 col-lg-4 text-start text-md-end">
+                                <button class="btn btn-success trigger-modal-producto w-100 w-md-auto" type="button">
+                                    <i class="fas fa-plus-circle me-1"></i>
+                                    Agregar producto
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <br>
+
+                        <!-- CARDS -->
+                        <div class="row">
+
+                            <!-- CARD 1 -->
+                            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header text-center">
+                                        <img src="assets/img/images.png" class="img-fluid" alt="Producto">
+                                    </div>
+                                    <a class="btn btn-light" href="View_product.html"><i class="far fa-eye"></i> Ver producto</a>
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Producto</p>
+                                            <p class="mb-2">Código: ####</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Cantidad vendida: ####</p>
+                                            <p class="mb-2">Stock: ####</p>
+                                        </div>
+
+                                        <hr>
+
+                                        <button class="btn btn-warning w-100 trigger-modal-producto" type="button">
+                                            <i class="fas fa-edit"></i>
+                                            Editar producto
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger w-100 mt-2"
+                                            onclick="AlertaDejarProducto()">
+                                            <i class="fas fa-ban"></i>
+                                            Dejar de vender
+                                        </button>
+
+                                        <button type="button" class="btn btn-info w-100 mt-2 modal-2">
+                                            <i class="fas fa-truck"></i>
+                                            Actualizar cantidad
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- CARD 2 -->
+                            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                                <div class="card h-100">
+
+                                    <div class="card-header text-center">
+                                        <img src="assets/img/images.png" class="img-fluid" alt="Producto">
+                                    </div>
+                                    <a class="btn btn-light" href="View_product.html"><i class="far fa-eye"></i> Ver producto</a>
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Producto 2</p>
+                                            <p class="mb-2">Código: ####</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Cantidad vendida: ####</p>
+                                            <p class="mb-2">Stock: ####</p>
+                                        </div>
+
+                                        <hr>
+
+                                        <button type="button" class="btn btn-warning w-100 trigger-modal-producto">
+                                            <i class="fas fa-edit"></i>
+                                            Editar producto
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger w-100 mt-2" onclick="AlertaDejarProducto()">
+                                            <i class="fas fa-ban"></i>
+                                            Dejar de vender
+                                        </button>
+
+                                        <button type="button" class="btn btn-info w-100 mt-2 modal-2">
+                                            <i class="fas fa-truck"></i>
+                                            Actualizar cantidad
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- CARD 3 -->
+                            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                                <div class="card h-100">
+
+                                    <div class="card-header text-center">
+                                        <img src="assets/img/images.png" class="img-fluid" alt="Producto">
+                                    </div>
+                                    <a class="btn btn-light" href="View_product.html"><i class="far fa-eye"></i> Ver producto</a>
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Producto 3</p>
+                                            <p class="mb-2">Código: ####</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Cantidad vendida: ####</p>
+                                            <p class="mb-2">Stock: ####</p>
+                                        </div>
+
+                                        <hr>
+
+                                        <button type="button" class="btn btn-warning w-100 trigger-modal-producto">
+                                            <i class="fas fa-edit"></i>
+                                            Editar producto
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger w-100 mt-2" onclick="AlertaDejarProducto()">
+                                            <i class="fas fa-ban"></i>
+                                            Dejar de vender
+                                        </button>
+
+                                        <button type="button" class="btn btn-info w-100 mt-2 modal-2">
+                                            <i class="fas fa-truck"></i>
+                                            Actualizar cantidad
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- CARD 4 -->
+                            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+                                <div class="card h-100 bg-warning-subtle text-warning-emphasis border border-light-subtle">
+
+                                    <div class="card-header text-center">
+                                        <img src="assets/img/images.png" class="img-fluid" alt="Producto">
+                                    </div>
+                                    <a class="btn btn-light" href="View_product.html"><i class="far fa-eye"></i> Ver producto</a>
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Producto 4</p>
+                                            <p class="mb-2">Código: ####</p>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">Cantidad vendida: ####</p>
+                                            <p class="mb-2">Stock: ####</p>
+                                        </div>
+
+                                        <hr>
+
+                                        <button type="button" class="btn btn-warning w-100 trigger-modal-producto">
+                                            <i class="fas fa-edit"></i>
+                                            Editar producto
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger w-100 mt-2" onclick="AlertaDejarProducto()">
+                                            <i class="fas fa-ban"></i>
+                                            Dejar de vender
+                                        </button>
+
+                                        <button type="button" class="btn btn-info w-100 mt-2 modal-2">
+                                            <i class="fas fa-truck"></i>
+                                            Actualizar cantidad
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="buttons">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+    <script src="assets/js/alerts_main.js"></script>
+
+    <!-- JS Libraies -->
+    <script src="assets/js/page/bootstrap-modal.js"></script>
+    <script src="assets/js/page/modules-toastr.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.min.js"></script>
+    <script src="assets/js/page/Sweetalert2.js"></script>
+    <!-- Page Specific JS File -->
+    <script src="assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>

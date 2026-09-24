@@ -1,0 +1,1 @@
+$('.fc-today-button').text('Hoy');
