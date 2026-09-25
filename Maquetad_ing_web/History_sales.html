@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Historial ventas</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/datatables.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                                    class="fas fa-bars"></i></a></li>
+                    </ul>
+                    <div class="search-element">
+                        <a href="main.html"><img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%"></a>
+                    </div>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown"><a href="#" data-toggle="dropdown"
+                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="assets/img/avatar-4.png" class="rounded-circle mr-1">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-title">Usuario</div>
+                            <a href="features-profile.html" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Perfil
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="Login.html" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="main.html"><img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
+                                alt="resum_letter" height="72%" width="106%"></a>
+                    </div>
+                    <div class="sidebar-brand">
+                        <a href="main.html"><img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
+                                width="40%"></a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">Stock and pos</li>
+                        <li>
+                            <a href="main.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+                        </li>
+                        <li class="menu-header">Inventario</li>
+                        <li>
+                            <a href="Stock.html"><i class="fas fa-boxes"></i> <span>Stock</span></a>
+                        </li>
+                        <li class="menu-header">Vender</li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i>
+                                <span>Ventas</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="Sale.html"><i class="fas fa-cart-plus"></i> A&ntilde;adir
+                                        venta</a></li>
+                                <li><a class="nav-link" href="History_sales.html"><i class="fas fa-history"></i>
+                                        Historial de ventas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </aside>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section" style="padding-top: 6% !important;">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Buscar factura"
+                                    aria-label="Buscar factura">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control datetimepicker" data-toggle="tooltip"
+                                    title="Buscar por fecha y hora.">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="table-1">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        #
+                                                    </th>
+                                                    <th>Task Name</th>
+                                                    <th>Progress</th>
+                                                    <th>Members</th>
+                                                    <th>Due Date</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>Create a mobile app</td>
+                                                    <td class="align-middle">
+                                                        <div class="progress" data-height="4" data-toggle="tooltip"
+                                                            title="100%">
+                                                            <div class="progress-bar bg-success" data-width="100%">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img alt="image" src="assets/img/avatar/avatar-5.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Wildan Ahdian">
+                                                    </td>
+                                                    <td>2018-01-20</td>
+                                                    <td>
+                                                        <div class="badge badge-success">Completed</div>
+                                                    </td>
+                                                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                    <td>Redesign homepage</td>
+                                                    <td class="align-middle">
+                                                        <div class="progress" data-height="4" data-toggle="tooltip"
+                                                            title="0%">
+                                                            <div class="progress-bar" data-width="0"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img alt="image" src="assets/img/avatar/avatar-1.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Nur Alpiana">
+                                                        <img alt="image" src="assets/img/avatar/avatar-3.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Hariono Yusup">
+                                                        <img alt="image" src="assets/img/avatar/avatar-4.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Bagus Dwi Cahya">
+                                                    </td>
+                                                    <td>2018-04-10</td>
+                                                    <td>
+                                                        <div class="badge badge-info">Todo</div>
+                                                    </td>
+                                                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        3
+                                                    </td>
+                                                    <td>Backup database</td>
+                                                    <td class="align-middle">
+                                                        <div class="progress" data-height="4" data-toggle="tooltip"
+                                                            title="70%">
+                                                            <div class="progress-bar bg-warning" data-width="70%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img alt="image" src="assets/img/avatar/avatar-1.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Rizal Fakhri">
+                                                        <img alt="image" src="assets/img/avatar/avatar-2.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Hasan Basri">
+                                                    </td>
+                                                    <td>2018-01-29</td>
+                                                    <td>
+                                                        <div class="badge badge-warning">In Progress</div>
+                                                    </td>
+                                                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        4
+                                                    </td>
+                                                    <td>Input data</td>
+                                                    <td class="align-middle">
+                                                        <div class="progress" data-height="4" data-toggle="tooltip"
+                                                            title="100%">
+                                                            <div class="progress-bar bg-success" data-width="100%">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <img alt="image" src="assets/img/avatar/avatar-2.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Rizal Fakhri">
+                                                        <img alt="image" src="assets/img/avatar/avatar-5.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Isnap Kiswandi">
+                                                        <img alt="image" src="assets/img/avatar/avatar-4.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Yudi Nawawi">
+                                                        <img alt="image" src="assets/img/avatar/avatar-1.png"
+                                                            class="rounded-circle" width="35" data-toggle="tooltip"
+                                                            title="Khaerul Anwar">
+                                                    </td>
+                                                    <td>2018-01-16</td>
+                                                    <td>
+                                                        <div class="badge badge-success">Completed</div>
+                                                    </td>
+                                                    <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+
+    <!-- JS Libraies -->
+    <script src="assets/modules/cleave-js/dist/cleave.min.js"></script>
+    <script src="assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/modules/datatables/datatables.min.js"></script>
+    <script src="assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+    <script src="assets/modules/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Page Specific JS File -->
+    <script src="assets/js/page/modules-datatables.js"></script>
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+
+</html>
