@@ -3,16 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver producto</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Perfil</title>
     <link rel="shortcut icon" href="favicon.ico" />
     <!-- General CSS Files -->
     <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/Main.css">
-    <!-- <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css">
     <!-- CSS Libraries -->
-    <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.min.css">
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
@@ -29,7 +30,6 @@
 </head>
 
 <body>
-
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -99,58 +99,31 @@
             <!-- Main Content -->
             <div class="main-content">
                 <section class="section" style="padding-top: 6% !important;">
-                    <a href="Stock.html" class="btn btn-outline-info">
-                        &lt;&lt; Volver</a>
-                            <br>
-                            <br>
-                            <table class="table table-bordered border-black">
-                                <thead>
-                                    <tr>
-                                        <th class="border border-2 border-black" scope="col" colspan="4">
-                                            <div class="text-center">
-                                                <img class="img-fluid" src="assets/img/images.png" alt="producto"
-                                                    width="25%" height="25%">
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="2">Nombre producto:</td>
-                                        <td class="border border-2 border-black" colspan="2">codigo interno del producto:####</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="4">Cantidad total en inventario:####</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="2" style="width: 30%;">Producto percedero: Si/No</td>
-                                        <td class="border border-2 border-black" colspan="2">Fechas de vencimiento:
-                                            <ol class="list-group list-group-numbered">
-                                                <li class="list-group-item">24/09/2026 - Vence: Lote:986520</li>
-                                                <li class="list-group-item border-top border-1 border border-secondary-subtle">01/10/2026 - Vence: Lote:145893</li>
-                                                <li class="list-group-item">25/10/2026 - Vence: Lote:596321</li>
-                                            </ol>
-                                            <br>
-
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4>Calendario</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="fc-overflow">
-                                                        <div id="myEvent-1"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="position-relative">
+                        <div class="position-absolute top-0 start-50 translate-middle-x">
+                            <div class="card" style="width: 25rem;">
+                                <div class="card-header">
+                                    <h3 style="margin-left: 38%;">Perfil</h3>
+                                </div>
+                                <div class="card-body">
+                                    <img src="assets/img/avatar-4.png" class="card-img-top" alt="Profile_user">
+                                    <br><br>
+                                    <h5 class="card-title">Nombre de usuario</h5>
+                                    <p class="card-text">Correo electronico &#40;user@example&#41;</p>
+                                    <p class="card-text text-break">Pequeña Descripcion</p>
+                                    <hr>
+                                    <button type="button" class="btn btn-outline-secondary" id="modal-4">Actualizar
+                                        contraseña</button>
+                                    <button type="button" class="btn btn-outline-dark" id="modal-5">Actualizar perfil</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
     </div>
+
     <!-- General JS Scripts -->
     <script src="assets/modules/jquery.min.js"></script>
     <script src="assets/modules/popper.js"></script>
@@ -159,11 +132,14 @@
     <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
     <script src="assets/modules/moment.min.js"></script>
     <script src="assets/js/stisla.js"></script>
-    <!-- <script src="assets/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script> -->
+    <script src="assets/js/page/bootstrap-modal.js"></script>
+
     <!-- JS Libraies -->
-    <script src="assets/modules/fullcalendar/fullcalendar.min.js"></script>
-    <script src="assets/modules/fullcalendar/locale/es.js"></script>
-    <script src="assets/js/page/modules-calendar.js"></script>
+    <script src="assets/js/page/modules-toastr.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.min.js"></script>
+    <!-- Page Specific JS File -->
+    <script src="assets/js/page/modules-chartjs.js"></script>
     <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>

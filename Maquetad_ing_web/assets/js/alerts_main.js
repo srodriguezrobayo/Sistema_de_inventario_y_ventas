@@ -38,7 +38,6 @@ document.getElementById('formVenta').addEventListener('submit', function (e) {
     iziToast.success({
         title: '¡Éxito!',
         message: 'La venta se realizó con éxito',
-        position: 'topRight',
         timeout: 2000 // Duración de la alerta en milisegundos
     });
 
