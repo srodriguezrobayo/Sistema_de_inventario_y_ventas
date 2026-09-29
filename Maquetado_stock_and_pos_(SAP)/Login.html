@@ -29,18 +29,19 @@
                     <h2>Iniciar sesi&oacute;n | Login</h2>
                     <p class="lead">¡Bienvenido de nuevo vamos a trabajar!</p>
                     <br>
-                    <form action="main.html" method="">
+                    <form action="api/login.php" method="post">
+                        <div id="authMessage" class="alert alert-danger d-none" role="alert" aria-live="polite"></div>
                         <div class="form-floating">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="Name@example.com"
-                                required>
-                            <label for="floatingInput">Correo Electronico<span style="color: red;">*</span></label>
+                            <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Name@example.com"
+                                autocomplete="email" required>
+                            <label for="loginEmail">Correo Electronico<span style="color: red;">*</span></label>
                         </div>
                         <br>
 
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña"
-                                required>
-                            <label for="floatingPassword">Contrase&ntilde;a<span style="color: red;">*</span></label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Contraseña"
+                                autocomplete="current-password" required>
+                            <label for="loginPassword">Contrase&ntilde;a<span style="color: red;">*</span></label>
                         </div>
                 </div>
                 <div class="mt-4">
@@ -76,6 +77,7 @@
     <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>
+    <script src="assets/js/auth-messages.js"></script>
 
 </body>
 

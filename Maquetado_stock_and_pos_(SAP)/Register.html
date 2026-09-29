@@ -28,30 +28,31 @@
                     <h2>Registrarse</h2>
                     <p class="lead">Inicia una nueva experiencia administrando tu inventario y ventas.</p>
                     <br>
-                    <form action="#" method="">
+                    <form action="api/register.php" method="post">
+                        <div id="authMessage" class="alert alert-danger d-none" role="alert" aria-live="polite"></div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Nombre_usuario"
-                                required>
-                            <label for="floatingInput">Nombre completo (Usuario o negocio)<span
+                            <input type="text" class="form-control" id="registerName" name="name" placeholder="Nombre_usuario"
+                                maxlength="100" autocomplete="name" required>
+                            <label for="registerName">Nombre completo (Usuario o negocio)<span
                                     style="color: red;">*</span></label>
                         </div>
                         <div class="form-floating">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="Name@example.com"
-                                required>
-                            <label for="floatingInput">Correo Electronico<span style="color: red;">*</span></label>
+                            <input type="email" class="form-control" id="registerEmail" name="email" placeholder="Name@example.com"
+                                maxlength="500" autocomplete="email" required>
+                            <label for="registerEmail">Correo Electronico<span style="color: red;">*</span></label>
                         </div>
                         <br>
                         <div class="form-inline">
                             <div class="form-floating" style="margin-right: 5%;">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="Contraseña" required>
-                                <label for="floatingPassword">Contrase&ntilde;a<span
+                                <input type="password" class="form-control" id="registerPassword" name="password"
+                                    placeholder="Contraseña" minlength="8" maxlength="72" autocomplete="new-password" required>
+                                <label for="registerPassword">Contrase&ntilde;a<span
                                         style="color: red;">*</span></label>
                             </div>
                             <div class="form-floating" style="margin-right: 21px;">
-                                <input type="password" class="form-control" id="floatingPassword"
-                                    placeholder="c_contraseña" required>
-                                <label for="floatingPassword">Confirmar contraseña<span
+                                <input type="password" class="form-control" id="confirmPassword" name="password_confirm"
+                                    placeholder="c_contraseña" minlength="8" maxlength="72" autocomplete="new-password" required>
+                                <label for="confirmPassword">Confirmar contraseña<span
                                         style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -65,7 +66,7 @@
                     </label>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-success" onclick="mostrarAlerta()"><i
+                    <button type="submit" class="btn btn-success"><i
                             class="fas fa-sign-in-alt"></i>
                         Registrarse</button>
                 </div>
@@ -77,9 +78,7 @@
     </div>
 
 
-    <!--     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
-    <script src="assets/js/page/Sweetalert2.js"></script>
-    <script src="assets/js/alerts_main.js"></script>
+    <script src="assets/js/auth-messages.js"></script>
 </body>
 
 </html>

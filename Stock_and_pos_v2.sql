@@ -15,7 +15,7 @@ USE SAP;
 CREATE TABLE Usuarios (
     Id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     Nombre_usuario VARCHAR(100) NOT NULL,
-    Email_usuario VARCHAR(500) NOT NULL,
+    Email_usuario VARCHAR(500) NOT NULL UNIQUE,
     Contrasena_usuario VARCHAR(255) NOT NULL,
     Descripcion_usuario TEXT NULL,
     Foto_usuario TEXT NULL,
