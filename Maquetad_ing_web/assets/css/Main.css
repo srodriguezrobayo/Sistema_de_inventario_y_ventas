@@ -1,0 +1,53 @@
+body {
+    font-family: Helvetica, sans-serif !important;
+}
+
+
+.Inicios {
+    margin: 0;
+    min-height: 100vh;
+
+    background: #D9E2E3;
+    background: radial-gradient(circle,
+            rgba(217, 226, 227, 1) 0%,
+            rgba(47, 93, 98, 1) 50%,
+            rgba(38, 50, 56, 1) 100%);
+
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#registroExitoso {
+    width: 500px;
+    max-width: 90%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+}
+
+#Logo {
+    margin-top: -21%;
+    margin-bottom: -8%;
+}
+
+.form-inline {
+    flex-flow: row nowrap !important;
+}
+
+.fc button.fc-state-active {
+    background-color: #67d0ef !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

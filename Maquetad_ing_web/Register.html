@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro SAP</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!--Stilos CSS-->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!---->
+</head>
+
+<body class="Inicios">
+
+    <!--Formulario de registro-->
+    <div id="registroExitoso">
+        <div class="col-12 mb-4">
+            <div class="hero align-items-center bg-success text-white" style="--bs-bg-opacity: 1;
+    background-color: rgb(170 193 183 / 44%) !important; color: #393333 !important;">
+                <div class="hero-inner text-center">
+                    <img src="assets/img/Logo_entero_SAP.png" alt="SAP" id="Logo" width="50%" height="50%" />
+                    <h2>Registrarse</h2>
+                    <p class="lead">Inicia una nueva experiencia administrando tu inventario y ventas.</p>
+                    <br>
+                    <form action="#" method="">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Nombre_usuario"
+                                required>
+                            <label for="floatingInput">Nombre completo (Usuario o negocio)<span
+                                    style="color: red;">*</span></label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="Name@example.com"
+                                required>
+                            <label for="floatingInput">Correo Electronico<span style="color: red;">*</span></label>
+                        </div>
+                        <br>
+                        <div class="form-inline">
+                            <div class="form-floating" style="margin-right: 5%;">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="Contraseña" required>
+                                <label for="floatingPassword">Contrase&ntilde;a<span
+                                        style="color: red;">*</span></label>
+                            </div>
+                            <div class="form-floating" style="margin-right: 21px;">
+                                <input type="password" class="form-control" id="floatingPassword"
+                                    placeholder="c_contraseña" required>
+                                <label for="floatingPassword">Confirmar contraseña<span
+                                        style="color: red;">*</span></label>
+                            </div>
+                        </div>
+                        <br>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Aceptar" id="checkIndeterminate" required>
+                    <label class="form-check-label" for="checkIndeterminate">
+                        Aceptar <a class="link-offset-2 link-underline link-underline-opacity-0"
+                            href="Terms_conditions.html" target="_blank">t&eacute;rminos y condiciones</a>
+                    </label>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success" onclick="mostrarAlerta()"><i
+                            class="fas fa-sign-in-alt"></i>
+                        Registrarse</button>
+                </div>
+                </form>
+                <br>
+                <a href="Login.html">¿Ya tienes sesi&oacute;n?</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!--     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+    <script src="assets/js/page/Sweetalert2.js"></script>
+    <script src="assets/js/alerts_main.js"></script>
+</body>
+
+</html>

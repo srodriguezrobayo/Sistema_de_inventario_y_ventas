@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Historial ventas</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="assets/modules/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/datatables.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <!-- Start GA -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-94034622-3');
+    </script>
+    <!-- /END GA -->
+</head>
+
+<body>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+            <nav class="navbar navbar-expand-lg main-navbar">
+                <form class="form-inline mr-auto">
+                    <ul class="navbar-nav mr-3">
+                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
+                                    class="fas fa-bars"></i></a></li>
+                    </ul>
+                    <div class="search-element">
+                        <a href="main.html"><img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%"></a>
+                    </div>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="dropdown"><a href="#" data-toggle="dropdown"
+                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                            <img alt="image" src="assets/img/avatar-4.png" class="rounded-circle mr-1">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-title">Usuario</div>
+                            <a href="Profile.html" class="dropdown-item has-icon">
+                                <i class="far fa-user"></i> Perfil
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="Login.html" class="dropdown-item has-icon text-danger">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-sidebar sidebar-style-2">
+                <aside id="sidebar-wrapper">
+                    <div class="sidebar-brand sidebar-brand-sm">
+                        <a href="main.html"><img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
+                                alt="resum_letter" height="72%" width="106%"></a>
+                    </div>
+                    <div class="sidebar-brand">
+                        <a href="main.html"><img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
+                                width="40%"></a>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li class="menu-header">Stock and pos</li>
+                        <li>
+                            <a href="main.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+                        </li>
+                        <li class="menu-header">Inventario</li>
+                        <li>
+                            <a href="Stock.html"><i class="fas fa-boxes"></i> <span>Stock</span></a>
+                        </li>
+                        <li class="menu-header">Vender</li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i>
+                                <span>Ventas</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" href="Sale.html"><i class="fas fa-cart-plus"></i> A&ntilde;adir
+                                        venta</a></li>
+                                <li><a class="nav-link" href="History_sales.html"><i class="fas fa-history"></i>
+                                        Historial de ventas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </aside>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <section class="section" style="padding-top: 6% !important;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 style="margin-left: 39% !important;">Historial de ventas</h5>
+                                </div>
+                                <div class="card-body">
+
+                                    <!-- Contenedor para la barra superior -->
+                                    <div class="row mb-3 align-items-center">
+                                        <div class="col-md-3" id="custom-length"></div>
+                                        <div class="col-md-6">
+                                            <label>Fecha y hora:</label>
+                                            <div class="input-group input-group-sm">
+                                                <input type="text" class="form-control datetimepicker"
+                                                    placeholder="Buscar por fecha y hora...">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-right" id="custom-filter"></div>
+                                    </div>
+
+                                    <!-- Tabla -->
+                                    <div class="table-responsive">
+                                        <table class="table table-striped w-100" id="table-1">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th>Factura</th>
+                                                    <th>Fecha y hora de expedicion</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">1</td>
+                                                    <td>Factura 1</td>
+                                                    <td>2026/09/25 17:33</td>
+                                                    <td>
+                                                        <span class="badge badge-success">Factura Enviada</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">2</td>
+                                                    <td>Factura 2</td>
+                                                    <td>2026/09/24 14:33</td>
+                                                    <td>
+                                                        <span class="badge badge-secondary">Factura Sin Enviar</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">3</td>
+                                                    <td>Factura 3</td>
+                                                    <td>2026/09/23 12:45</td>
+                                                    <td>
+                                                        <span class="badge badge-secondary">Factura Sin Enviar</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                <tr>
+                                                    <td class="text-center">4</td>
+                                                    <td>Factura 4</td>
+                                                    <td>2026/09/22 11:00</td>
+                                                    <td>
+                                                        <span class="badge badge-success">Factura Enviada</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">5</td>
+                                                    <td>Factura 5</td>
+                                                    <td>2025/12/22 12:00</td>
+                                                    <td>
+                                                        <span class="badge badge-secondary">Factura Sin Enviar</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">6</td>
+                                                    <td>Factura 6</td>
+                                                    <td>2024/10/18 14:00</td>
+                                                    <td>
+                                                        <span class="badge badge-success">Factura Enviada</span>
+                                                    </td>
+                                                    <td>
+                                                        <a href="send_bill.html" class="btn btn-light"><i
+                                                                class="fas fa-eye"></i> Ver factura</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+
+    <!-- JS Libraies -->
+    <script src="assets/modules/cleave-js/dist/cleave.min.js"></script>
+    <script src="assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/modules/datatables/datatables.min.js"></script>
+    <script src="assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
+    <script src="assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script>
+    <script src="assets/modules/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Page Specific JS File -->
+    <!-- <script src="assets/js/page/modules-datatables.js"></script> -->
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // 1. Inicializar Tabla traducida
+            var table = $('#table-1').DataTable({
+                destroy: true,
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron registros coincidentes",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+
+            // 2. Mover contenedores
+            $('#table-1_length').appendTo('#custom-length');
+            $('#table-1_filter').appendTo('#custom-filter');
+
+            // 3. Configuración y limpieza inicial del DatePicker
+            if ($.fn.daterangepicker) {
+                $('.datetimepicker').daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    autoUpdateInput: false,
+                    locale: {
+                        format: 'YYYY/MM/DD',
+                        cancelLabel: 'Limpiar',
+                        applyLabel: 'Aplicar'
+                    }
+                });
+            }
+
+            $('.datetimepicker').val('');
+            table.column(2).search('').draw();
+
+            // 4. Filtrar al interactuar
+            $('.datetimepicker').on('apply.daterangepicker change dp.change change.datetimepicker', function (ev, picker) {
+                var valorInput = $(this).val().trim();
+
+                if (picker && picker.startDate) {
+                    valorInput = picker.startDate.format('YYYY/MM/DD');
+                    $(this).val(valorInput);
+                }
+
+                if (valorInput !== '') {
+                    var fechaLimpia = valorInput.substring(0, 10).replace(/-/g, '/');
+                    table.column(2).search(fechaLimpia).draw();
+                } else {
+                    table.column(2).search('').draw();
+                }
+            });
+
+            // 5. Limpiar filtro
+            $('.datetimepicker').on('cancel.daterangepicker', function () {
+                $(this).val('');
+                table.column(2).search('').draw();
+            });
+
+            $('.datetimepicker').on('keyup input', function () {
+                if ($(this).val() === '') {
+                    table.column(2).search('').draw();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
