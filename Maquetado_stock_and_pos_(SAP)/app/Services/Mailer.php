@@ -13,7 +13,7 @@ final class Mailer
         return self::configuration() !== null;
     }
 
-    public static function send(string $recipient, string $subject, string $body): bool
+    public static function send(string $recipient, string $subject, string $body, ?string $htmlBody = null): bool
     {
         $configuration = self::configuration();
         if ($configuration === null || !filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
@@ -37,8 +37,14 @@ final class Mailer
             $mailer->setFrom($configuration['from'], $configuration['from_name']);
             $mailer->addAddress($recipient);
             $mailer->Subject = $subject;
-            $mailer->Body = $body;
-            $mailer->isHTML(false);
+            $mailer->AltBody = $body;
+            if ($htmlBody !== null) {
+                $mailer->isHTML(true);
+                $mailer->Body = $htmlBody;
+            } else {
+                $mailer->isHTML(false);
+                $mailer->Body = $body;
+            }
             $mailer->send();
 
             return true;

@@ -48,4 +48,6 @@ Productos, reposiciones, ventas, historial, ficha de producto, perfil y resumen 
 
 El archivo `.env.example` muestra `SAP_SMTP_HOST`, `SAP_SMTP_PORT`, `SAP_SMTP_USERNAME`, `SAP_SMTP_PASSWORD`, `SAP_SMTP_ENCRYPTION` y `SAP_MAIL_FROM`. Usa una contraseña de aplicación SMTP del proveedor, no tu contraseña normal. Para enlaces de recuperación alojados en otra dirección, configura también `SAP_APP_URL`.
 
+Las facturas se envían como correo HTML adaptable con una alternativa de texto plano para clientes que bloquean HTML. El formato no depende de imágenes externas.
+
 Las fotos admiten JPG, PNG y WebP hasta 5 MB; se guardan fuera de `public/` y solo las sirve el endpoint autenticado. En `php.ini`, define `file_uploads=On`, `upload_max_filesize=8M` y `post_max_size=10M`; reinicia Apache después de cambiarlo.
