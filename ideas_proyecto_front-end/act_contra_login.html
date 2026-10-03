@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP - Sistema Completo</title>
+  
+  <!-- Bootstrap 4.6 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <!-- FontAwesome 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <style>
+    :root {
+      --primary-color: #00bcd4;
+      --sidebar-bg: #1c3d42;
+      --sidebar-hover: #265057;
+      --topbar-bg: #4f8a8b;
+      --body-bg: #f4f6f9;
+      --text-main: #34395e;
+      --stisla-purple: #6777ef;
+      --stisla-green: #47c363;
+      --stisla-red: #fc544b;
+    }
+
+    body {
+      background-color: var(--body-bg);
+      font-family: 'Nunito', 'Segoe UI', arial;
+      color: var(--text-main);
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-brand {
+      padding: 20px 15px;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-align: center;
+      background: rgba(0,0,0,0.1);
+    }
+    .sidebar-menu {
+      padding: 15px 0;
+      list-style: none;
+      margin: 0;
+    }
+    .sidebar-menu .menu-header {
+      padding: 10px 25px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #7f9ca1;
+      font-weight: 700;
+    }
+    .sidebar-menu li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 25px;
+      color: #cfd8dc;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .sidebar-menu li a:hover, .sidebar-menu li.active a {
+      background-color: var(--sidebar-hover);
+      color: #ffffff;
+      border-left: 4px solid var(--primary-color);
+    }
+    .sidebar-menu li a i {
+      width: 25px;
+      font-size: 1.1rem;
+    }
+
+    /* Main Area */
+    .main-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar-custom {
+      background-color: var(--topbar-bg);
+      height: 60px;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+    .main-content {
+      padding: 25px;
+      flex-grow: 1;
+    }
+    .section-header {
+      background: #fff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Targetas de Perfil / Producto */
+    .profile-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: none;
+    }
+    .profile-avatar-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .avatar-edit-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: var(--topbar-bg);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Dropzone */
+    .image-upload-zone {
+      border: 2px dashed #cbd5e1;
+      background-color: #f8fafc;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+    .image-upload-zone:hover {
+      border-color: var(--stisla-purple);
+      background-color: #f1f5f9;
+    }
+
+    /* Helpers */
+    .btn-round { border-radius: 30px !important; }
+    .font-weight-600 { font-weight: 600; color: #34395e; font-size: 0.88rem; }
+    .bg-whitesmoke { background-color: #f9f9f9 !important; }
+    .cursor-pointer { cursor: pointer; }
+    .alert-notice {
+      background-color: #fff8dd;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">SAP</div>
+    <ul class="sidebar-menu">
+      <li class="menu-header">Stock and POS</li>
+      <li><a href="#"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li class="menu-header">Inventario</li>
+      <li class="active"><a href="#"><i class="fas fa-boxes"></i> <span>Stock</span></a></li>
+      <li class="menu-header">Vender</li>
+      <li><a href="#"><i class="fas fa-shopping-cart"></i> <span>Ventas</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <div class="main-wrapper">
+    <nav class="navbar-custom">
+      <a href="#" class="text-white"><i class="fas fa-bars"></i></a>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-sm btn-outline-light mr-3 btn-round" data-toggle="modal" data-target="#modalRestablecerPass">
+          <i class="fas fa-key mr-1"></i> Cambiar Clave
+        </button>
+        <a href="#" class="text-white"><i class="fas fa-user-circle fa-lg"></i></a>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="section-header">
+        <h1>Panel de Administración</h1>
+        <div>
+          <button class="btn btn-primary btn-round mr-2" data-toggle="modal" data-target="#modalProducto">
+            <i class="fas fa-plus mr-1"></i> Agregar Producto
+          </button>
+          <button class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizarCantidad">
+            <i class="fas fa-arrow-up mr-1"></i> Entrada Stock
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- TARJETA PERFIL -->
+        <div class="col-md-4 mb-4">
+          <div class="profile-card text-center p-4">
+            <div class="profile-avatar-wrapper mb-3">
+              <img id="avatarPreview" src="https://via.placeholder.com/120" alt="Avatar" class="profile-avatar">
+              <label for="upload-avatar" class="avatar-edit-btn" title="Cambiar foto">
+                <i class="fas fa-camera"></i>
+              </label>
+              <input type="file" id="upload-avatar" class="d-none" accept="image/*">
+            </div>
+            <h5 class="font-weight-bold mb-1">Nombre de usuario</h5>
+            <p class="text-muted small mb-3">user@example.com</p>
+            <p class="text-muted small">Administrador de inventario POS SAP</p>
+            <button class="btn btn-outline-primary btn-sm btn-round btn-block" data-toggle="modal" data-target="#modalRestablecerPass">
+              <i class="fas fa-lock mr-1"></i> Restablecer contraseña
+            </button>
+          </div>
+        </div>
+
+        <!-- TARJETA DEMO DE PRODUCTO CON ACCIONES -->
+        <div class="col-md-4 mb-4">
+          <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+            <div class="text-center bg-light p-4">
+              <i class="fas fa-box-open fa-5x text-warning"></i>
+            </div>
+            <div class="card-body">
+              <h5 class="font-weight-bold">Producto Demo #1</h5>
+              <p class="text-muted small mb-2">Código: PRD-001 | Vendidos: 120 Uds</p>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge badge-success">Stock: 45 Uds</span>
+                <span class="font-weight-bold text-primary">$15.000</span>
+              </div>
+              <button class="btn btn-outline-warning btn-block btn-round btn-sm mb-2" data-toggle="modal" data-target="#modalProducto">
+                <i class="fas fa-edit mr-1"></i> Editar producto
+              </button>
+              <button class="btn btn-outline-danger btn-block btn-round btn-sm mb-2" onclick="confirmarDejarDeVender('Producto Demo #1')">
+                <i class="fas fa-ban mr-1"></i> Dejar de vender
+              </button>
+              <button class="btn btn-outline-info btn-block btn-round btn-sm" data-toggle="modal" data-target="#modalActualizarCantidad">
+                <i class="fas fa-truck mr-1"></i> Actualizar cantidad
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- MODAL 1: RESTABLECER CONTRASEÑA (IMAGEN RECIENTE)    -->
+<!-- ==================================================== -->
+<div class="modal fade" id="modalRestablecerPass" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+      
+      <!-- Header -->
+      <div class="modal-header bg-white py-3 border-bottom-0">
+        <h5 class="modal-title font-weight-bold text-dark d-flex align-items-center">
+          <i class="fas fa-shield-alt text-primary mr-2"></i> Restablecer contraseña
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form id="formRestablecerPass" autocomplete="off">
+        <div class="modal-body px-4 pt-1 pb-4">
+          
+          <!-- Correo -->
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Correo Electrónico <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="far fa-envelope"></i></span>
+              </div>
+              <input type="email" class="form-control" placeholder="user@example.com" required>
+            </div>
+          </div>
+
+          <!-- Nueva Contraseña -->
+          <div class="form-group mb-2">
+            <label class="font-weight-600">Nueva contraseña <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+              </div>
+              <input type="password" class="form-control" id="nuevaPass" placeholder="Mínimo 8 caracteres" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary toggle-pass-btn" type="button" data-target="nuevaPass">
+                  <i class="far fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Indicador de Fuerza de Clave -->
+          <div class="progress mb-3" style="height: 4px;">
+            <div id="passStrengthBar" class="progress-bar bg-danger" role="progressbar" style="width: 0%;"></div>
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Confirme contraseña <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-check-double"></i></span>
+              </div>
+              <input type="password" class="form-control" id="confirmPass" placeholder="Repita la nueva contraseña" required>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary toggle-pass-btn" type="button" data-target="confirmPass">
+                  <i class="far fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <small id="passMatchMsg" class="form-text d-none"></small>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="modal-footer bg-whitesmoke" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-round px-4">
+            <i class="fas fa-key mr-1"></i> Cambiar contraseña
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- MODAL 2: CREAR / EDITAR PRODUCTO                     -->
+<!-- ==================================================== -->
+<div class="modal fade" id="modalProducto" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+      <div class="modal-header bg-primary text-white py-3" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-box-open mr-2"></i> Formulario para productos</h5>
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+      </div>
+      <form id="formProducto">
+        <div class="modal-body p-4">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Nombre producto *</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Código producto *</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Valor unitario producto *</label>
+              <input type="number" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Cantidad producto *</label>
+              <input type="number" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Unidad de medida *</label>
+              <select class="form-control" required>
+                <option value="" disabled selected>Seleccione una unidad</option>
+                <option>Unidad (Ud)</option>
+                <option>Kilogramo (Kg)</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600">Cantidad mínima en stock *</label>
+              <input type="number" class="form-control" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="font-weight-600 d-block">¿Tiene fecha de vencimiento? *</label>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="venceSi" name="tieneVencimiento" class="custom-control-input" value="si">
+                <label class="custom-control-label" for="venceSi">Sí</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="venceNo" name="tieneVencimiento" class="custom-control-input" value="no" checked>
+                <label class="custom-control-label" for="venceNo">No</label>
+              </div>
+            </div>
+            <div class="form-group col-md-6 d-none" id="containerFechaVencimiento">
+              <label class="font-weight-600">Fecha de vencimiento *</label>
+              <input type="date" class="form-control" id="fechaVencimientoInput">
+            </div>
+            <div class="form-group col-12">
+              <label class="font-weight-600">Foto producto</label>
+              <div class="image-upload-zone text-center p-3" id="dropZone">
+                <input type="file" id="fotoProductoInput" class="d-none" accept="image/*">
+                <div id="uploadPlaceholder">
+                  <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-1"></i>
+                  <p class="mb-0 text-muted small">Arrastra una imagen o <span class="text-primary font-weight-bold">examina</span></p>
+                </div>
+                <div id="imagePreviewContainer" class="d-none mt-2 position-relative d-inline-block">
+                  <img id="imagePreview" src="" alt="Preview" class="img-thumbnail" style="max-height: 80px;">
+                  <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute" id="btnRemoveImage" style="top: -8px; right: -8px;"><i class="fas fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-whitesmoke">
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-round px-4">Subir información</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ==================================================== -->
+<!-- MODAL 3: ACTUALIZAR CANTIDAD DE PRODUCTO            -->
+<!-- ==================================================== -->
+<div class="modal fade" id="modalActualizarCantidad" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+      <div class="modal-header bg-success text-white py-3" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-cubes mr-2"></i> Actualizar cantidad de producto</h5>
+        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+      </div>
+      <form id="formActualizarCantidad">
+        <div class="modal-body p-4">
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Fecha de llegada *</label>
+            <input type="date" class="form-control" value="2026-10-02" required>
+          </div>
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Subir cantidad *</label>
+            <input type="number" class="form-control" placeholder="Ej: 50" required>
+          </div>
+          <div class="form-group mb-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="checkPerecedero">
+              <label class="custom-control-label font-weight-600 text-primary cursor-pointer" for="checkPerecedero">
+                ¿Es producto perecedero / requiere lote?
+              </label>
+            </div>
+          </div>
+          <div class="alert-notice mb-3">
+            <strong>Nota:</strong> En caso de ser un producto perecedero se pedirá lote y fecha de vencimiento.
+          </div>
+          <div id="camposPerecedero" class="d-none">
+            <div class="form-group mb-3">
+              <label class="font-weight-600">Lote producto *</label>
+              <input type="text" class="form-control" id="inputLote" placeholder="LOTE-001">
+            </div>
+            <div class="form-group mb-3">
+              <label class="font-weight-600">Fecha de Vencimiento *</label>
+              <input type="date" class="form-control" id="inputVencimiento" value="2026-10-02">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-whitesmoke">
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-round px-4">Actualizar producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    
+    // 1. Ocultar/Mostrar Contraseñas
+    document.querySelectorAll('.toggle-pass-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const targetId = this.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+    });
+
+    // 2. Medidor de Fuerza y Coincidencia de Contraseña
+    const nuevaPass = document.getElementById('nuevaPass');
+    const confirmPass = document.getElementById('confirmPass');
+    const strengthBar = document.getElementById('passStrengthBar');
+    const passMatchMsg = document.getElementById('passMatchMsg');
+
+    if (nuevaPass) {
+      nuevaPass.addEventListener('input', function () {
+        const val = this.value;
+        let score = 0;
+        if (val.length >= 6) score += 33;
+        if (val.match(/[A-Z]/) && val.length >= 8) score += 33;
+        if (val.match(/[0-9]/) && val.match(/[^a-zA-Z0-9]/)) score += 34;
+
+        strengthBar.style.width = score + '%';
+        if (score <= 33) {
+          strengthBar.className = 'progress-bar bg-danger';
+        } else if (score <= 66) {
+          strengthBar.className = 'progress-bar bg-warning';
+        } else {
+          strengthBar.className = 'progress-bar bg-success';
+        }
+      });
+    }
+
+    if (confirmPass) {
+      confirmPass.addEventListener('input', function () {
+        if (this.value === nuevaPass.value) {
+          passMatchMsg.textContent = '✓ Las contraseñas coinciden';
+          passMatchMsg.className = 'form-text text-success font-weight-bold small';
+        } else {
+          passMatchMsg.textContent = '✕ Las contraseñas no coinciden';
+          passMatchMsg.className = 'form-text text-danger font-weight-bold small';
+        }
+      });
+    }
+
+    // 3. Envío del Formulario de Contraseña con Alert
+    document.getElementById('formRestablecerPass').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (nuevaPass.value !== confirmPass.value) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Las contraseñas no coinciden.',
+          confirmButtonColor: '#fc544b'
+        });
+        return;
+      }
+
+      $('#modalRestablecerPass').modal('hide');
+      Swal.fire({
+        icon: 'success',
+        title: '¡Contraseña actualizada!',
+        text: 'Tu contraseña ha sido cambiada exitosamente.',
+        confirmButtonColor: '#6777ef',
+        customClass: { confirmButton: 'btn btn-primary btn-round px-4' },
+        buttonsStyling: false
+      });
+    });
+
+    // 4. Control dinámico de radio Vencimiento
+    document.querySelectorAll('input[name="tieneVencimiento"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        const container = document.getElementById('containerFechaVencimiento');
+        if (this.value === 'si') {
+          container.classList.remove('d-none');
+        } else {
+          container.classList.add('d-none');
+        }
+      });
+    });
+
+    // 5. Control dinámico Check Perecedero
+    document.getElementById('checkPerecedero').addEventListener('change', function () {
+      const campos = document.getElementById('camposPerecedero');
+      if (this.checked) {
+        campos.classList.remove('d-none');
+      } else {
+        campos.classList.add('d-none');
+      }
+    });
+
+  });
+
+  // 6. Alerta SweetAlert2 para "Dejar de vender"
+  function confirmarDejarDeVender(nombreProducto) {
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: `¿Seguro que desea dejar de vender ${nombreProducto}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, seguro',
+      cancelButtonText: 'No, cancelar',
+      customClass: {
+        confirmButton: 'btn btn-success btn-round px-4 mx-1',
+        cancelButton: 'btn btn-danger btn-round px-4 mx-1'
+      },
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: '¡Producto actualizado!',
+          text: 'El producto ha dejado de venderse.',
+          icon: 'success',
+          customClass: { confirmButton: 'btn btn-primary btn-round px-4' },
+          buttonsStyling: false
+        });
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

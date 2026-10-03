@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP - Perfil de Usuario</title>
+  
+  <!-- Bootstrap 4 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #0d5c63;
+      --primary-hover: #083e43;
+      --sidebar-bg: #224d53;
+      --body-bg: #f4f6f9;
+      --text-muted: #6c757d;
+    }
+
+    body {
+      background-color: var(--body-bg);
+      font-family: 'Nunito', 'Segoe UI', arial;
+    }
+
+    /* Top Navbar */
+    .navbar-custom {
+      background-color: var(--primary-color);
+      min-height: 60px;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+    }
+
+    /* Sidebar Layout */
+    .layout-wrapper {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .sidebar .menu-header {
+      padding: 15px 20px 5px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #8da2a6;
+    }
+
+    .sidebar .nav-link {
+      color: #d1e0e2;
+      padding: 12px 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .sidebar .nav-link:hover, .sidebar .nav-link.active {
+      color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar .nav-link i {
+      width: 24px;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+    }
+
+    /* Stisla Section Styling */
+    .section-header {
+      background-color: #fff;
+      padding: 20px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+      margin-bottom: 25px;
+    }
+
+    .section-header h1 {
+      font-size: 20px;
+      margin: 0;
+      color: #34395e;
+      font-weight: 700;
+    }
+
+    /* Animated Card */
+    .animated-card {
+      animation: fadeInUp 0.5s ease-out forwards;
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .animated-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Profile Card Custom Styling */
+    .profile-widget-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--sidebar-bg));
+      padding: 35px 20px 25px;
+    }
+
+    .profile-widget-picture {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      background-color: #e9ecef;
+      transition: transform 0.3s ease;
+    }
+
+    .avatar-wrapper {
+      cursor: pointer;
+    }
+
+    .avatar-wrapper:hover .profile-widget-picture {
+      transform: scale(1.02);
+    }
+
+    .avatar-edit-btn {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: var(--primary-color);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .avatar-edit-btn:hover {
+      background: var(--primary-hover);
+      transform: scale(1.1);
+      color: #fff;
+    }
+
+    .profile-widget-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #34395e;
+    }
+
+    .profile-bio p {
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .card-footer.bg-whitesmoke {
+      background-color: #f9f9f9;
+      border-top: 1px solid #f2f2f2;
+      padding: 18px 20px;
+    }
+
+    /* Button Styling & Animations */
+    .btn-round {
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn-animate {
+      transition: all 0.25s ease-in-out;
+    }
+
+    .btn-animate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(13, 92, 99, 0.25);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+    }
+
+    .btn-outline-primary {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom px-4">
+    <button class="btn text-white mr-3" type="button" id="toggle-sidebar">
+      <i class="fas fa-bars"></i>
+    </button>
+    <a class="navbar-brand font-weight-bold" href="#">SAP</a>
+    
+    <div class="ml-auto d-flex align-items-center">
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle text-white d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-circle fa-2x"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#"><i class="fas fa-user mr-2 text-muted"></i> Mi Perfil</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Layout Wrapper -->
+  <div class="layout-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="menu-header">Stock and POS</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-home"></i> Inicio</a>
+        </li>
+      </ul>
+
+      <div class="menu-header">Inventario</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-boxes"></i> Stock</a>
+        </li>
+      </ul>
+
+      <div class="menu-header">Vender</div>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Ventas</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="section-header">
+        <h1>Perfil de Usuario</h1>
+      </div>
+
+      <div class="section-body">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-6">
+            
+            <!-- Card de Perfil Estilizada -->
+            <div class="card animated-card">
+              <div class="profile-widget-header text-center">
+                <div class="avatar-wrapper position-relative d-inline-block">
+                  <img id="avatar-preview" alt="Foto de Perfil" src="data:image/png;base64,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" class="rounded-circle profile-widget-picture shadow">
+                  <label for="upload-avatar" class="avatar-edit-btn" title="Cambiar foto de perfil">
+                    <i class="fas fa-camera"></i>
+                  </label>
+                  <input type="file" id="upload-avatar" class="d-none" accept="image/*">
+                </div>
+              </div>
+
+              <div class="card-body text-center pt-4">
+                <h4 class="profile-widget-name mb-1">Nombre de Usuario</h4>
+                <p class="text-muted small mb-3">
+                  <i class="far fa-envelope mr-1"></i> user@example.com
+                </p>
+                <div class="profile-bio px-3">
+                  <p class="text-muted mb-0">
+                    Encargado de la gestión de stock, inventario y control de ventas en el sistema POS.
+                  </p>
+                </div>
+              </div>
+
+              <div class="card-footer text-center bg-whitesmoke">
+                <button class="btn btn-outline-primary btn-round mr-2 btn-animate mb-2 mb-sm-0" data-toggle="modal" data-target="#modalPassword">
+                  <i class="fas fa-key mr-1"></i> Actualizar contraseña
+                </button>
+                <button class="btn btn-primary btn-round btn-animate" data-toggle="modal" data-target="#modalProfile">
+                  <i class="fas fa-user-edit mr-1"></i> Actualizar perfil
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal: Actualizar Contraseña -->
+  <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold">Cambiar Contraseña</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="form-password">
+            <div class="form-group">
+              <label>Contraseña Actual</label>
+              <input type="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Nueva Contraseña</label>
+              <input type="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label>Confirmar Nueva Contraseña</label>
+              <input type="password" class="form-control" required>
+            </div>
+            <div class="text-right">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Actualizar Perfil -->
+  <div class="modal fade" id="modalProfile" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-bold">Editar Información del Perfil</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="form-profile">
+            <div class="form-group">
+              <label>Nombre de Usuario</label>
+              <input type="text" class="form-control" value="Nombre de Usuario" required>
+            </div>
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <input type="email" class="form-control" value="user@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Descripción / Bio</label>
+              <textarea class="form-control" rows="3">Encargado de la gestión de stock, inventario y control de ventas en el sistema POS.</textarea>
+            </div>
+            <div class="text-right">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS Scripts (jQuery, Popper.js, Bootstrap 4) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Previsualizar la imagen cargada por el usuario
+      const avatarInput = document.getElementById('upload-avatar');
+      const avatarPreview = document.getElementById('avatar-preview');
+
+      if (avatarInput) {
+        avatarInput.addEventListener('change', function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              avatarPreview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Prevenir el envío de formularios de prueba
+      document.getElementById('form-password').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Contraseña actualizada con éxito');
+        $('#modalPassword').modal('hide');
+      });
+
+      document.getElementById('form-profile').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Perfil actualizado con éxito');
+        $('#modalProfile').modal('hide');
+      });
+    });
+  </script>
+</body>
+</html>

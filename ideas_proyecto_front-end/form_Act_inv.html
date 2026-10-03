@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP - Actualización de Cantidad</title>
+  
+  <!-- Bootstrap 4.6 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <!-- FontAwesome 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #00bcd4;
+      --primary-hover: #00acc1;
+      --sidebar-bg: #1c3d42;
+      --sidebar-hover: #265057;
+      --topbar-bg: #4f8a8b;
+      --body-bg: #f4f6f9;
+      --text-main: #34395e;
+    }
+
+    body {
+      background-color: var(--body-bg);
+      font-family: 'Nunito', 'Segoe UI', arial;
+      color: var(--text-main);
+    }
+
+    /* Contenedor Principal */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Barra Lateral (Sidebar) */
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-brand {
+      padding: 20px 15px;
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-align: center;
+      background: rgba(0,0,0,0.1);
+    }
+    .sidebar-menu {
+      padding: 15px 0;
+      list-style: none;
+      margin: 0;
+    }
+    .sidebar-menu .menu-header {
+      padding: 10px 25px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: #7f9ca1;
+      font-weight: 700;
+    }
+    .sidebar-menu li a {
+      display: flex;
+      align-items: center;
+      padding: 12px 25px;
+      color: #cfd8dc;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .sidebar-menu li a:hover, .sidebar-menu li.active a {
+      background-color: var(--sidebar-hover);
+      color: #ffffff;
+      border-left: 4px solid var(--primary-color);
+    }
+    .sidebar-menu li a i {
+      width: 25px;
+      font-size: 1.1rem;
+    }
+
+    /* Área Principal */
+    .main-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar Superior */
+    .navbar-custom {
+      background-color: var(--topbar-bg);
+      height: 60px;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .main-content {
+      padding: 25px;
+      flex-grow: 1;
+    }
+
+    .section-header {
+      background: #fff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .section-header h1 {
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Cajas de Aviso Estilo Stisla */
+    .alert-notice {
+      background-color: #fff8dd;
+      border-left: 4px solid #ffc107;
+      color: #856404;
+      padding: 12px 15px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    /* Botones y Helpers */
+    .btn-round {
+      border-radius: 30px !important;
+    }
+    .font-weight-600 {
+      font-weight: 600;
+      color: #34395e;
+      font-size: 0.88rem;
+    }
+    .bg-whitesmoke {
+      background-color: #f9f9f9 !important;
+    }
+    .cursor-pointer {
+      cursor: pointer;
+    }
+
+    /* Transición suave para campos dinámicos */
+    .fade-toggle {
+      transition: all 0.3s ease-in-out;
+    }
+  </style>
+  
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">SAP</div>
+    <ul class="sidebar-menu">
+      <li class="menu-header">Stock and POS</li>
+      <li><a href="#"><i class="fas fa-home"></i> <span>Inicio</span></a></li>
+      <li class="menu-header">Inventario</li>
+      <li class="active"><a href="#"><i class="fas fa-boxes"></i> <span>Stock</span></a></li>
+      <li class="menu-header">Vender</li>
+      <li><a href="#"><i class="fas fa-shopping-cart"></i> <span>Ventas</span></a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <div class="main-wrapper">
+    <nav class="navbar-custom">
+      <a href="#" class="text-white"><i class="fas fa-bars"></i></a>
+      <div class="d-flex align-items-center">
+        <a href="#" class="text-white"><i class="fas fa-user-circle fa-lg"></i></a>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="section-header">
+        <h1>Entrada de Inventario / Stock</h1>
+        <button class="btn btn-success btn-round" data-toggle="modal" data-target="#modalActualizarCantidad">
+          <i class="fas fa-plus-circle mr-1"></i> Actualizar Cantidad
+        </button>
+      </div>
+
+      <!-- Tarjeta de ejemplo -->
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-boxes fa-3x text-muted mb-3"></i>
+          <h5>Gestión de Entradas y Lotes</h5>
+          <p class="text-muted small">Haz clic en el botón de arriba para probar el nuevo formulario modal de actualización de stock.</p>
+          <button class="btn btn-outline-success btn-round" data-toggle="modal" data-target="#modalActualizarCantidad">
+            Abrir Modal de Actualización
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- MODAL ACTUALIZAR CANTIDAD DE PRODUCTO      -->
+<!-- ========================================== -->
+<div class="modal fade" id="modalActualizarCantidad" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+      
+      <!-- Encabezado del Modal -->
+      <div class="modal-header bg-success text-white py-3" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+        <h5 class="modal-title font-weight-bold d-flex align-items-center">
+          <i class="fas fa-cubes mr-2"></i> Actualizar cantidad de producto
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- Cuerpo del Formulario -->
+      <form id="formActualizarCantidad" autocomplete="off">
+        <div class="modal-body p-4">
+          
+          <!-- Fecha de llegada -->
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Fecha de llegada <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+              </div>
+              <input type="date" class="form-control" id="fechaLlegada" value="2026-10-02" required>
+            </div>
+          </div>
+
+          <!-- Cantidad a agregar -->
+          <div class="form-group mb-3">
+            <label class="font-weight-600">Subir cantidad (Unidades) <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-arrow-up"></i></span>
+              </div>
+              <input type="number" class="form-control" placeholder="Ej: 50" min="1" required>
+            </div>
+          </div>
+
+          <!-- Conmutador Perecedero / Lote -->
+          <div class="form-group mb-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="checkPerecedero">
+              <label class="custom-control-label font-weight-600 cursor-pointer text-primary" for="checkPerecedero">
+                <i class="fas fa-exclamation-circle mr-1"></i> ¿Es un producto perecedero / requiere lote?
+              </label>
+            </div>
+          </div>
+
+          <!-- Caja de Notificación informativa -->
+          <div class="alert-notice mb-3">
+            <strong><i class="fas fa-info-circle mr-1"></i> Nota:</strong> En caso de ser un producto perecedero o con fecha de vencimiento, activa la casilla para registrar el lote y la fecha correspondiente.
+          </div>
+
+          <!-- Campos Desplegables (Ocultos por defecto hasta marcar la casilla) -->
+          <div id="camposPerecedero" class="d-none fade-toggle">
+            
+            <!-- Lote del Producto -->
+            <div class="form-group mb-3">
+              <label class="font-weight-600">Lote producto <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-layer-group"></i></span>
+                </div>
+                <input type="text" class="form-control" id="inputLote" placeholder="Ej: LOTE-2026-A1">
+              </div>
+            </div>
+
+            <!-- Fecha de Vencimiento -->
+            <div class="form-group mb-3">
+              <label class="font-weight-600">Fecha de Vencimiento <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="far fa-calendar-times"></i></span>
+                </div>
+                <input type="date" class="form-control" id="inputVencimiento" value="2026-10-02">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Pie del Modal -->
+        <div class="modal-footer bg-whitesmoke" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-round px-4">
+            <i class="fas fa-check mr-1"></i> Actualizar producto
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!-- Botón en la tarjeta del producto -->
+<button type="button" class="btn btn-danger btn-block btn-round mt-2" onclick="confirmarDejarDeVender('Producto 1')">
+  <i class="fas fa-ban mr-1"></i> Dejar de vender
+</button>
+
+<!-- Scripts JS (jQuery, Popper, Bootstrap) -->
+ <!-- SweetAlert2 CSS y JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    
+    // Control dinámico de campos para productos perecederos
+    const checkPerecedero = document.getElementById('checkPerecedero');
+    const camposPerecedero = document.getElementById('camposPerecedero');
+    const inputLote = document.getElementById('inputLote');
+    const inputVencimiento = document.getElementById('inputVencimiento');
+
+    checkPerecedero.addEventListener('change', function () {
+      if (this.checked) {
+        camposPerecedero.classList.remove('d-none');
+        inputLote.setAttribute('required', 'required');
+        inputVencimiento.setAttribute('required', 'required');
+      } else {
+        camposPerecedero.classList.add('d-none');
+        inputLote.removeAttribute('required');
+        inputVencimiento.removeAttribute('required');
+        inputLote.value = '';
+      }
+    });
+
+  });
+
+  function confirmarDejarDeVender(nombreProducto = 'este producto') {
+  Swal.fire({
+    title: '¿Está seguro?',
+    text: `¿Seguro que desea dejar de vender ${nombreProducto}?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#47c363', // Verde Stisla / Success
+    cancelButtonColor: '#fc544b',  // Rojo Stisla / Danger
+    confirmButtonText: '<i class="fas fa-check mr-1"></i> Sí, seguro',
+    cancelButtonText: '<i class="fas fa-times mr-1"></i> No, cancelar',
+    reverseButtons: true, // Pone el botón de confirmación a la derecha
+    customClass: {
+      popup: 'animated fadeInDown rounded-lg',
+      confirmButton: 'btn btn-success btn-round px-4 mx-1',
+      cancelButton: 'btn btn-danger btn-round px-4 mx-1'
+    },
+    buttonsStyling: false // Permite usar las clases de Bootstrap/Stisla en los botones
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // AQUÍ EJECUTAS TU LÓGICA (Ej: Llamada AJAX / Fetch a la base de datos)
+      
+      // Feedback de éxito
+      Swal.fire({
+        title: '¡Deshabilitado!',
+        text: 'El producto ha dejado de estar disponible para la venta.',
+        icon: 'success',
+        confirmButtonColor: '#6777ef',
+        customClass: {
+          confirmButton: 'btn btn-primary btn-round px-4'
+        },
+        buttonsStyling: false
+      });
+    }
+  });
+}
+</script>
+
+
+
+</body>
+</html>

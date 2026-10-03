@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP - Stock & POS Suite</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- 1. jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- 2. Select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- 3. SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    :root {
+      --sidebar-bg: #224247;
+      --sidebar-hover: #335960;
+      --sidebar-active: #3e6d75;
+      
+      --bg-canvas: #f4f7f8;
+      --card-bg: #ffffff;
+      
+      --primary-teal: #224247;
+      --accent-green: #10b981;
+      --accent-green-hover: #059669;
+      --btn-add-bg: #eaf3f4;
+      --btn-add-text: #224247;
+      
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    #app-layout {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar Stisla Style */
+    #sidebar {
+      width: 250px;
+      min-width: 250px;
+      background-color: var(--sidebar-bg);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-container { padding: 24px 20px; }
+    .brand-title { font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; margin: 0; color: #fff; }
+    .brand-subtitle { font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; margin-top: 4px; }
+
+    .nav-list { list-style: none; padding: 10px 12px; margin: 0; flex-grow: 1; }
+    .nav-label { font-size: 0.65rem; font-weight: 700; color: rgba(255, 255, 255, 0.4); padding: 12px 12px 6px; letter-spacing: 1px; text-transform: uppercase; }
+    .nav-item-link { display: flex; align-items: center; padding: 10px 14px; color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.88rem; font-weight: 500; border-radius: var(--radius-sm); margin-bottom: 4px; transition: all 0.2s; }
+    .nav-item-link:hover { background: var(--sidebar-hover); color: #fff; }
+    .nav-item-link.active { background: var(--sidebar-active); color: #fff; }
+    .nav-item-link i { width: 22px; margin-right: 8px; text-align: center; }
+
+    /* Main Area */
+    #main-wrapper { flex-grow: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+
+    .top-header {
+      height: 60px;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .header-logo-icon {
+      background-color: var(--primary-teal);
+      color: white;
+      width: 42px;
+      height: 28px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dashboard-body { padding: 24px 28px; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+    /* Meta Bar */
+    .pos-meta-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meta-item { display: flex; align-items: center; gap: 12px; }
+    .meta-item i { color: var(--sidebar-bg); font-size: 1.2rem; }
+    .meta-item label { font-size: 0.68rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin: 0; display: block; }
+    .meta-item span { font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+
+    /* POS Grid */
+    .pos-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+    }
+
+    .pos-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+
+    .form-label { font-size: 0.82rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
+
+    /* Styling Select2 */
+    .select2-container--default .select2-selection--single {
+      height: 40px !important;
+      border: 1px solid var(--border-color) !important;
+      border-radius: var(--radius-sm) !important;
+      padding: 5px 8px !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      line-height: 28px !important;
+      color: var(--text-main) !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow { height: 38px !important; }
+
+    /* Action Buttons */
+    .btn-action-add {
+      background: var(--btn-add-bg);
+      color: var(--btn-add-text);
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+    }
+    .btn-action-add:hover { background: #dcebeb; }
+
+    .btn-action-remove {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fca5a5;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+    }
+    .btn-action-remove:hover { background: #fee2e2; }
+
+    /* Cart Table */
+    .table-cart {
+      margin-top: 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .table-cart th {
+      background-color: #f8fafc;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .summary-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-teal);
+      margin-bottom: 20px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .summary-divider {
+      border-top: 2px dashed #cbd5e1;
+      margin: 16px 0;
+    }
+
+    .total-price-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .total-price-label { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
+    .total-price-value { font-size: 1.8rem; font-weight: 800; color: var(--primary-teal); }
+
+    .btn-checkout {
+      background: var(--accent-green);
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: background 0.2s;
+    }
+    .btn-checkout:hover { background: var(--accent-green-hover); }
+  </style>
+</head>
+<body>
+
+  <div id="app-layout">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="brand-container">
+        <div class="brand-title">SAP</div>
+        <div class="brand-subtitle">Stock & POS Suite</div>
+      </div>
+      <ul class="nav-list">
+        <li class="nav-label">General</li>
+        <li><a href="#" class="nav-item-link"><i class="fas fa-chart-line"></i> Inicio</a></li>
+        <li class="nav-label">Gestión</li>
+        <li><a href="inventario.html" class="nav-item-link"><i class="fas fa-boxes-stacked"></i> Inventario</a></li>
+        <li class="nav-label">Operaciones</li>
+        <li><a href="#" class="nav-item-link active"><i class="fas fa-cash-register"></i> Ventas</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div id="main-wrapper">
+      <header class="top-header">
+        <span class="fw-bold text-secondary fs-6">Punto de Venta (POS)</span>
+        <div class="header-logo-icon">
+          <i class="fas fa-crown fs-6"></i>
+        </div>
+        <i class="fas fa-user-circle fs-4 text-secondary"></i>
+      </header>
+
+      <main class="dashboard-body">
+        
+        <!-- Top Meta Info -->
+        <div class="pos-meta-bar">
+          <div class="meta-item">
+            <i class="fas fa-user"></i>
+            <div>
+              <label>Cajero</label>
+              <span id="lblCajero">Nombre de usuario</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-file-invoice"></i>
+            <div>
+              <label>N° Factura</label>
+              <span id="lblNumFactura">#008492</span>
+            </div>
+          </div>
+          <div class="meta-item">
+            <i class="far fa-calendar-alt"></i>
+            <div>
+              <label>Fecha Exp</label>
+              <span id="lblFechaExp">2026-10-02 19:54</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pos-grid">
+          
+          <!-- Card Izquierda: Selección y Tabla -->
+          <div class="pos-card">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label" for="selectProducto">Seleccionar Producto</label>
+                <select class="form-select select2-enable" id="selectProducto" style="width: 100%;">
+                  <option value="" disabled selected>Buscar o seleccionar producto...</option>
+                  <option value="1" data-precio="15.00" data-nombre="Producto A">Producto A - $15.00</option>
+                  <option value="2" data-precio="25.00" data-nombre="Producto B">Producto B - $25.00</option>
+                  <option value="3" data-precio="42.00" data-nombre="Producto C Extra">Producto C Extra - $42.00</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label" for="inputCantidad">Cantidad a vender</label>
+                <input type="number" class="form-control" id="inputCantidad" min="1" value="1">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Precio Unitario</label>
+                <div class="form-control bg-light text-muted fw-semibold" id="precioUnitario">$0.00</div>
+              </div>
+
+              <div class="col-12 d-flex gap-2 pt-1">
+                <button type="button" class="btn btn-action-add flex-grow-1" id="btnAdd">
+                  <i class="fas fa-plus me-1"></i> Agregar al Carrito
+                </button>
+                <button type="button" class="btn btn-action-remove" id="btnRemove">
+                  <i class="fas fa-trash me-1"></i> Quitar Último
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabla Carrito -->
+            <div class="table-responsive table-cart">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th class="text-center">Cant.</th>
+                    <th class="text-end">P. Unit</th>
+                    <th class="text-end">Subtotal</th>
+                    <th class="text-center">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody id="cartTableBody">
+                  <tr id="emptyRow">
+                    <td colspan="5" class="text-center text-muted py-3">No hay productos agregados</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card Derecha: Resumen y Checkout -->
+          <div class="summary-card">
+            <div>
+              <div class="summary-title"><i class="fas fa-receipt me-2"></i>Resumen de Cobro</div>
+              
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="subtotalVal">$0.00</span>
+              </div>
+              <div class="summary-row">
+                <span>Impuestos (0%)</span>
+                <span>$0.00</span>
+              </div>
+
+              <div class="summary-divider"></div>
+
+              <div class="total-price-box">
+                <span class="total-price-label">Total a pagar:</span>
+                <span class="total-price-value" id="totalVal">$0.00</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-checkout mt-4" id="btnCheckout">
+              <i class="fas fa-check-circle me-1"></i> Realizar Venta
+            </button>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    $(document).ready(function() {
+      
+      // 1. Inicialización de Select2
+      $('.select2-enable').select2({
+        placeholder: 'Buscar o seleccionar producto...',
+        allowClear: true
+      });
+
+      let carrito = [];
+
+      // 2. Evento Cambio en Select2 para actualizar Precio Unitario
+      $('#selectProducto').on('change', function() {
+        const optionSelected = $(this).find('option:selected');
+        const precio = parseFloat(optionSelected.data('precio')) || 0;
+        $('#precioUnitario').text(`$${precio.toFixed(2)}`);
+      });
+
+      // 3. Agregar elemento al carrito
+      $('#btnAdd').on('click', function() {
+        const optionSelected = $('#selectProducto').find('option:selected');
+        const id = $('#selectProducto').val();
+
+        if (!id) {
+          Swal.fire({ icon: 'info', title: 'Atención', text: 'Por favor selecciona un producto.', confirmButtonColor: '#224247' });
+          return;
+        }
+
+        const nombre = optionSelected.data('nombre');
+        const precio = parseFloat(optionSelected.data('precio'));
+        const cantidad = parseInt($('#inputCantidad').val()) || 1;
+
+        if (cantidad <= 0) return;
+
+        const itemExistente = carrito.find(item => item.id === id);
+        if (itemExistente) {
+          itemExistente.cantidad += cantidad;
+          itemExistente.subtotal = itemExistente.cantidad * itemExistente.precio;
+        } else {
+          carrito.push({
+            id: id,
+            nombre: nombre,
+            precio: precio,
+            cantidad: cantidad,
+            subtotal: precio * cantidad
+          });
+        }
+
+        actualizarTabla();
+        resetCampos();
+      });
+
+      // 4. Quitar Último Elemento
+      $('#btnRemove').on('click', function() {
+        if (carrito.length > 0) {
+          carrito.pop();
+          actualizarTabla();
+        }
+      });
+
+      // 5. Eliminar elemento individual
+      $(document).on('click', '.btn-delete-row', function() {
+        const index = $(this).data('index');
+        carrito.splice(index, 1);
+        actualizarTabla();
+      });
+
+      // 6. Actualizar Tabla y Totales
+      function actualizarTabla() {
+        const tbody = $('#cartTableBody');
+        tbody.empty();
+
+        if (carrito.length === 0) {
+          tbody.append(`
+            <tr id="emptyRow">
+              <td colspan="5" class="text-center text-muted py-3">No hay productos agregados</td>
+            </tr>
+          `);
+          $('#subtotalVal').text('$0.00');$('#totalVal').text('$0.00');
+          return;
+        }
+
+        let totalPagar = 0;
+
+        carrito.forEach((item, index) => {
+          totalPagar += item.subtotal;
+          tbody.append(`
+            <tr>
+              <td class="fw-semibold">${item.nombre}</td>
+              <td class="text-center">${item.cantidad}</td>
+              <td class="text-end">$${item.precio.toFixed(2)}</td>
+              <td class="text-end fw-bold">$${item.subtotal.toFixed(2)}</td>
+              <td class="text-center">
+                <button type="button" class="btn btn-sm text-danger border-0 btn-delete-row" data-index="${index}">
+                  <i class="fas fa-times"></i>
+                </button>
+              </td>
+            </tr>
+          `);
+        });
+
+        $('#subtotalVal').text(`$${totalPagar.toFixed(2)}`);
+        $('#totalVal').text(`$${totalPagar.toFixed(2)}`);
+      }
+
+      function resetCampos() {
+        $('#selectProducto').val(null).trigger('change');
+        $('#precioUnitario').text('$0.00');$('#inputCantidad').val('1');
+      }
+
+      // 7. Evento Realizar Venta -> Pide el correo con SweetAlert2
+      $('#btnCheckout').on('click', function() {
+        if (carrito.length === 0) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Carrito vacío',
+            text: 'Agrega productos antes de realizar la venta.',
+            confirmButtonColor: '#224247'
+          });
+          return;
+        }
+
+        const totalPagar = $('#totalVal').text();
+
+        // Alerta SweetAlert2 para capturar el correo
+        Swal.fire({
+          title: 'Realizar Venta',
+          text: `Total a cobrar: ${totalPagar}. Ingrese el correo para enviar la factura:`,
+          input: 'email',
+          inputPlaceholder: 'correo@cliente.com',
+          showCancelButton: true,
+          confirmButtonText: 'Enviar Factura y Finalizar',
+          cancelButtonText: 'Omitir / Solo Cobrar',
+          confirmButtonColor: '#10b981',
+          cancelButtonColor: '#64748b'
+        }).then((result) => {
+          // Construimos el objeto de la venta para guardarlo en la base de datos o histórico
+          const objetoVenta = {
+            numFactura: $('#lblNumFactura').text(),
+            cajero: $('#lblCajero').text(),
+            fecha: $('#lblFechaExp').text(),
+            items: carrito,
+            total: totalPagar,
+            correoCliente: result.isConfirmed ? result.value : 'No registrado'
+          };
+
+          console.log("Datos de la venta procesada:", objetoVenta);
+
+          if (result.isConfirmed && result.value) {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Venta Realizada!',
+              text: `Factura enviada exitosamente a: ${result.value}`,
+              confirmButtonColor: '#224247'
+            });
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Venta Realizada!',
+              text: 'La venta ha sido registrada correctamente.',
+              confirmButtonColor: '#224247'
+            });
+          }
+
+          // Reiniciar para la siguiente venta
+          carrito = [];
+          actualizarTabla();
+          resetCampos();
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>

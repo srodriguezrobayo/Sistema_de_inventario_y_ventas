@@ -1,0 +1,95 @@
+:root {
+  --sidebar-bg: #224b52;
+  --navbar-bg: #3c828b;
+  --accent-color: #2ab7ca;
+  --bg-light: #f4f7f6;
+  --card-bg: #ffffff;
+  --text-primary: #2b2d42;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Sidebar Styling */
+#sidebar-wrapper {
+  min-width: 240px;
+  max-width: 240px;
+  background-color: var(--sidebar-bg);
+  min-height: 100vh;
+  transition: margin 0.25s ease-out;
+}
+
+.logo-text {
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+#sidebar-wrapper .sidebar-category {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 0 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+#sidebar-wrapper .list-group-item {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+#sidebar-wrapper .list-group-item:hover,
+#sidebar-wrapper .list-group-item.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--accent-color);
+}
+
+/* Top Navbar */
+.navbar-custom {
+  background-color: var(--navbar-bg);
+}
+
+/* Banner de Bienvenida */
+.welcome-card {
+  background: linear-gradient(135deg, var(--navbar-bg), var(--sidebar-bg));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Card Styling & Hover Animation */
+.custom-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Ajustes FullCalendar */
+.fc {
+  font-size: 0.9rem;
+}
+
+.fc-button-primary {
+  background-color: var(--navbar-bg) !important;
+  border-color: var(--navbar-bg) !important;
+}
+
+.fc-button-primary:hover {
+  background-color: var(--sidebar-bg) !important;
+}
+
+.fc-toolbar-title {
+  font-size: 1.1rem !important;
+  font-weight: 600;
+  text-transform: capitalize;
+}

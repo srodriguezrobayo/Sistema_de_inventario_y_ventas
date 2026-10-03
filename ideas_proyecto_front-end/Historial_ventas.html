@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAP - Historial de ventas</title>
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- jQuery y DataTables (para paginación y búsqueda integrada) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    :root {
+      --sidebar-bg: #2d5d63;
+      --header-bg: #4a8d94;
+      --body-bg: #eef1f2;
+      --card-bg: #ffffff;
+      --badge-enviada: #52e176;
+      --badge-sin-enviar: #262c40;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; }
+
+    body { display: flex; height: 100vh; background-color: var(--body-bg); color: #333; overflow-x: hidden; }
+
+    /* Sidebar Sidebar */
+    #sidebar {
+      width: 220px;
+      min-width: 220px;
+      background-color: var(--sidebar-bg);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-box { padding: 20px 15px; text-align: left; }
+    .brand-box h2 { font-size: 1.6rem; letter-spacing: 1px; font-weight: bold; }
+    .brand-box span { font-size: 0.65rem; text-transform: uppercase; font-weight: bold; opacity: 0.8; }
+
+    .nav-group { margin-top: 15px; }
+    .nav-title { font-size: 0.65rem; text-transform: uppercase; font-weight: bold; color: #a2c1c5; padding: 8px 20px; }
+    .nav-link-item { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; padding: 10px 20px; font-size: 0.85rem; }
+    .nav-link-item:hover { background-color: rgba(255, 255, 255, 0.1); }
+    .nav-link-item.active { background-color: rgba(0, 0, 0, 0.15); color: #72f7a1; font-weight: 600; }
+    .sub-nav { padding-left: 15px; }
+
+    /* Content Area */
+    #content-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+
+    .top-navbar {
+      height: 60px;
+      background-color: var(--header-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: white;
+    }
+    .header-logo { height: 40px; }
+
+    /* Main Section */
+    .main-body { padding: 30px; display: flex; flex-direction: column; align-items: center; }
+
+    .page-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .table-container {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 1100px;
+      border-radius: 4px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Filters Bar */
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .control-group { display: flex; align-items: center; gap: 8px; }
+    .control-select, .control-input {
+      padding: 6px 10px;
+      border: 1px solid #dcdcdc;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .control-input { width: 280px; }
+    .search-input { width: 160px; }
+
+    /* Custom Table */
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .custom-table th {
+      background-color: #f7f8f9;
+      color: #555;
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 15px;
+      border-bottom: 2px solid #eef1f2;
+    }
+
+    .custom-table td {
+      padding: 14px 15px;
+      border-bottom: 1px solid #f0f0f0;
+      color: #444;
+    }
+
+    .custom-table tbody tr:hover {
+      background-color: #fafafa;
+    }
+
+    /* Badges Status */
+    .badge-status {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+    .badge-enviada { background-color: var(--badge-enviada); color: #fff; }
+    .badge-sin-enviar { background-color: var(--badge-sin-enviar); }
+
+    /* Action Buttons */
+    .btn-action {
+      background-color: #eef1f2;
+      border: 1px solid #dcdcdc;
+      color: #333;
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.2s;
+    }
+    .btn-action:hover { background-color: #e2e6e8; }
+
+    /* Footer Pagination */
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      font-size: 0.82rem;
+      color: #666;
+    }
+
+    .pagination-controls {
+      display: flex;
+      gap: 4px;
+    }
+    .page-btn {
+      padding: 5px 10px;
+      border: 1px solid #dcdcdc;
+      background: #fff;
+      color: #555;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .page-btn.active {
+      background-color: #262c40;
+      color: #fff;
+      border-color: #262c40;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="brand-box">
+      <h2>SAP</h2>
+      <span>STOCK AND POS</span>
+    </div>
+    
+    <div class="nav-group">
+      <a href="#" class="nav-link-item"><i class="fas fa-home"></i> Inicio</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-title">INVENTARIO</div>
+      <a href="#" class="nav-link-item"><i class="fas fa-boxes"></i> Stock</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-title">VENDER</div>
+      <a href="#" class="nav-link-item"><i class="fas fa-shopping-cart"></i> Ventas</a>
+      <div class="sub-nav">
+        <a href="#" class="nav-link-item"><i class="fas fa-cart-plus"></i> Añadir venta</a>
+        <a href="#" class="nav-link-item active"><i class="fas fa-history"></i> Historial de ventas</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div id="content-wrapper">
+    <header class="top-navbar">
+      <i class="fas fa-bars fs-5" style="cursor:pointer;"></i>
+      
+      <!-- SVG Logo -->
+      <svg class="header-logo" viewBox="0 0 100 80" fill="none">
+        <path d="M50 10 L70 35 L90 20 L80 60 L20 60 L10 20 L30 35 Z" fill="#ffffff"/>
+      </svg>
+      
+      <i class="fas fa-user-circle fs-4" style="cursor:pointer;"></i>
+    </header>
+
+    <main class="main-body">
+      <h2 class="page-title">Historial de ventas</h2>
+
+      <div class="table-container">
+        
+        <!-- Controls Header -->
+        <div class="table-controls">
+          <div class="control-group">
+            <label>Mostrar</label>
+            <select class="control-select">
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+            <span>registros</span>
+          </div>
+
+          <div class="control-group">
+            <label>Fecha y hora:</label>
+            <input type="text" id="filterFecha" class="control-input" placeholder="Buscar por fecha y hora...">
+          </div>
+
+          <div class="control-group">
+            <label>Buscar:</label>
+            <input type="text" id="globalSearch" class="control-input search-input">
+          </div>
+        </div>
+
+        <!-- Sales Data Table -->
+        <table class="custom-table" id="salesTable">
+          <thead>
+            <tr>
+              <th style="width: 50px;"># <i class="fas fa-sort text-muted"></i></th>
+              <th>Factura <i class="fas fa-sort text-muted"></i></th>
+              <th>Fecha y hora de expedicion <i class="fas fa-sort text-muted"></i></th>
+              <th>Estado <i class="fas fa-sort text-muted"></i></th>
+              <th>Acciones <i class="fas fa-sort text-muted"></i></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Factura 1</td>
+              <td>2026/09/25 17:33</td>
+              <td><span class="badge-status badge-enviada">Factura Enviada</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="1" data-correo="cliente1@correo.com" data-total="$150.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Factura 2</td>
+              <td>2026/09/24 14:33</td>
+              <td><span class="badge-status badge-sin-enviar">Factura Sin Enviar</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="2" data-correo="Sin enviar" data-total="$45.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Factura 3</td>
+              <td>2026/09/23 12:45</td>
+              <td><span class="badge-status badge-sin-enviar">Factura Sin Enviar</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="3" data-correo="Sin enviar" data-total="$80.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Factura 4</td>
+              <td>2026/09/22 11:00</td>
+              <td><span class="badge-status badge-enviada">Factura Enviada</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="4" data-correo="empresa@cliente.com" data-total="$320.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Factura 5</td>
+              <td>2025/12/22 12:00</td>
+              <td><span class="badge-status badge-sin-enviar">Factura Sin Enviar</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="5" data-correo="Sin enviar" data-total="$15.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Factura 6</td>
+              <td>2024/10/18 14:00</td>
+              <td><span class="badge-status badge-enviada">Factura Enviada</span></td>
+              <td>
+                <button class="btn-action btn-ver-factura" data-id="6" data-correo="ventas@dominio.com" data-total="$210.00">
+                  <i class="far fa-eye"></i> Ver factura
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Table Footer -->
+        <div class="table-footer">
+          <div>Mostrando 1 a 6 de 6 entradas</div>
+          <div class="pagination-controls">
+            <button class="page-btn">Anterior</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">Siguiente</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    $(document).ready(function() {
+      
+      // Evento para ver detalle de factura mediante SweetAlert2
+      $('.btn-ver-factura').on('click', function() {
+        const idFactura = $(this).data('id');
+        const correo = $(this).data('correo');
+        const total = $(this).data('total');
+
+        Swal.fire({
+          title: `Detalle de Factura ${idFactura}`,
+          html: `
+            <div style="text-align: left; font-size: 0.95rem; line-height: 1.8;">
+              <p><strong>N° Factura:</strong> #00849${idFactura}</p>
+              <p><strong>Correo asociado:</strong> ${correo}</p>
+              <p><strong>Total de la venta:</strong> ${total}</p>
+            </div>
+          `,
+          icon: 'info',
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#2d5d63'
+        });
+      });
+
+      // Búsqueda en tiempo real (Filtro)
+      $('#globalSearch').on('keyup', function() {
+        const value = $(this).val().toLowerCase();$('#salesTable tbody tr').filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
