@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iniciar Sesi&oacute;n</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/modules/prism/prism.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.min.css">
+    <link rel="stylesheet" href="assets/css/Login.css">
+</head>
+
+<body class="Inicios">
+
+
+    <!-- =====================================================
+         FORMAS DECORATIVAS DEL FONDO
+    ====================================================== -->
+
+    <div class="background-shape shape-1"></div>
+
+    <div class="background-shape shape-2"></div>
+
+    <div class="background-shape shape-3"></div>
+
+
+
+    <!-- =====================================================
+         CONTENEDOR PRINCIPAL
+    ====================================================== -->
+
+    <main class="login-container">
+
+
+        <!-- =================================================
+             TARJETA LOGIN
+        ================================================== -->
+
+        <section class="login-card">
+
+
+            <!-- =================================================
+                 LOGO
+            ================================================== -->
+
+            <div class="brand">
+
+
+                <div class="brand-icon">
+
+                    <img src="assets/img/Logo_SAP.png" alt="logo" height="50%" width="75%">
+
+                </div>
+
+
+                <h1>SAP</h1>
+
+
+                <span>
+                    STOCK AND POS
+                </span>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ENCABEZADO
+            ================================================== -->
+
+            <div class="login-header">
+
+
+                <span class="welcome">
+
+                    BIENVENIDO DE NUEVO
+
+                </span>
+
+
+                <h2>
+
+                    Iniciar sesión
+
+                </h2>
+
+
+                <p>
+
+                    Accede para administrar tu
+                    inventario y ventas.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORMULARIO
+            ================================================== -->
+
+            <form action="main.html" method="" id="loginForm registroExitoso">
+
+
+                <!-- =============================================
+                     CORREO ELECTRÓNICO
+                ============================================== -->
+
+                <div class="input-group-custom">
+
+
+                    <i class="far fa-envelope input-icon"></i>
+
+
+                    <input type="email" id="correo" placeholder=" " autocomplete="email" required>
+
+
+                    <label for="correo">
+
+                        Correo electrónico
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- =============================================
+                     CONTRASEÑA
+                ============================================== -->
+
+                <div class="input-group-custom">
+
+
+                    <i class="fas fa-lock input-icon"></i>
+
+
+                    <input type="password" id="password" placeholder=" " autocomplete="current-password" required>
+
+
+                    <label for="password">
+
+                        Contraseña
+
+                    </label>
+
+
+                    <!-- BOTÓN MOSTRAR CONTRASEÑA -->
+
+                    <button type="button" id="togglePassword" class="password-toggle" aria-label="Mostrar contraseña">
+
+
+                        <i class="far fa-eye"></i>
+
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- =============================================
+                     OPCIONES
+                ============================================== -->
+
+                <div class="login-options">
+
+
+                    <label class="remember">
+
+
+                        <input type="checkbox" id="remember">
+
+
+                        <span>
+
+                            Recordarme
+
+                        </span>
+
+
+                    </label>
+
+
+
+                    <a href="" id="modal-3">
+
+                        ¿Olvidaste tu contraseña?
+
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- =============================================
+                     BOTÓN LOGIN
+                ============================================== -->
+
+                <button type="submit" class="btn-login" id="loginButton">
+
+
+                    <span id="buttonText">
+
+                        Iniciar sesión
+
+                    </span>
+
+
+                    <i class="fas fa-arrow-right" id="buttonIcon">
+                    </i>
+
+
+                </button>
+
+
+
+                <!-- =============================================
+                     REGISTRO
+                ============================================== -->
+
+                <div class="register-link">
+
+
+                    <span>
+
+                        ¿Aún no tienes una cuenta?
+
+                    </span>
+
+
+                    <a href="Register.html">
+
+                        Crear cuenta
+
+                    </a>
+
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 PIE DE TARJETA
+            ================================================== -->
+
+            <div class="login-footer">
+
+
+                <i class="fas fa-shield-alt"></i>
+
+
+                Acceso seguro a tu sistema de gestión
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+    <!-- General JS Scripts -->
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/popper.js"></script>
+    <script src="assets/modules/tooltip.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/modules/moment.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.min.js"></script>
+
+    <!-- JS Libraies -->
+    <script src="assets/modules/prism/prism.js"></script>
+
+    <!-- Page Specific JS File -->
+    <script src="assets/js/page/bootstrap-modal.js"></script>
+    <script src="assets/js/page/modules-toastr.js"></script>
+
+    <!-- Template JS File -->
+    <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/Login.js"></script>
+
+</body>
+
+</html>
