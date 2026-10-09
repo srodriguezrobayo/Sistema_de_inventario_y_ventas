@@ -1,8 +1,8 @@
 "use strict";
 
-var ctx = document.getElementById("myChart4").getContext('2d');
+var ctx = document.getElementById("myChart3").getContext('2d');
 var myChart = new Chart(ctx, {
-  type: 'pie',
+  type: 'doughnut',
   data: {
     datasets: [{
       data: [
@@ -123,9 +123,9 @@ var myChart = new Chart(ctx, {
   }
 });
 
-var ctx = document.getElementById("myChart3").getContext('2d');
+var ctx = document.getElementById("myChart4").getContext('2d');
 var myChart = new Chart(ctx, {
-  type: 'doughnut',
+  type: 'pie',
   data: {
     datasets: [{
       data: [

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/Main.css">
+    <link rel="stylesheet" href="assets/css/center.css">
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
     <!-- Template CSS -->
@@ -25,7 +26,7 @@
         gtag('config', 'UA-94034622-3');
     </script>
     <!-- /END GA -->
-    </head>
+</head>
 
 <body>
     <div id="app">
@@ -98,46 +99,67 @@
             <div class="main-content">
                 <section class="section" style="padding-top: 6% !important;">
                     <div class="section-body">
-                        <h2 class="text-center"><span style="color: black;">Hola, Usuario ¿Que deseas realizar?</span></h2>
-                    </div>
-                    <br>
-                    <div class="section-body">
-                        <div class="row">
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Calendario</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="fc-overflow">
-                                                    <div id="myEvent"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="welcome-card">
+                            <h1>¡Hola, Usuario!</h1>
+                            <h3>¿Que deseas realizar?</h3>
+                            <p>Bienvenido al panel general. Revisa el resumen de inventario y agenda para hoy.</p>
+                        </div>
+
+                        <div class="quick-actions-grid">
+                            <a href="Stock.html" class="action-card">
+                                <div class="action-icon"><i class="fas fa-box"></i></div>
+                                <div class="action-info">
+                                    <h6>Productos en Stock</h6>
+                                    <span>1,240 Unidades</span>
                                 </div>
+                            </a>
+                            <a href="History_sales.html" class="action-card">
+                                <div class="action-icon"><i class="fas fa-shopping-bag"></i></div>
+                                <div class="action-info">
+                                    <h6>Ventas de Hoy</h6>
+                                    <span>$482.50</span>
+                                </div>
+                            </a>
+                            <a href="Stock.html" class="action-card">
+                                <div class="action-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                <div class="action-info">
+                                    <h6>Alertas de Stock</h6>
+                                    <span>3 Productos</span>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- Main Dashboard Cards Grid -->
+                    <div class="main-grid">
+
+                        <!-- Calendar card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="far fa-calendar-alt"></i> Agenda & Calendario</h5>
                             </div>
-                            <div class="col-12 col-md-6 col-lg-6">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4>Grafica de productos</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="myChart4"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div>
+                                <div id="myEvent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Product Chart card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-pie"></i> Distribución de Productos</h5>
+                            </div>
+                            <div>
+                                <div class="chart-container">
+                                    <canvas id="myChart3"></canvas>
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                </section>
             </div>
+            </section>
         </div>
+    </div>
     </div>
 
     <!-- General JS Scripts -->
