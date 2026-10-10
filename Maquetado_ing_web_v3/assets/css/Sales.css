@@ -1,0 +1,366 @@
+    :root {
+        --sidebar-bg: #224247;
+        --sidebar-hover: #335960;
+        --sidebar-active: #3e6d75;
+
+        --bg-canvas: #f4f7f8;
+        --card-bg: #ffffff;
+
+        --primary-teal: #224247;
+        --accent-green: #10b981;
+        --accent-green-hover: #059669;
+        --btn-add-bg: #eaf3f4;
+        --btn-add-text: #224247;
+
+        --border-color: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+
+        --radius-sm: 8px;
+        --radius-md: 12px;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-canvas);
+        color: var(--text-main);
+        overflow-x: hidden;
+    }
+
+    #app-layout {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Sidebar Stisla Style */
+    #sidebar {
+        width: 250px;
+        min-width: 250px;
+        background-color: var(--sidebar-bg);
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand-container {
+        padding: 24px 20px;
+    }
+
+    .brand-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin: 0;
+        color: #fff;
+    }
+
+    .brand-subtitle {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        margin-top: 4px;
+    }
+
+    .nav-list {
+        list-style: none;
+        padding: 10px 12px;
+        margin: 0;
+        flex-grow: 1;
+    }
+
+    .nav-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.4);
+        padding: 12px 12px 6px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .nav-item-link {
+        display: flex;
+        align-items: center;
+        padding: 10px 14px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.88rem;
+        font-weight: 500;
+        border-radius: var(--radius-sm);
+        margin-bottom: 4px;
+        transition: all 0.2s;
+    }
+
+    .nav-item-link:hover {
+        background: var(--sidebar-hover);
+        color: #fff;
+    }
+
+    .nav-item-link.active {
+        background: var(--sidebar-active);
+        color: #fff;
+    }
+
+    .nav-item-link i {
+        width: 22px;
+        margin-right: 8px;
+        text-align: center;
+    }
+
+    /* Main Area */
+    #main-wrapper {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .top-header {
+        height: 60px;
+        background-color: var(--card-bg);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+    }
+
+    .header-logo-icon {
+        background-color: var(--primary-teal);
+        color: white;
+        width: 42px;
+        height: 28px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dashboard-body {
+        padding: 24px 28px;
+        max-width: 1400px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    /* Meta Bar */
+    .pos-meta-bar {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 16px 24px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .meta-item i {
+        color: var(--sidebar-bg);
+        font-size: 1.2rem;
+    }
+
+    .meta-item label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-weight: 700;
+        margin: 0;
+        display: block;
+    }
+
+    .meta-item span {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    /* POS Grid */
+    .pos-grid {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 20px;
+    }
+
+    .pos-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 20px;
+    }
+
+    .form-label {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 6px;
+    }
+
+    /* Styling Select2 */
+    .select2-container--default .select2-selection--single {
+        height: 40px !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-sm) !important;
+        padding: 5px 8px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 28px !important;
+        color: var(--text-main) !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 38px !important;
+    }
+
+    /* Action Buttons */
+    .btn-action-add {
+        background: var(--btn-add-bg);
+        color: var(--btn-add-text);
+        border: 1px solid var(--border-color);
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+    }
+
+    .btn-action-add:hover {
+        background: #dcebeb;
+    }
+
+    .btn-action-remove {
+        background: #fef2f2;
+        color: #ef4444;
+        border: 1px solid #fca5a5;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+    }
+
+    .btn-action-remove:hover {
+        background: #fee2e2;
+    }
+
+    /* Cart Table */
+    .table-cart {
+        margin-top: 16px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+    }
+
+    .table-cart th {
+        background-color: #f8fafc;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+
+    /* Summary Card */
+    .summary-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .summary-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--primary-teal);
+        margin-bottom: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .summary-divider {
+        border-top: 2px dashed #cbd5e1;
+        margin: 16px 0;
+    }
+
+    .total-price-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .total-price-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .total-price-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary-teal);
+    }
+
+    .btn-checkout {
+        background: var(--accent-green);
+        color: #ffffff;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        border-radius: var(--radius-sm);
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+    }
+
+    .btn-checkout:hover {
+        background: var(--accent-green-hover);
+    }
+
+    /* Forzar separación real entre los botones */
+    #btnAdd {
+        margin-right: 10px !important;
+    }
+
+    /* Forzar separación real entre los botones */
+    #btnAdd {
+        margin-right: 10px !important;
+    }
+
+    /* Permitir que tus botones conserven sus colores y bordes al hacerles hover, focus o active */
+    .btn-action-add:hover,
+    .btn-action-add:focus,
+    .btn-action-add:active {
+        background-color: #dcebeb !important;
+        border-color: #cbd5e1 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .btn-action-remove:hover,
+    .btn-action-remove:focus,
+    .btn-action-remove:active {
+        background-color: #fee2e2 !important;
+        border-color: #fca5a5 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }

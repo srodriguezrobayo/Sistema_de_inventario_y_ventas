@@ -16,6 +16,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/Product.css">
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -64,12 +65,12 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="main.html"><img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
-                                alt="resum_letter" height="72%" width="106%"></a>
+                        <a href="main.html" class="titulo_P"><!-- <img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
+                                alt="resum_letter" height="72%" width="106%"> -->SP</a>
                     </div>
                     <div class="sidebar-brand">
-                        <a href="main.html"><img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
-                                width="40%"></a>
+                        <a href="main.html" class="titulo"><!-- <img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
+                                width="40%"> -->SAP</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="menu-header">Stock and pos</li>
@@ -99,54 +100,77 @@
             <!-- Main Content -->
             <div class="main-content">
                 <section class="section" style="padding-top: 6% !important;">
-                    <a href="Stock.html" class="btn btn-outline-info">
-                        &lt;&lt; Volver</a>
-                            <br>
-                            <br>
-                            <table class="table table-bordered border-black">
-                                <thead>
-                                    <tr>
-                                        <th class="border border-2 border-black" scope="col" colspan="4">
-                                            <div class="text-center">
-                                                <img class="img-fluid" src="assets/img/images.png" alt="producto"
-                                                    width="25%" height="25%">
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="2">Nombre producto:</td>
-                                        <td class="border border-2 border-black" colspan="2">codigo interno del producto:####</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="4">Cantidad total en inventario:####</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border border-2 border-black" colspan="2" style="width: 30%;">Producto percedero: Si/No</td>
-                                        <td class="border border-2 border-black" colspan="2">Fechas de vencimiento:
-                                            <ol class="list-group list-group-numbered">
-                                                <li class="list-group-item">24/09/2026 - Vence: Lote:986520</li>
-                                                <li class="list-group-item border-top border-1 border border-secondary-subtle">01/10/2026 - Vence: Lote:145893</li>
-                                                <li class="list-group-item">25/10/2026 - Vence: Lote:596321</li>
-                                            </ol>
-                                            <br>
 
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h4>Calendario</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="fc-overflow">
-                                                        <div id="myEvent-1"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <!-- Top Navigation -->
+                    <div class="detail-nav-bar">
+                        <a href="Stock.html" class="btn-back">
+                            <i class="fas fa-arrow-left"></i> Volver al inventario
+                        </a>
+                        <div class="d-flex">
+                            <button class="btn btn-outline-warning btn-sm rounded-2 formEditarproducto_1"
+                                style="margin-right: 8px;">
+                                <i class="fas fa-pen me-1"></i> Editar
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm rounded-2" onclick="AlertaDejarProducto()">
+                                <i class="fas fa-ban me-1"></i> Desactivar
+                            </button>
+                        </div>
+                    </div>
 
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <!-- Detail Layout Grid -->
+                    <div class="product-detail-grid">
+
+                        <!-- Left Column: Product Summary Card -->
+                        <div class="info-card">
+                            <div class="product-hero-img">
+                                <img src="assets/img/images.png" alt="Producto Estrella Alfa" width="50%" height="50%">
+                            </div>
+
+                            <div class="product-title-header">
+                                <h3>Producto Estrella Alfa</h3>
+                                <span class="badge-code"> COD: 8882026</span>
+                            </div>
+
+                            <div class="stat-row">
+                                <span class="stat-label">Stock en Inventario</span>
+                                <span class="stat-value text-success">850 Unidades</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Ventas acumuladas</span>
+                                <span class="stat-value">1,240 Unidades</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Estado de Venta</span>
+                                <span
+                                    class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-semibold">Activo</span>
+                            </div>
+
+                            <!-- Próximos Vencimientos -->
+                            <div class="expiration-box">
+                                <h6><i class="fas fa-clock-rotate-left"></i> Próximos Vencimientos</h6>
+                                <div class="expiration-item">
+                                    <span>Lote #88820</span>
+                                    <strong>24 / 09 / 2026</strong>
+                                </div>
+                                <div class="expiration-item">
+                                    <span>Lote #1428R3</span>
+                                    <strong>01 / 10 / 2026</strong>
+                                </div>
+                                <div class="expiration-item">
+                                    <span>Lote #B90221</span>
+                                    <strong>28 / 10 / 2026</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Interactive Expiration Calendar -->
+                        <div class="calendar-card">
+                            <h5><i class="far fa-calendar-alt text-teal"></i> Calendario de Trazabilidad y Vencimientos
+                            </h5>
+                            <div id="myEvent-1" style="flex-grow: 1; min-height: 480px;"></div>
+                        </div>
+
+                    </div>
                 </section>
             </div>
         </div>
@@ -159,11 +183,14 @@
     <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
     <script src="assets/modules/moment.min.js"></script>
     <script src="assets/js/stisla.js"></script>
+    <script src="assets/js/page/bootstrap-modal.js"></script>
+    <script src="assets/js/alerts_main.js"></script>
     <!-- <script src="assets/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script> -->
     <!-- JS Libraies -->
     <script src="assets/modules/fullcalendar/fullcalendar.min.js"></script>
     <script src="assets/modules/fullcalendar/locale/es.js"></script>
     <script src="assets/js/page/modules-calendar.js"></script>
+    <script src="assets/js/page/Sweetalert2.js"></script>
     <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>

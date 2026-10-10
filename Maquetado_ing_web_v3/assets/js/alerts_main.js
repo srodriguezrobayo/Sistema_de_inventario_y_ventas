@@ -30,19 +30,3 @@ function AlertaDejarProducto() {
         });
     });
 }
-
-document.getElementById('formVenta').addEventListener('submit', function (e) {
-    e.preventDefault(); // Evita que la página se recargue inmediatamente
-
-    // Mostrar alerta de iziToast
-    iziToast.success({
-        title: '¡Éxito!',
-        message: 'La venta se realizó con éxito',
-        timeout: 2000 // Duración de la alerta en milisegundos
-    });
-
-    // Esperar 2 segundos antes de redireccionar
-    setTimeout(function () {
-        window.location.href = 'send_bill.html';
-    }, 2000);
-});
