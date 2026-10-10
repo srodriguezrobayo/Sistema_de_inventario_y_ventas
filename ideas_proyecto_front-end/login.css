@@ -6,6 +6,7 @@
     box-sizing: border-box;
 }
 
+
 body {
 
     margin: 0;
@@ -27,6 +28,7 @@ body {
 }
 
 
+
 /* =====================================================
    FORMAS DEL FONDO
 ===================================================== */
@@ -43,28 +45,38 @@ body {
 
     filter: blur(3px);
 
-    animation: floating 9s ease-in-out infinite;
+    animation:
+        floating
+        9s
+        ease-in-out
+        infinite;
 }
+
 
 
 .shape-1 {
 
     width: 350px;
+
     height: 350px;
 
     top: -180px;
+
     left: -120px;
 
     background: #75a7a8;
 }
 
 
+
 .shape-2 {
 
     width: 280px;
+
     height: 280px;
 
     right: -100px;
+
     bottom: -130px;
 
     background: #5d9295;
@@ -73,18 +85,22 @@ body {
 }
 
 
+
 .shape-3 {
 
     width: 140px;
+
     height: 140px;
 
     right: 15%;
+
     top: 10%;
 
     background: #9dbbbb;
 
     animation-delay: 4s;
 }
+
 
 
 /* =====================================================
@@ -105,8 +121,9 @@ body {
 }
 
 
+
 /* =====================================================
-   TARJETA
+   TARJETA LOGIN
 ===================================================== */
 
 .login-card {
@@ -121,7 +138,6 @@ body {
         rgba(255, 255, 255, .84);
 
     border:
-
         1px solid
         rgba(255, 255, 255, .45);
 
@@ -140,12 +156,12 @@ body {
         rgba(0, 0, 0, .10);
 
     animation:
-
         cardEntrance
         .8s
         cubic-bezier(.22, .61, .36, 1)
         forwards;
 }
+
 
 
 /* =====================================================
@@ -158,6 +174,7 @@ body {
 
     margin-bottom: 25px;
 }
+
 
 
 .brand-icon {
@@ -193,12 +210,12 @@ body {
         rgba(39, 79, 82, .30);
 
     animation:
-
         logoFloat
         4s
         ease-in-out
         infinite;
 }
+
 
 
 .brand h1 {
@@ -215,6 +232,7 @@ body {
 }
 
 
+
 .brand span {
 
     display: block;
@@ -229,6 +247,7 @@ body {
 }
 
 
+
 /* =====================================================
    HEADER
 ===================================================== */
@@ -239,6 +258,7 @@ body {
 
     margin-bottom: 30px;
 }
+
 
 
 .welcome {
@@ -253,10 +273,10 @@ body {
 }
 
 
+
 .login-header h2 {
 
     margin:
-
         6px
         0
         8px;
@@ -267,6 +287,7 @@ body {
 
     font-weight: 700;
 }
+
 
 
 .login-header p {
@@ -281,6 +302,7 @@ body {
 }
 
 
+
 /* =====================================================
    INPUTS
 ===================================================== */
@@ -293,6 +315,7 @@ body {
 }
 
 
+
 .input-group-custom input {
 
     width: 100%;
@@ -300,14 +323,12 @@ body {
     height: 58px;
 
     padding:
-
         20px
         48px
         5px
         45px;
 
     border:
-
         1px solid
         #d7e0e1;
 
@@ -323,6 +344,7 @@ body {
 
     transition: .3s;
 }
+
 
 
 .input-group-custom label {
@@ -347,6 +369,7 @@ body {
 }
 
 
+
 .input-icon {
 
     position: absolute;
@@ -363,6 +386,7 @@ body {
 
     transition: .3s;
 }
+
 
 
 /* =====================================================
@@ -382,6 +406,7 @@ body {
 }
 
 
+
 .input-group-custom input:focus ~ label,
 .input-group-custom input:not(:placeholder-shown) ~ label {
 
@@ -397,19 +422,20 @@ body {
 }
 
 
+
 .input-group-custom input:focus ~ .input-icon {
 
     color: #387276;
 
     transform:
-
         translateY(-50%)
         scale(1.1);
 }
 
 
+
 /* =====================================================
-   BOTÓN MOSTRAR CONTRASEÑA
+   MOSTRAR CONTRASEÑA
 ===================================================== */
 
 .password-toggle {
@@ -436,15 +462,16 @@ body {
 }
 
 
+
 .password-toggle:hover {
 
     color: #387276;
 
     transform:
-
         translateY(-50%)
         scale(1.1);
 }
+
 
 
 /* =====================================================
@@ -460,13 +487,13 @@ body {
     align-items: center;
 
     margin:
-
         3px
         0
         25px;
 
     font-size: 11px;
 }
+
 
 
 .remember {
@@ -483,6 +510,7 @@ body {
 }
 
 
+
 .remember input {
 
     width: 14px;
@@ -495,6 +523,7 @@ body {
 }
 
 
+
 .login-options a {
 
     color: #2877c7;
@@ -505,10 +534,12 @@ body {
 }
 
 
+
 .login-options a:hover {
 
     text-decoration: underline;
 }
+
 
 
 /* =====================================================
@@ -528,7 +559,6 @@ body {
     border-radius: 13px;
 
     background:
-
         linear-gradient(
             135deg,
             #387276,
@@ -562,6 +592,7 @@ body {
 }
 
 
+
 .btn-login::before {
 
     content: "";
@@ -577,17 +608,18 @@ body {
     top: 0;
 
     background:
-
         rgba(255, 255, 255, .10);
 
     transition: .4s;
 }
 
 
+
 .btn-login:hover::before {
 
     width: 100%;
 }
+
 
 
 .btn-login:hover {
@@ -601,10 +633,12 @@ body {
 }
 
 
+
 .btn-login:active {
 
     transform: translateY(0);
 }
+
 
 
 .btn-login i {
@@ -613,10 +647,12 @@ body {
 }
 
 
+
 .btn-login:hover i {
 
     transform: translateX(5px);
 }
+
 
 
 /* =====================================================
@@ -635,6 +671,7 @@ body {
 }
 
 
+
 .register-link a {
 
     margin-left: 4px;
@@ -647,10 +684,12 @@ body {
 }
 
 
+
 .register-link a:hover {
 
     text-decoration: underline;
 }
+
 
 
 /* =====================================================
@@ -664,7 +703,6 @@ body {
     padding-top: 18px;
 
     border-top:
-
         1px solid
         rgba(90, 110, 112, .15);
 
@@ -678,12 +716,14 @@ body {
 }
 
 
+
 .login-footer i {
 
     margin-right: 5px;
 
     color: #387276;
 }
+
 
 
 /* =====================================================
@@ -697,7 +737,6 @@ body {
         opacity: 0;
 
         transform:
-
             translateY(35px)
             scale(.96);
     }
@@ -707,11 +746,11 @@ body {
         opacity: 1;
 
         transform:
-
             translateY(0)
             scale(1);
     }
 }
+
 
 
 /* =====================================================
@@ -731,6 +770,7 @@ body {
         transform: translateY(-6px);
     }
 }
+
 
 
 /* =====================================================
@@ -756,6 +796,7 @@ body {
 }
 
 
+
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -765,7 +806,6 @@ body {
     .login-card {
 
         padding:
-
             35px
             25px
             25px;
@@ -773,10 +813,12 @@ body {
         border-radius: 20px;
     }
 
+
     .login-header h2 {
 
         font-size: 26px;
     }
+
 
     .login-options {
 

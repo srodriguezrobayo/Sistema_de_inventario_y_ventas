@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const togglePassword =
         document.getElementById("togglePassword");
 
+
     const password =
         document.getElementById("password");
 
@@ -22,102 +23,152 @@ document.addEventListener("DOMContentLoaded", function () {
 
             password.type = "text";
 
+
             icon.classList.remove("fa-eye");
 
+
             icon.classList.add("fa-eye-slash");
+
+
+            this.setAttribute(
+                "aria-label",
+                "Ocultar contraseña"
+            );
+
 
         } else {
 
             password.type = "password";
 
+
             icon.classList.remove("fa-eye-slash");
 
+
             icon.classList.add("fa-eye");
+
+
+            this.setAttribute(
+                "aria-label",
+                "Mostrar contraseña"
+            );
+
         }
 
     });
 
 
+
     /* =====================================================
-       FORMULARIO
+       FORMULARIO LOGIN
     ====================================================== */
 
     const loginForm =
         document.getElementById("loginForm");
 
+
     const loginButton =
         document.getElementById("loginButton");
 
+
     const buttonText =
         document.getElementById("buttonText");
+
 
     const buttonIcon =
         document.getElementById("buttonIcon");
 
 
-    loginForm.addEventListener("submit", function (event) {
 
-        event.preventDefault();
+    loginForm.addEventListener(
+        "submit",
+        function (event) {
 
-
-        /* ================================================
-           ESTADO DE CARGA
-        ================================================= */
-
-        loginButton.disabled = true;
-
-        buttonText.innerHTML =
-            "Verificando...";
-
-        buttonIcon.className =
-            "fa-solid fa-spinner fa-spin";
+            event.preventDefault();
 
 
-        /*
-         * Aquí posteriormente puedes colocar
-         * tu fetch / AJAX hacia el backend.
-         */
+            /* =============================================
+               ESTADO DE CARGA
+            ============================================== */
 
+            loginButton.disabled = true;
 
-        setTimeout(function () {
 
             buttonText.innerHTML =
-                "Acceso correcto";
+                "Verificando...";
+
 
             buttonIcon.className =
-                "fa-solid fa-check";
+                "fas fa-spinner fa-spin";
 
-
-            loginButton.style.background =
-                "linear-gradient(135deg,#3d9970,#26734d)";
 
 
             /*
-             * Aquí podrías redirigir:
+             * =================================================
+             * AQUÍ PUEDES PONER TU FETCH / AJAX
+             * =================================================
              *
-             * window.location.href = "principal.html";
+             * Ejemplo:
+             *
+             * fetch("login.php", {
+             *
+             *     method: "POST",
+             *
+             *     body: new FormData(loginForm)
+             *
+             * });
              *
              */
 
 
+
+            /* =============================================
+               SIMULACIÓN DE LOGIN
+            ============================================== */
+
             setTimeout(function () {
 
-                loginButton.disabled = false;
 
                 buttonText.innerHTML =
-                    "Iniciar sesión";
+                    "Acceso correcto";
+
 
                 buttonIcon.className =
-                    "fa-solid fa-arrow-right";
+                    "fas fa-check";
+
 
                 loginButton.style.background =
-                    "linear-gradient(135deg,#387276,#24565a)";
-
-            }, 1800);
+                    "linear-gradient(135deg,#3d9970,#26734d)";
 
 
-        }, 1200);
 
-    });
+                /* =========================================
+                   RESTAURAR BOTÓN
+                ========================================== */
+
+                setTimeout(function () {
+
+
+                    loginButton.disabled = false;
+
+
+                    buttonText.innerHTML =
+                        "Iniciar sesión";
+
+
+                    buttonIcon.className =
+                        "fas fa-arrow-right";
+
+
+                    loginButton.style.background =
+                        "linear-gradient(135deg,#387276,#24565a)";
+
+
+                }, 1800);
+
+
+            }, 1200);
+
+        }
+    );
 
 });
