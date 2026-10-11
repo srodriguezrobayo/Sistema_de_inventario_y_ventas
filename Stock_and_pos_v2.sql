@@ -105,3 +105,113 @@ REFERENCES Productos(Id_productos);
 ALTER TABLE Ventas
 ADD FOREIGN KEY (Usuario_id_usuario)
 REFERENCES Usuarios(Id_usuario);
+
+/*Inserciones datos tabla unidad de medida */
+INSERT INTO unidad_medida (Descripcion_unidad_medida, Estado_unidad_medida) VALUES
+('Unidad', 1),
+('Mililitro', 1),
+('Litro', 1),
+('Libra',1),
+('Kilogramo', 1),
+('Metro', 1),
+('Centimetro',1)
+
+/*SISTEMA CRUD TRADUCIDO ICAB*/
+
+/*Procedimieto almacenado*/
+
+/*Consultar unidad de medida*/
+DELIMITER //
+
+CREATE PROCEDURE C_Unidad_Medida()
+BEGIN
+    SELECT Descripcion_unidad_medida FROM unidad_medida;
+END //
+
+DELIMITER ;
+
+/*Llamado al procedimiento almacenado*/
+CALL C_Unidad_Medida();
+
+/*Procedimiento para insertar producto y unidad de medida*/
+DELIMITER //
+
+CREATE PROCEDURE I_Producto_Unidad(
+    IN p_nombre VARCHAR(255),
+    IN p_codigo VARCHAR(50),
+    IN p_valor_unitario DECIMAL(6,0),
+    IN p_cantidad INT,
+    IN p_unidad_medida VARCHAR(100),
+    IN p_tiene_fv TINYINT,
+    IN p_conoce_fv TINYINT,
+    IN p_fecha_vencimiento DATE,
+    IN p_foto VARCHAR(255),
+    IN p_cantidad_minima INT,
+    IN p_estado INT,
+    IN p_usuario_id INT
+)
+BEGIN
+    DECLARE v_existe_unidad INT;
+
+    -- 1. Verificamos si la unidad de medida ya existe en su tabla correspondiente
+    -- (Asumimos que tu tabla de unidades se llama 'unidad_medida' y el campo es 'Descripcion_unidad_medida')
+    SELECT COUNT(*) INTO v_existe_unidad 
+    FROM unidad_medida 
+    WHERE Descripcion_unidad_medida = p_unidad_medida;
+
+    -- 2. Si NO existe (es decir, el conteo es 0), la insertamos automáticamente
+    IF v_existe_unidad = 0 THEN
+        INSERT INTO unidad_medida (Descripcion_unidad_medida, Estado_unidad_medida) 
+        VALUES (p_unidad_medida, 1);
+    END IF;
+
+    -- 3. Hacemos la inserción en la tabla 'productos' con todos tus valores
+    INSERT INTO productos (
+        Nombre_producto, 
+        Codigo_producto, 
+        Valor_unitario_producto, 
+        Cantidad_Producto, 
+        Unidad_medida_producto, 
+        Tiene_FV, 
+        Conoce_FV, 
+        Fecha_vencimiento, 
+        Foto_producto, 
+        Cantidad_minima, 
+        Estado_producto, 
+        Usuario_id_usuario
+    ) 
+    VALUES (
+        p_nombre, 
+        p_codigo, 
+        p_valor_unitario, 
+        p_cantidad, 
+        p_unidad_medida, 
+        p_tiene_fv, 
+        p_conoce_fv, 
+        p_fecha_vencimiento, 
+        p_foto, 
+        p_cantidad_minima, 
+        p_estado, 
+        p_usuario_id
+    );
+
+END //
+
+DELIMITER ;
+
+/*Llamado al procedimiento almacenado para insertar producto y unidad de medida*/
+CALL I_Producto_Unidad(
+    -- Variables
+    -- Nombre_producto
+    -- Codigo_producto
+    -- Valor_unitario_producto
+    -- Cantidad_Producto
+    -- Unidad_medida_producto (Si 'prueba' no está, se crea sola)
+    -- Tiene_FV
+    -- Conoce_FV
+    -- Fecha_vencimiento
+    -- Foto_producto
+    -- Cantidad_minima
+    -- Estado_producto
+    -- Usuario_id_usuario
+);
