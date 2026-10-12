@@ -125,7 +125,7 @@ DELIMITER //
 
 CREATE PROCEDURE C_Unidad_Medida()
 BEGIN
-    SELECT Descripcion_unidad_medida FROM unidad_medida;
+    SELECT Descripcion_unidad_medida FROM unidad_medida WHERE Estado_unidad_medida = 1;
 END //
 
 DELIMITER ;
