@@ -25,6 +25,7 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
+    <script src="assets/js/Info_db.js"></script>
     <!-- /END GA -->
 </head>
 
@@ -45,10 +46,10 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="assets/img/avatar-4.png" class="rounded-circle mr-1">
+                            <img src="" alt="Foto del usuario" id="fotoUsuario" class="rounded-circle mr-1">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-title">Usuario</div>
+                            <div class="dropdown-title"><span id="nombreUsuario_nb">Usuario</span></div>
                             <a href="Profile.html" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Perfil
                             </a>
@@ -100,7 +101,7 @@
                 <section class="section" style="padding-top: 6% !important;">
                     <div class="section-body">
                         <div class="welcome-card">
-                            <h1>¡Hola, Usuario!</h1>
+                            <h1>¡Hola, <span id="nombreUsuario">Usuario</span>!</h1>
                             <h3>¿Que deseas realizar?</h3>
                             <p>Bienvenido al panel general. Revisa el resumen de inventario y agenda para hoy.</p>
                         </div>

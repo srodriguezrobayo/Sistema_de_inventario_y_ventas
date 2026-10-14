@@ -137,5 +137,27 @@ public function actualizarContrasena($email, $hash)
 }
 
 
+
+public function consultarUsuarioPorEmail($email)
+{
+    $sql = "SELECT Nombre_usuario, Email_usuario, Descripcion_usuario, Foto_usuario
+            FROM Usuarios
+            WHERE Email_usuario = ?
+            LIMIT 1";
+
+    $stmt = $this->conexion->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+    $usuario = $resultado->fetch_assoc();
+
+    $stmt->close();
+
+    return $usuario ?: null;
+}
+
+
+
 }
 ?>
