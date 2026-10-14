@@ -1,0 +1,5 @@
+
+RewriteEngine On
+
+# Proteger únicamente las páginas privadas
+RewriteRule ^(Main|Stock|Sale|History_sales|Profile)\.html$ Acceso.php?pagina=$0 [QSA,L,NC]

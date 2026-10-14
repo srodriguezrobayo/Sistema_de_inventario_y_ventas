@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminos y condiciones SAP</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <!--Stilos CSS-->
+    <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/Main.css">
+    <link href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!---->
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #343a40;
+        }
+
+        /* Encabezado al estilo Stisla */
+        .terms-hero {
+            background: linear-gradient(135deg, #2b3a4a, #455a64);
+            color: #ffffff;
+            padding: 35px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        /* Tarjeta principal con sombra suave */
+        .terms-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.06);
+            background-color: #ffffff;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        /* Elementos de la lista de términos */
+        .term-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 20px;
+            border-bottom: 1px solid #eef2f5;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .term-item:last-child {
+            border-bottom: none;
+        }
+
+        .term-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(4px);
+        }
+
+        .term-badge {
+            min-width: 32px;
+            height: 32px;
+            background-color: #e3f2fd;
+            color: #0d6efd;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Botón Volver */
+        .btn-back {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            transform: translateX(-3px);
+        }
+
+        /* Animaciones CSS */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-4">
+
+        <!-- Encabezado principal y botón Volver -->
+        <div class="terms-hero mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="Register.html" class="btn-back">
+                    <i class="fas fa-arrow-left mr-2"></i> Volver
+                </a>
+                <div class="d-flex align-items-center">
+                    <img src="assets/img/Logo_SAP.png" alt="Logo SAP" height="50" class="mr-2">
+                    <span class="h5 mb-0 font-weight-bold">SAP <small class="text-white-50"
+                            style="font-size: 11px; display: block;">Stock and POS</small></span>
+                </div>
+            </div>
+            <div class="text-center py-2">
+                <h2 class="font-weight-bold mb-2">Términos y condiciones de uso</h2>
+                <p class="text-white-50 mb-0">Al utilizar Stock and pos (SAP), el usuario acepta los siguientes
+                    términos:</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta con los puntos explicativos -->
+        <div class="card terms-card p-3 p-md-4">
+            <div class="card-body p-0">
+
+                <div class="term-item">
+                    <div class="term-badge">1</div>
+                    <div class="term-text">El sistema está destinado exclusivamente a la gestión de inventario y ventas.
+                    </div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">2</div>
+                    <div class="term-text">Cada usuario es responsable de mantener la confidencialidad de sus
+                        credenciales y de las acciones realizadas con su cuenta.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">3</div>
+                    <div class="term-text">La información registrada debe ser correcta, verídica y actualizada.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">4</div>
+                    <div class="term-text">Los usuarios solo podrán acceder a las funciones correspondientes a sus
+                        permisos asignados.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">5</div>
+                    <div class="term-text">Está prohibido modificar, eliminar o consultar información sin autorización,
+                        así como realizar acciones que afecten la seguridad del sistema.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">6</div>
+                    <div class="term-text">El sistema podrá realizar mantenimientos y actualizaciones que ocasionen
+                        interrupciones temporales.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">7</div>
+                    <div class="term-text">La información personal y comercial será utilizada únicamente para los fines
+                        relacionados con el funcionamiento del sistema.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">8</div>
+                    <div class="term-text">El administrador podrá suspender o cancelar cuentas cuando se incumplan estas
+                        condiciones.</div>
+                </div>
+
+                <div class="term-item">
+                    <div class="term-badge">9</div>
+                    <div class="term-text">Los presentes términos podrán ser modificados cuando sea necesario.</div>
+                </div>
+
+            </div>
+
+            <!-- Nota final de cierre -->
+            <div class="card-footer bg-light border-0 mt-4 p-3 text-center rounded">
+                <p class="font-weight-bold text-muted mb-0">
+                    <i class="fas fa-info-circle text-info mr-1"></i>
+                    Al continuar utilizando el sistema, usted confirma que ha leído y acepta estos Términos y
+                    Condiciones.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="assets/modules/jquery.min.js"></script>
+    <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="assets/js/stisla.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+    :root {
+      --primary-teal: #23494e;
+      --accent-teal: #3f7c85;
+      --light-teal: #eef6f7;
+      --border-teal: rgba(63, 124, 133, 0.15);
+      
+      --bg-canvas: #f8fafc;
+      --card-bg: #ffffff;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    #app-layout {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: linear-gradient(180deg, var(--primary-teal) 0%, #1a383c 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .brand-container { padding: 28px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+    .brand-title { font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; color: #fff; margin: 0; }
+    .brand-subtitle { font-size: 0.65rem; font-weight: 600; letter-spacing: 2px; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; margin-top: 6px; }
+
+    .nav-list { list-style: none; padding: 20px 12px; margin: 0; flex-grow: 1; }
+    .nav-label { font-size: 0.68rem; font-weight: 700; color: rgba(255, 255, 255, 0.45); padding: 16px 16px 8px; letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav-item-link { display: flex; align-items: center; padding: 12px 16px; color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.9rem; font-weight: 500; border-radius: var(--radius-sm); transition: all 0.2s; }
+    .nav-item-link:hover, .nav-item-link.active { color: #fff; background: var(--accent-teal); }
+    .nav-item-link i { width: 20px; margin-right: 12px; text-align: center; }
+
+    /* Main Content */
+    #main-wrapper { flex-grow: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+
+    .top-header {
+      height: 70px;
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border-teal);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .center-logo-box {
+      background: linear-gradient(135deg, var(--primary-teal), var(--accent-teal));
+      padding: 8px 18px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .dashboard-body {
+      padding: 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Top Action Bar */
+    .detail-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .btn-back {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover {
+      background: var(--light-teal);
+      color: var(--primary-teal);
+      border-color: var(--border-teal);
+    }
+
+    /* Layout Grid */
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 992px) {
+      .product-detail-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Left Side: Product Card */
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-teal);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .product-hero-img {
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 20px;
+    }
+
+    .product-title-header {
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+
+    .product-title-header h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+    }
+
+    .badge-code {
+      background: var(--light-teal);
+      color: var(--primary-teal);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 0.9rem;
+    }
+
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--text-muted); font-weight: 500; }
+    .stat-value { font-weight: 700; color: var(--text-main); }
+
+    /* Expiration List */
+    .expiration-box {
+      margin-top: 24px;
+      background: #fefce8;
+      border: 1px solid #fef08a;
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .expiration-box h6 {
+      color: #854d0e;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .expiration-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding: 6px 0;
+      color: #713f12;
+      border-bottom: 1px solid #fef08a;
+    }
+
+    .expiration-item:last-child { border-bottom: none; }
+
+    /* Right Side: Calendar Card */
+    .calendar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-teal);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .calendar-card h5 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Custom FullCalendar Tweaks */
+    .fc-header-toolbar { margin-bottom: 1.2rem !important; }
+    .fc-button-primary {
+      background-color: var(--primary-teal) !important;
+      border-color: var(--primary-teal) !important;
+      font-size: 0.85rem !important;
+    }
+    .fc-button-primary:hover {
+      background-color: var(--accent-teal) !important;
+      border-color: var(--accent-teal) !important;
+    }
+    .fc-event {
+      background-color: #f59e0b !important;
+      border: none !important;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
