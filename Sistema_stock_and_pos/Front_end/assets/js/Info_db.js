@@ -46,6 +46,7 @@ async function consultarUsuarioSesion() {
         const correo = document.getElementById('correoUsuario');
         const descripcion = document.getElementById('descripcionUsuario');
         const foto = document.getElementById('fotoUsuario');
+        const foto_nb = document.getElementById('fotoUsuario_nb');
 
         // Mostrar nombre en el saludo principal
         if (nombre) {
@@ -79,6 +80,11 @@ async function consultarUsuarioSesion() {
         // Mostrar fotografía del usuario
         if (foto && usuario.Foto_usuario) {
             foto.src = usuario.Foto_usuario;
+        }
+
+        // Mostrar fotografía en el menú superior
+        if (foto_nb && usuario.Foto_usuario) {
+            foto_nb.src = usuario.Foto_usuario;
         }
 
     } catch (error) {

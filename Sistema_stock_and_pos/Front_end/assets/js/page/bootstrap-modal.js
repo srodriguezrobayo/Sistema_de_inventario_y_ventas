@@ -603,77 +603,112 @@ $("#modal-3").fireModal({
     {
       text: 'Cambiar contraseña',
       class: 'btn btn-success btn-shadow',
-
       handler: async function (modal) {
-        const formulario = document.getElementById("formRestablecerPassword");
 
+        const formulario = document.getElementById(
+          'formRestablecerPassword_user'
+        );
+
+        // Validar campos obligatorios
         if (!formulario.checkValidity()) {
           formulario.reportValidity();
           return;
         }
 
-        const correo = document.getElementById("correoRestablecer").value.trim();
-        const nuevaPassword = document.getElementById("nuevaPassword").value;
-        const confirmarPassword = document.getElementById("confirmarPassword").value;
+        const contraseñaAnterior = document.getElementById(
+          'Contraseñaanti'
+        ).value;
 
-        if (nuevaPassword !== confirmarPassword) {
-          iziToast.error({
-            title: 'Error',
-            message: 'Las contraseñas no coinciden.',
-            position: 'bottomRight'
-          });
-          return;
-        }
+        const nuevaPassword = document.getElementById(
+          'nuevaPassword_u'
+        ).value;
 
+        const confirmarPassword = document.getElementById(
+          'confirmarPassword_u'
+        ).value;
+
+        // Validar longitud
         if (nuevaPassword.length < 8) {
           iziToast.error({
             title: 'Error',
-            message: 'La contraseña debe tener al menos 8 caracteres.',
+            message: 'La nueva contraseña debe tener al menos 8 caracteres.',
             position: 'bottomRight'
           });
           return;
         }
 
-        const datos = new FormData(formulario);
+        // Validar que la nueva contraseña sea diferente
+        if (contraseñaAnterior === nuevaPassword) {
+          iziToast.error({
+            title: 'Error',
+            message: 'La nueva contraseña debe ser diferente a la anterior.',
+            position: 'bottomRight'
+          });
+          return;
+        }
+
+        // Verificar que las contraseñas coincidan
+        if (nuevaPassword !== confirmarPassword) {
+          iziToast.error({
+            title: 'Error',
+            message: 'Las contraseñas nuevas no coinciden.',
+            position: 'bottomRight'
+          });
+          return;
+        }
 
         try {
           const respuesta = await fetch(
-            '../Back_end/Controlador/RestablecerPassword.php',
+            '../Back_end/Controlador/Cambiar_contrasena_usuario.php',
             {
               method: 'POST',
-              body: datos,
+              credentials: 'same-origin',
               headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
               },
-              credentials: 'same-origin'
+              body: new URLSearchParams({
+                contrasena_anterior: contraseñaAnterior,
+                nueva_contrasena: nuevaPassword,
+                confirmar_contrasena: confirmarPassword
+              })
             }
           );
 
-          const resultado = await respuesta.json();
+          const datos = await respuesta.json();
 
-          if (!respuesta.ok || resultado.resultado !== 1) {
+          // Si la sesión expiró, regresar al login
+          if (respuesta.status === 401) {
+            window.location.replace('login.html');
+            return;
+          }
+
+          // Mostrar errores del servidor
+          if (!respuesta.ok || datos.resultado !== 1) {
             iziToast.error({
               title: 'Error',
-              message: resultado.mensaje || 'No fue posible actualizar la contraseña.',
-              position: 'bottomRight',
-              timeout: 4000
+              message: datos.mensaje ||
+                'No fue posible actualizar la contraseña.',
+              position: 'bottomRight'
             });
             return;
           }
 
-          modal.modal('hide');
-
-          iziToast.success({
-            title: 'Contraseña actualizada',
-            message: resultado.mensaje,
-            position: 'bottomRight',
-            timeout: 3000
-          });
-
+          // Limpiar el formulario
           formulario.reset();
 
+          // Cerrar el modal
+          modal.modal('hide');
+
+          // Confirmar que la contraseña sí se actualizó
+          iziToast.success({
+            title: 'Contraseña actualizada',
+            message: datos.mensaje,
+            position: 'bottomRight'
+          });
+
         } catch (error) {
-          console.error('Error al restablecer la contraseña:', error);
+          console.error('Error al actualizar la contraseña:', error);
 
           iziToast.error({
             title: 'Error',
@@ -682,157 +717,533 @@ $("#modal-3").fireModal({
           });
         }
       }
+
     }
   ]
 });
+
 
 
 let modal_4_body = '<div>';
 modal_4_body += '<form id="formRestablecerPassword_user">';
 
 modal_4_body += '<div class="form-floating">';
-modal_4_body += '<input type="password" class="form-control" id="Contraseñaanti" name="Contraseñaanti" placeholder="Contraseña antigua" required>';
+modal_4_body += '<input type="password" class="form-control" id="Contraseñaanti" name="Contraseñaanti" placeholder="Contraseña anterior" autocomplete="current-password" required>';
 modal_4_body += '<label for="Contraseñaanti">Contraseña anterior<span style="color: red;">*</span></label>';
 modal_4_body += '</div>';
 
 modal_4_body += '<br>';
 
 modal_4_body += '<div class="form-floating">';
-modal_4_body += '<input type="password" class="form-control" id="nuevaPassword_u" name="nuevaPassword_u" placeholder="Contraseña" required>';
-modal_4_body += '<label for="nuevaPassword_u">Nueva contrase&ntilde;a<span style="color: red;">*</span></label>';
+modal_4_body += '<input type="password" class="form-control" id="nuevaPassword_u" name="nuevaPassword_u" placeholder="Nueva contraseña" minlength="8" autocomplete="new-password" required>';
+modal_4_body += '<label for="nuevaPassword_u">Nueva contraseña<span style="color: red;">*</span></label>';
 modal_4_body += '</div>';
 
 modal_4_body += '<br>';
 
 modal_4_body += '<div class="form-floating">';
-modal_4_body += '<input type="password" class="form-control" id="confirmarPassword_u" name="confirmarPassword_u" placeholder="Contraseña" required>';
-modal_4_body += '<label for="confirmarPassword_u">Confirme contrase&ntilde;a<span style="color: red;">*</span></label>';
+modal_4_body += '<input type="password" class="form-control" id="confirmarPassword_u" name="confirmarPassword_u" placeholder="Confirmar contraseña" minlength="8" autocomplete="new-password" required>';
+modal_4_body += '<label for="confirmarPassword_u">Confirme contraseña<span style="color: red;">*</span></label>';
 modal_4_body += '</div>';
+
+modal_4_body += '<small class="text-muted d-block mt-2">';
+modal_4_body += 'La nueva contraseña debe tener al menos 8 caracteres.';
+modal_4_body += '</small>';
 
 modal_4_body += '</form>';
 modal_4_body += '</div>';
 
 $("#modal-4").fireModal({
-  title: 'Actualizar contraseña',
+    title: 'Actualizar contraseña',
 
-  body: modal_4_body,
+    body: modal_4_body,
 
-  buttons: [
-    {
-      text: 'Cambiar contraseña',
-      class: 'btn btn-success btn-shadow',
+    buttons: [
+        {
+            text: 'Cambiar contraseña',
+            class: 'btn btn-success btn-shadow',
 
-      handler: function (modal) {
+            handler: async function (modal) {
 
-        let formulario = document.getElementById("formRestablecerPassword_user");
+                const formulario = document.getElementById(
+                    'formRestablecerPassword_user'
+                );
 
-        // Validar campos obligatorios
-        if (!formulario.checkValidity()) {
-          formulario.reportValidity();
-          return;
+                // Validar campos obligatorios
+                if (!formulario.checkValidity()) {
+                    formulario.reportValidity();
+                    return;
+                }
+
+                const contraseñaAnterior = document.getElementById(
+                    'Contraseñaanti'
+                ).value;
+
+                const nuevaPassword = document.getElementById(
+                    'nuevaPassword_u'
+                ).value;
+
+                const confirmarPassword = document.getElementById(
+                    'confirmarPassword_u'
+                ).value;
+
+                // Validar que la nueva contraseña sea diferente
+                if (contraseñaAnterior === nuevaPassword) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'La nueva contraseña debe ser diferente a la anterior.',
+                        position: 'bottomRight'
+                    });
+                    return;
+                }
+
+                // Validar coincidencia
+                if (nuevaPassword !== confirmarPassword) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Las contraseñas nuevas no coinciden.',
+                        position: 'bottomRight'
+                    });
+                    return;
+                }
+
+                try {
+                    const respuesta = await fetch(
+                        '../Back_end/Controlador/Cambiar_contrasena_usuario.php',
+                        {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            body: new URLSearchParams({
+                                contrasena_anterior: contraseñaAnterior,
+                                nueva_contrasena: nuevaPassword,
+                                confirmar_contrasena: confirmarPassword
+                            })
+                        }
+                    );
+
+                    // Leer la respuesta del servidor
+                    const texto = await respuesta.text();
+                    let datos;
+
+                    try {
+                        datos = JSON.parse(texto);
+                    } catch (error) {
+                        console.error(
+                            'Respuesta no válida del servidor:',
+                            texto
+                        );
+
+                        iziToast.error({
+                            title: 'Error',
+                            message: 'El servidor no devolvió una respuesta válida. Revisa el controlador PHP.',
+                            position: 'bottomRight'
+                        });
+                        return;
+                    }
+
+                    // Si la sesión expiró
+                    if (respuesta.status === 401) {
+                        window.location.replace('login.html');
+                        return;
+                    }
+
+                    // Verificar el resultado de PHP
+                    if (!respuesta.ok || datos.resultado !== 1) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: datos.mensaje ||
+                                'No se pudo actualizar la contraseña.',
+                            position: 'bottomRight'
+                        });
+                        return;
+                    }
+
+                    // Solo cerrar el modal cuando PHP confirme el cambio
+                    modal.modal('hide');
+
+                    formulario.reset();
+
+                    iziToast.success({
+                        title: 'Contraseña actualizada',
+                        message: datos.mensaje,
+                        position: 'bottomRight'
+                    });
+
+                } catch (error) {
+                    console.error(
+                        'Error al enviar las contraseñas:',
+                        error
+                    );
+
+                    iziToast.error({
+                        title: 'Error de conexión',
+                        message: 'No se pudo conectar con el servidor PHP.',
+                        position: 'bottomRight'
+                    });
+                }
+            }
         }
-
-        // Obtener contraseñas
-        let nuevaPassword = document.getElementById("nuevaPassword_u").value;
-        let confirmarPassword = document.getElementById("confirmarPassword_u").value;
-
-        // Verificar que las contraseñas coincidan
-        if (nuevaPassword !== confirmarPassword) {
-
-          iziToast.error({
-            title: 'Error',
-            message: 'Las contraseñas no coinciden.'
-          });
-
-          return;
-        }
-
-        // Cerrar modal
-        modal.modal('hide');
-
-        // Mostrar mensaje de éxito
-        iziToast.success({
-          title: 'Contraseña actualizada',
-          message: 'La contraseña se actualizó correctamente.'
-        });
-
-        // Recargar la página después de 2 segundos
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
-      }
-    }
-  ]
+    ]
 });
 
+// =====================================================
+// MODAL PARA ACTUALIZAR INFORMACIÓN DEL USUARIO
+// =====================================================
+
 let modal_5_body = '<div>';
-modal_5_body += '<form id="Actu_user">';
-modal_5_body += '<img class="img-fluid" src="assets/img/avatar-4.png" alt="Picture_actal_user">';
-modal_5_body += '<br> <br>';
-modal_5_body += '<label for="formFile" class="form-label">Foto de usuario</label>';
-modal_5_body += '<input class="form-control" type="file" id="formFile">';
-modal_5_body += '<br>';
-modal_5_body += '<label for="basic-addon1" class="form-label">Nombre de usuario</label>';
-modal_5_body += '<div class="input-group mb-3">';
-modal_5_body += '<span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>';
-modal_5_body += '<input type="text" class="form-control" placeholder="Nombre de usuario" aria-label="Username" aria-describedby="basic-addon1" required>';
+modal_5_body += '<form id="Actu_user" enctype="multipart/form-data">';
+
+// ID oculto del usuario
+modal_5_body += '<input type="hidden" id="Id_usuario_actual" name="Id_usuario">';
+
+// Foto actual
+modal_5_body += '<div class="text-center mb-3">';
+modal_5_body += '<img id="Foto_usuario_actual" class="img-fluid rounded-circle" ';
+modal_5_body += 'src="assets/img/avatar-4.png" alt="Foto actual del usuario" ';
+modal_5_body += 'style="width:120px;height:120px;object-fit:cover;">';
 modal_5_body += '</div>';
-modal_5_body += '<label for="basic-addon2" class="form-label">Correo electrónico</label>';
+
+// Foto nueva
+modal_5_body += '<label for="Foto_usuario_nueva" class="form-label">Foto de usuario</label>';
+modal_5_body += '<input class="form-control" type="file" id="Foto_usuario_nueva" ';
+modal_5_body += 'name="Foto_usuario" accept="image/jpeg,image/png,image/webp">';
+modal_5_body += '<small class="text-muted">Formatos permitidos: JPG, PNG o WEBP. Máximo 5 MB.</small>';
+modal_5_body += '<br><br>';
+
+// Nombre
+modal_5_body += '<label for="Nombre_usuario_actualizar" class="form-label">Nombre de usuario</label>';
 modal_5_body += '<div class="input-group mb-3">';
-modal_5_body += '<span class="input-group-text" id="basic-addon2"><i class="fas fa-at"></i></span>';
-modal_5_body += '<input type="email" class="form-control" placeholder="Correo electrónico" aria-label="Username" aria-describedby="basic-addon1" required>';
+modal_5_body += '<span class="input-group-text"><i class="fas fa-user"></i></span>';
+modal_5_body += '<input type="text" class="form-control" ';
+modal_5_body += 'id="Nombre_usuario_actualizar" name="Nombre_usuario" ';
+modal_5_body += 'placeholder="Nombre de usuario" maxlength="100">';
 modal_5_body += '</div>';
-modal_5_body += '<span>Descripción</span>';
+
+// Correo
+modal_5_body += '<div class="input-group mb-3">';
+modal_5_body += '<input type="email" class="form-control" ';
+modal_5_body += 'id="Email_usuario_actualizar" name="Email_usuario" ';
+modal_5_body += 'placeholder="Correo electrónico" maxlength="500" hidden>';
+modal_5_body += '</div>';
+
+// Descripción
+modal_5_body += '<label for="Descripcion_usuario_actualizar" class="form-label">Descripción</label>';
 modal_5_body += '<div class="form-floating">';
-modal_5_body += '  <textarea class="form-control" placeholder="Descripcion" id="floatingTextarea" maxlength="5000"></textarea>';
-/* modal_5_body += '  <label for="floatingTextarea">Descripción</label>'; */
+modal_5_body += '<textarea class="form-control" placeholder="Descripción" ';
+modal_5_body += 'id="Descripcion_usuario_actualizar" ';
+modal_5_body += 'name="Descripcion_usuario" maxlength="5000" ';
+modal_5_body += 'style="height:120px"></textarea>';
 modal_5_body += '</div>';
-// Contenedor del contador
-modal_5_body += '<div class="text-right text-muted mt-1" style="font-size: 12px;">';
-modal_5_body += '  <span id="charCounter">0</span> / 5000 caracteres';
+
+// Contador
+modal_5_body += '<div class="text-right text-muted mt-1" style="font-size:12px;">';
+modal_5_body += '<span id="charCounter">0</span> / 5000 caracteres';
 modal_5_body += '</div>';
+
 modal_5_body += '</form>';
 modal_5_body += '</div>';
 
-// 1. Escuchador de contador GLOBAL (se ejecuta dinámicamente apenas el usuario escriba)
-$(document).on('input keyup paste', '#floatingTextarea', function () {
-  var longitudActual = $(this).val().length;
-  $('#charCounter').text(longitudActual);
-});
 
-// 2. Definición del modal Stisla
-$("#modal-5").fireModal({
-  title: 'Actualizar Información',
-  body: modal_5_body,
-  buttons: [
-    {
-      text: 'Actualizar Información',
-      class: 'btn btn-success btn-shadow',
-      handler: function (modal) {
-        let formulario = document.getElementById("Actu_user");
+// =====================================================
+// CARGAR LOS DATOS DESDE LA BASE DE DATOS
+// =====================================================
 
-        // Validar campos obligatorios del HTML
-        if (!formulario.checkValidity()) {
-          formulario.reportValidity();
-          return;
+async function cargarDatosModalUsuario() {
+    try {
+        const respuesta = await fetch(
+            '../Back_end/Controlador/Consultar_usuario.php',
+            {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (respuesta.status === 401) {
+            window.location.replace('login.html');
+            return;
         }
 
-        // Cerrar modal
-        modal.modal('hide');
+        if (!respuesta.ok || datos.resultado !== 1) {
+            iziToast.error({
+                title: 'Error',
+                message: datos.mensaje ||
+                    'No se pudieron cargar los datos del usuario.',
+                position: 'bottomRight'
+            });
+            return;
+        }
 
-        // Mostrar mensaje de éxito
-        iziToast.success({
-          title: 'Información actualizada',
-          message: 'Se actualizaron los datos correctamente.'
+        const usuario = datos.usuario;
+
+        // Comprobar que los campos del modal ya existen
+        const id = document.getElementById('Id_usuario_actual');
+        const nombre = document.getElementById('Nombre_usuario_actualizar');
+        const email = document.getElementById('Email_usuario_actualizar');
+        const descripcion = document.getElementById(
+            'Descripcion_usuario_actualizar'
+        );
+        const foto = document.getElementById('Foto_usuario_actual');
+        const contador = document.getElementById('charCounter');
+
+        if (!id || !nombre || !email || !descripcion || !foto) {
+            console.error('No se encontraron los campos del modal.');
+            return;
+        }
+
+        // Rellenar el formulario
+        id.value = usuario.Id_usuario ?? '';
+        nombre.value = usuario.Nombre_usuario ?? '';
+        email.value = usuario.Email_usuario ?? '';
+        descripcion.value = usuario.Descripcion_usuario ?? '';
+
+        if (contador) {
+            contador.textContent = descripcion.value.length;
+        }
+
+        // Foto guardada en la base de datos
+        foto.src = usuario.Foto_usuario ||
+            'assets/img/avatar-4.png';
+
+    } catch (error) {
+        console.error('Error al cargar los datos del modal:', error);
+
+        iziToast.error({
+            title: 'Error',
+            message: 'No fue posible consultar la información del usuario.',
+            position: 'bottomRight'
+        });
+    }
+}
+
+
+// =====================================================
+// CONTADOR DE CARACTERES
+// =====================================================
+
+$(document).on(
+    'input',
+    '#Descripcion_usuario_actualizar',
+    function () {
+        $('#charCounter').text(this.value.length);
+    }
+);
+
+
+// =====================================================
+// VISTA PREVIA DE LA FOTO
+// =====================================================
+
+let urlFotoTemporal = null;
+
+$(document).on('change', '#Foto_usuario_nueva', function () {
+    const archivo = this.files[0];
+
+    if (!archivo) {
+        return;
+    }
+
+    const tiposPermitidos = [
+        'image/jpeg',
+        'image/png',
+        'image/webp'
+    ];
+
+    if (!tiposPermitidos.includes(archivo.type)) {
+        iziToast.error({
+            title: 'Archivo no válido',
+            message: 'Selecciona una imagen JPG, PNG o WEBP.',
+            position: 'bottomRight'
         });
 
-        // Recargar la página después de 2 segundos
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
-      }
+        this.value = '';
+        return;
     }
-  ]
+
+    if (archivo.size > 5 * 1024 * 1024) {
+        iziToast.error({
+            title: 'Imagen demasiado grande',
+            message: 'La imagen no puede superar los 5 MB.',
+            position: 'bottomRight'
+        });
+
+        this.value = '';
+        return;
+    }
+
+    if (urlFotoTemporal) {
+        URL.revokeObjectURL(urlFotoTemporal);
+    }
+
+    urlFotoTemporal = URL.createObjectURL(archivo);
+
+    const imagen = document.getElementById('Foto_usuario_actual');
+
+    if (imagen) {
+        imagen.src = urlFotoTemporal;
+    }
+});
+
+
+// =====================================================
+// ABRIR EL MODAL
+// =====================================================
+
+$("#modal-5").fireModal({
+    title: 'Actualizar información',
+
+    body: modal_5_body,
+
+    buttons: [
+        {
+            text: 'Actualizar información',
+            class: 'btn btn-success btn-shadow',
+
+            handler: async function (modal) {
+                const formulario = document.getElementById('Actu_user');
+
+                if (!formulario) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'No se encontró el formulario.',
+                        position: 'bottomRight'
+                    });
+                    return;
+                }
+
+                if (!formulario.checkValidity()) {
+                    formulario.reportValidity();
+                    return;
+                }
+
+                const idUsuario = document.getElementById(
+                    'Id_usuario_actual'
+                ).value;
+
+                if (!idUsuario) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'No se identificó al usuario que deseas actualizar.',
+                        position: 'bottomRight'
+                    });
+                    return;
+                }
+
+                const datosFormulario = new FormData(formulario);
+
+                // Evitar dobles envíos mientras se procesa
+                const boton = $(modal).find('.btn-success');
+                boton.prop('disabled', true);
+
+                try {
+                    const respuesta = await fetch(
+                        '../Back_end/Controlador/Actualizar_usuario.php',
+                        {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            body: datosFormulario
+                        }
+                    );
+
+                    const texto = await respuesta.text();
+                    let datos;
+
+                    try {
+                        datos = JSON.parse(texto);
+                    } catch (error) {
+                        console.error('Respuesta del servidor:', texto);
+
+                        iziToast.error({
+                            title: 'Error',
+                            message: 'El servidor no devolvió JSON válido.',
+                            position: 'bottomRight'
+                        });
+                        return;
+                    }
+
+                    if (respuesta.status === 401) {
+                        window.location.replace('login.html');
+                        return;
+                    }
+
+                    if (!respuesta.ok || datos.resultado !== 1) {
+                        iziToast.error({
+                            title: 'Error',
+                            message: datos.mensaje ||
+                                'No se pudo actualizar la información.',
+                            position: 'bottomRight'
+                        });
+                        return;
+                    }
+
+                    iziToast.success({
+                        title: 'Información actualizada',
+                        message: datos.mensaje ||
+                            'Tu perfil se actualizó correctamente.',
+                        position: 'bottomRight'
+                    });
+
+                    // Liberar la URL temporal de la foto
+                    if (urlFotoTemporal) {
+                        URL.revokeObjectURL(urlFotoTemporal);
+                        urlFotoTemporal = null;
+                    }
+
+                    // Cerrar el modal
+                    modal.modal('hide');
+
+                    // Actualizar la información visible en la página
+                    if (typeof consultarUsuarioSesion === 'function') {
+                        await consultarUsuarioSesion();
+                    }
+
+                    // Recargar para reflejar todos los cambios
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1200);
+
+                } catch (error) {
+                    console.error('Error al actualizar usuario:', error);
+
+                    iziToast.error({
+                        title: 'Error de conexión',
+                        message: 'No fue posible conectar con el servidor.',
+                        position: 'bottomRight'
+                    });
+                } finally {
+                    boton.prop('disabled', false);
+                }
+            }
+        }
+    ]
+});
+
+
+// =====================================================
+// CARGAR DATOS AL ABRIR EL MODAL
+// =====================================================
+
+// El botón o elemento #modal-5 abre el modal.
+// fireModal inserta el formulario; esperamos un momento
+// para que sus campos estén disponibles en el DOM.
+
+$(document).on('click', '#modal-5', function () {
+    setTimeout(function () {
+        if (document.getElementById('Actu_user')) {
+            cargarDatosModalUsuario();
+        }
+    }, 100);
 });
 
 $("#modal-6").fireModal({

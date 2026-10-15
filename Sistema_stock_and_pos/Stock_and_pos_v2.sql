@@ -243,12 +243,14 @@ BEGIN
             Nombre_usuario,
             Email_usuario,
             Contrasena_usuario,
+            Foto_usuario,
             Estado_usuario
         )
         VALUES (
             p_nombre_usuario,
             p_email_usuario,
             p_contrasena_usuario,
+            '../Back_end/uploads/Fotos_perfil/avatar-4.png',
             1
         );
 
