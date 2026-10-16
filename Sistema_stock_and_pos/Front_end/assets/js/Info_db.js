@@ -41,6 +41,7 @@ async function consultarUsuarioSesion() {
         const usuario = datos.usuario;
 
         // Elementos HTML
+        const id_usuario = document.getElementById('Id_usuario');
         const nombre = document.getElementById('nombreUsuario');
         const nombre_nb = document.getElementById('nombreUsuario_nb');
         const correo = document.getElementById('correoUsuario');
@@ -48,6 +49,15 @@ async function consultarUsuarioSesion() {
         const foto = document.getElementById('fotoUsuario');
         const foto_nb = document.getElementById('fotoUsuario_nb');
 
+        if (id_usuario) {
+            if ('value' in id_usuario) {
+                id_usuario.value = usuario.Id_usuario ?? '';
+            }
+        }
+
+        if (id_usuario) {
+            id_usuario.textContent = usuario.Id_usuario ?? 'Usuario';
+        }
         // Mostrar nombre en el saludo principal
         if (nombre) {
             nombre.textContent = usuario.Nombre_usuario ?? 'Usuario';
@@ -105,3 +115,126 @@ document.addEventListener(
     'DOMContentLoaded',
     consultarUsuarioSesion
 );
+
+
+/* =====================================================
+   CONSULTAR UNIDADES DE MEDIDA
+   ===================================================== */
+
+async function ConsultarUnidades() {
+    try {
+        const respuesta = await fetch(
+            '../Back_end/Controlador/Consultar_unidadesmedida.php',
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok || Number(datos.resultado) !== 1) {
+            throw new Error(
+                datos.mensaje || 'No fue posible cargar las unidades.'
+            );
+        }
+
+        return datos.unidades;
+
+    } catch (error) {
+        console.error('Error al consultar las unidades:', error);
+
+        notificarError(
+            'Error',
+            'No fue posible cargar las unidades de medida.'
+        );
+
+        return [];
+    }
+}
+
+
+/* =====================================================
+   LLENAR EL DATALIST
+   ===================================================== */
+
+/* =====================================================
+   LLENAR EL DATALIST CON LAS UNIDADES DE MYSQL
+   ===================================================== */
+
+async function CargarUnidadesDatalist(formulario) {
+    const datalist = formulario.querySelector('#datalistOptions');
+
+    if (!datalist) {
+        console.error('No se encontró el datalist de unidades.');
+        return;
+    }
+
+    // Limpiar opciones anteriores.
+    datalist.replaceChildren();
+
+    // Consultar las unidades al controlador PHP.
+    const unidades = await ConsultarUnidades();
+
+    unidades.forEach(function (unidad) {
+        const descripcion = unidad.Descripcion_unidad_medida;
+
+        if (!descripcion) {
+            return;
+        }
+
+        const opcion = document.createElement('option');
+        opcion.value = descripcion;
+
+        datalist.appendChild(opcion);
+    });
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    consultarConteoProductos();
+});
+
+async function consultarConteoProductos() {
+    const elementoConteo = document.getElementById("totalProductos");
+
+    if (!elementoConteo) {
+        console.warn("No se encontró el elemento #totalProductos.");
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(
+            "/Sistema_Stock_And_Pos/Back_end/Controlador/Consultar_producto.php",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudo consultar el conteo de productos.");
+        }
+
+        const datos = await respuesta.json();
+
+        if (Number(datos.resultado) !== 1) {
+            throw new Error(
+                datos.mensaje || "Error al obtener el conteo."
+            );
+        }
+
+        // Total de productos registrados por el usuario autenticado
+        elementoConteo.textContent = Number(datos.total) || 0;
+
+    } catch (error) {
+        console.error("Error al consultar el conteo:", error);
+        elementoConteo.textContent = "—";
+    }
+}

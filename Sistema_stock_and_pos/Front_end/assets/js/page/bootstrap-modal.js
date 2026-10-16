@@ -1,155 +1,162 @@
 "use strict";
 
+/* =====================================================
+   FORMULARIO DE REGISTRO DE PRODUCTOS
+   ===================================================== */
+
 let modal_1_body = '<div>';
-modal_1_body += '<form id="formRegistrarproducto">';
+modal_1_body += '<form id="formRegistrarproducto" enctype="multipart/form-data">';
 
 /* =====================================================
-   FILA 1: Nombre y Código
+   FILA 1: NOMBRE Y CÓDIGO
    ===================================================== */
+
 modal_1_body += '<div class="row">';
 
-/* Nombre producto */
+// Nombre del producto
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
+modal_1_body += '<input type="hidden" name="Id_usuario" id="Id_usuario" value="' + (window.Id_usuario || '') + '">';
 modal_1_body += '<div class="form-floating">';
 modal_1_body += '<input type="text" class="form-control" id="Nombreproducto" name="Nombrep" placeholder="Nombre producto" required>';
-modal_1_body += '<label for="Nombreproducto">Nombre producto <span style="color: red;">*</span></label>';
+modal_1_body += '<label for="Nombreproducto">Nombre producto <span style="color:red;">*</span></label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-/* Código producto */
+// Código del producto
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 modal_1_body += '<div class="form-floating">';
 modal_1_body += '<input type="text" class="form-control" id="Codigoproducto" name="codigop" placeholder="Código producto" required>';
-modal_1_body += '<label for="Codigoproducto">Código producto <span style="color: red;">*</span></label>';
+modal_1_body += '<label for="Codigoproducto">Código producto <span style="color:red;">*</span></label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-modal_1_body += '</div>'; // Fin Fila 1
+modal_1_body += '</div>';
 
 
 /* =====================================================
-   FILA 2: Valor unitario y Cantidad
+   FILA 2: PRECIO Y CANTIDAD
    ===================================================== */
+
 modal_1_body += '<div class="row">';
 
-/* Valor unitario */
+// Precio unitario
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 modal_1_body += '<div class="form-floating">';
-modal_1_body += '<input type="number" class="form-control" id="Valoruniproducto" name="Valorunip" placeholder="Valor unitario producto" min="1" required>';
-modal_1_body += '<label for="Valoruniproducto">Valor unitario producto <span style="color: red;">*</span></label>';
+modal_1_body += '<input type="number" class="form-control" id="Valoruniproducto" name="Valorunip" placeholder="Valor unitario producto" min="1" step="any" required>';
+modal_1_body += '<label for="Valoruniproducto">Valor unitario producto <span style="color:red;">*</span></label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-/* Cantidad */
+// Cantidad
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 modal_1_body += '<div class="form-floating">';
-modal_1_body += '<input type="number" class="form-control" id="Cantidadproducto" name="cantidap" placeholder="Cantidad producto" min="1" required>';
-modal_1_body += '<label for="Cantidadproducto">Cantidad producto <span style="color: red;">*</span></label>';
+modal_1_body += '<input type="number" class="form-control" id="Cantidadproducto" name="cantidap" placeholder="Cantidad producto" min="1" step="1" required>';
+modal_1_body += '<label for="Cantidadproducto">Cantidad producto <span style="color:red;">*</span></label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-modal_1_body += '</div>'; // Fin Fila 2
+modal_1_body += '</div>';
 
 
 /* =====================================================
-   FILA 3: Distribución basada en tu imagen
+   FILA 3: UNIDAD Y FECHAS DE VENCIMIENTO
    ===================================================== */
+
 modal_1_body += '<div class="row">';
 
-/* -----------------------------------------------------
-   COLUMNA IZQUIERDA: Unidad + ¿Desea registrar fecha?
-   ----------------------------------------------------- */
+// Columna izquierda
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 
-/* 1. Unidad de medida */
+// Unidad de medida
+
 modal_1_body += '<div class="mb-3">';
-modal_1_body += '<label for="exampleDataList" class="form-label">Unidad de medida <span style="color: red;">*</span></label>';
-modal_1_body += '<input class="form-control" list="datalistOptions" id="exampleDataList" name="unidad" placeholder="Seleccione una unidad" required>';
-modal_1_body += '<datalist id="datalistOptions">';
-modal_1_body += '<option value="Unidad">';
-modal_1_body += '<option value="Libra">';
-modal_1_body += '<option value="Kilogramos">';
-modal_1_body += '<option value="Mililitros">';
-modal_1_body += '<option value="Litros">';
-modal_1_body += '<option value="Centímetros">';
-modal_1_body += '<option value="Metros">';
-modal_1_body += '</datalist>';
+modal_1_body += '<label for="exampleDataList" class="form-label">Unidad de medida <span style="color:red;">*</span></label>';
+
+modal_1_body += '<input class="form-control" list="datalistOptions" id="exampleDataList" name="unidad" placeholder="Seleccione una unidad" autocomplete="off" required>';
+
+modal_1_body += '<datalist id="datalistOptions"></datalist>';
+
 modal_1_body += '</div>';
 
-/* 2. ¿Desea registrar fecha de vencimiento? (Debajo de Unidad de medida) */
-modal_1_body += '<div id="segundoRadio" class="mb-3" style="display: none;">';
-modal_1_body += '<label class="form-label">¿Conoce la fecha de vencimiento? <span style="color: red;">*</span></label>';
+// ¿Conoce la fecha de vencimiento?
+modal_1_body += '<div id="segundoRadio" class="mb-3" style="display:none;">';
+modal_1_body += '<label class="form-label">¿Conoce la fecha de vencimiento? <span style="color:red;">*</span></label>';
 modal_1_body += '<div class="row">';
+
 modal_1_body += '<div class="col-6">';
 modal_1_body += '<div class="form-check">';
 modal_1_body += '<input class="form-check-input" type="radio" name="RegistrarFecha" id="registrarFechaSi" value="Si">';
-modal_1_body += '<label class="form-check-label" for="registrarFechaSi">Si</label>';
+modal_1_body += '<label class="form-check-label" for="registrarFechaSi">Sí</label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
+
 modal_1_body += '<div class="col-6">';
 modal_1_body += '<div class="form-check">';
 modal_1_body += '<input class="form-check-input" type="radio" name="RegistrarFecha" id="registrarFechaNo" value="No">';
 modal_1_body += '<label class="form-check-label" for="registrarFechaNo">No</label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
+
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-modal_1_body += '</div>'; // Fin Columna Izquierda
+modal_1_body += '</div>';
 
-
-/* -----------------------------------------------------
-   COLUMNA DERECHA: ¿Tiene fecha? + Calendario
-   ----------------------------------------------------- */
+// Columna derecha
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 
-/* 1. ¿Tiene fecha de vencimiento? (Al lado de Unidad de medida) */
+// ¿Tiene fecha de vencimiento?
 modal_1_body += '<div class="mb-3">';
-modal_1_body += '<label class="form-label">¿Tiene fecha de vencimiento? <span style="color: red;">*</span></label>';
-modal_1_body += '<br>';
+modal_1_body += '<label class="form-label">¿Tiene fecha de vencimiento? <span style="color:red;">*</span></label>';
 modal_1_body += '<div class="row">';
+
 modal_1_body += '<div class="col-6">';
 modal_1_body += '<div class="form-check">';
 modal_1_body += '<input class="form-check-input" type="radio" name="TieneFV" id="radioSi" value="Si" required>';
-modal_1_body += '<label class="form-check-label" for="radioSi">Si</label>';
+modal_1_body += '<label class="form-check-label" for="radioSi">Sí</label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
+
 modal_1_body += '<div class="col-6">';
 modal_1_body += '<div class="form-check">';
 modal_1_body += '<input class="form-check-input" type="radio" name="TieneFV" id="radioNo" value="No">';
 modal_1_body += '<label class="form-check-label" for="radioNo">No</label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
+
 modal_1_body += '</div>';
 modal_1_body += '</div>';
 
-/* 2. Campo Fecha de Vencimiento (Al lado derecho de ¿Desea registrar...?) */
-modal_1_body += '<br>';
-modal_1_body += '<div id="campoFecha" class="mb-3" style="display: none;">';
-modal_1_body += '<label for="FechaVencimiento" class="form-label">Fecha de vencimiento <span style="color: red;">*</span></label>';
-modal_1_body += '<input type="text" class="form-control datepicker" id="FechaVencimiento" name="FechaVencimiento">';
+// Fecha de vencimiento
+modal_1_body += '<div id="campoFecha" class="mb-3" style="display:none;">';
+modal_1_body += '<label for="FechaVencimiento" class="form-label">Fecha de vencimiento <span style="color:red;">*</span></label>';
+modal_1_body += '<input type="text" class="form-control datepicker" id="FechaVencimiento" name="FechaVencimiento" placeholder="Seleccione una fecha">';
 modal_1_body += '</div>';
 
-modal_1_body += '</div>'; // Fin Columna Derecha
+modal_1_body += '</div>';
+modal_1_body += '</div>';
 
-modal_1_body += '</div>'; // Fin Fila 3
 
-/*fila y columna 5*/
+/* =====================================================
+   FILA 4: FOTO Y STOCK MÍNIMO
+   ===================================================== */
 
 modal_1_body += '<div class="row">';
-modal_1_body += '<div class="col-12 col-md-6 mb-3">'
-modal_1_body += '<label for="Fotoproducto" class="form-label">Foto producto </label>';
-modal_1_body += '<input type="file" class="form-control" id="Fotoproducto" name="Fotoproducto" placeholder="Foto producto">';
-modal_1_body += '</div>';
 
-
+// Foto del producto
 modal_1_body += '<div class="col-12 col-md-6 mb-3">';
-modal_1_body += '<br>';
+modal_1_body += '<label for="Fotoproducto" class="form-label">Foto del producto</label>';
+modal_1_body += '<input type="file" class="form-control" id="Fotoproducto" name="Fotoproducto" accept="image/jpeg,image/png,image/webp">';
+modal_1_body += '</div>';
+
+// Cantidad mínima
+modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 modal_1_body += '<div class="form-floating">';
-modal_1_body += '<input type="number" class="form-control" id="avisolowstockproducto" name="avisolowstockproducto" placeholder="Cantidad minima en stock" min="1" required>';
-modal_1_body += '<label for="avisolowstockproducto">Cantidad minima en stock <span style="color: red;">*</span></label>';
+modal_1_body += '<input type="number" class="form-control" id="avisolowstockproducto" name="avisolowstockproducto" placeholder="Cantidad mínima en stock" min="1" step="1" required>';
+modal_1_body += '<label for="avisolowstockproducto">Cantidad mínima en stock <span style="color:red;">*</span></label>';
 modal_1_body += '</div>';
 modal_1_body += '</div>';
+
 modal_1_body += '</div>';
 
 modal_1_body += '</form>';
@@ -157,67 +164,371 @@ modal_1_body += '</div>';
 
 
 /* =====================================================
-   MODAL
+   NOTIFICACIONES IZIToast
    ===================================================== */
+
+function notificarError(titulo, mensaje) {
+  iziToast.error({
+    title: titulo,
+    message: mensaje,
+    position: 'bottomRight',
+    timeout: 5000
+  });
+}
+
+function notificarExito(titulo, mensaje) {
+  iziToast.success({
+    title: titulo,
+    message: mensaje,
+    position: 'bottomRight',
+    timeout: 4000
+  });
+}
+
+
+/* =====================================================
+   EVENTOS: FECHA DE VENCIMIENTO
+   ===================================================== */
+
+// Primer grupo de radios: ¿Tiene fecha de vencimiento?
+$(document).on('change', 'input[name="TieneFV"]', function () {
+  const formulario = this.form;
+  const tieneFecha = this.value === 'Si';
+
+  const segundoRadio = $(formulario).find('#segundoRadio');
+  const campoFecha = $(formulario).find('#campoFecha');
+  const opcionesFecha = $(formulario).find(
+    'input[name="RegistrarFecha"]'
+  );
+  const fechaVencimiento = $(formulario).find('#FechaVencimiento');
+
+  if (tieneFecha) {
+    segundoRadio.stop(true, true).slideDown();
+
+    // Se exige elegir Sí o No en el segundo grupo.
+    opcionesFecha.prop('required', true);
+  } else {
+    segundoRadio.stop(true, true).slideUp();
+    campoFecha.stop(true, true).slideUp();
+
+    opcionesFecha
+      .prop('checked', false)
+      .prop('required', false);
+
+    fechaVencimiento
+      .prop('required', false)
+      .val('');
+  }
+});
+
+// Segundo grupo de radios: ¿Conoce la fecha?
+$(document).on('change', 'input[name="RegistrarFecha"]', function () {
+  const formulario = this.form;
+  const conoceFecha = this.value === 'Si';
+
+  const campoFecha = $(formulario).find('#campoFecha');
+  const fechaVencimiento = $(formulario).find('#FechaVencimiento');
+
+  if (conoceFecha) {
+    campoFecha.stop(true, true).slideDown();
+    fechaVencimiento.prop('required', true);
+  } else {
+    campoFecha.stop(true, true).slideUp();
+
+    fechaVencimiento
+      .prop('required', false)
+      .val('');
+  }
+});
+
+$(document).on('click', '.trigger-modal-producto', async function () {
+  // Esperar a que el complemento inserte el formulario en el DOM.
+  setTimeout(async function () {
+    const formulario = document.getElementById(
+      'formRegistrarproducto'
+    );
+
+    if (formulario) {
+      await CargarUnidadesDatalist(formulario);
+    }
+  }, 300);
+});
+
+/* =====================================================
+   ABRIR MODAL Y REGISTRAR PRODUCTO
+   ===================================================== */
+
 $(".trigger-modal-producto").fireModal({
   title: 'Formulario para productos',
   body: modal_1_body,
+
   buttons: [
     {
       text: 'Subir información',
       class: 'btn btn-success btn-shadow',
-      handler: function (modal) {
-        let formulario = document.getElementById("formRegistrarproducto");
 
+      handler: async function (modal) {
+        const formulario = modal.querySelector
+          ? modal.querySelector('#formRegistrarproducto')
+          : document.getElementById('formRegistrarproducto');
+
+        if (!formulario) {
+          notificarError(
+            'Error',
+            'No se encontró el formulario de productos.'
+          );
+          return;
+        }
+
+        // Evitar múltiples envíos simultáneos.
+        if (formulario.dataset.enviando === 'true') {
+          return;
+        }
+
+        // Validar campos HTML obligatorios.
         if (!formulario.checkValidity()) {
           formulario.reportValidity();
           return;
         }
 
-        modal.modal('hide');
+        // Validar selección de vencimiento.
+        const tieneFecha = formulario.querySelector(
+          'input[name="TieneFV"]:checked'
+        );
 
-        iziToast.success({
-          title: 'Información subida',
-          message: 'La información ha sido cargada con éxito'
-        });
+        if (!tieneFecha) {
+          notificarError(
+            'Campo obligatorio',
+            'Indica si el producto tiene fecha de vencimiento.'
+          );
+          return;
+        }
 
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
+        let conoceFecha = null;
+        let fechaVencimiento = '';
+
+        if (tieneFecha.value === 'Si') {
+          conoceFecha = formulario.querySelector(
+            'input[name="RegistrarFecha"]:checked'
+          );
+
+          if (!conoceFecha) {
+            notificarError(
+              'Campo obligatorio',
+              'Indica si conoces la fecha de vencimiento.'
+            );
+            return;
+          }
+
+          if (conoceFecha.value === 'Si') {
+            fechaVencimiento = formulario.querySelector(
+              '#FechaVencimiento'
+            ).value.trim();
+
+            if (!fechaVencimiento) {
+              notificarError(
+                'Campo obligatorio',
+                'Selecciona la fecha de vencimiento.'
+              );
+              return;
+            }
+          }
+        }
+
+        // Validar precio y cantidades.
+        const precio = Number(
+          formulario.querySelector('[name="Valorunip"]').value
+        );
+
+        const cantidad = Number(
+          formulario.querySelector('[name="cantidap"]').value
+        );
+
+        const cantidadMinima = Number(
+          formulario.querySelector(
+            '[name="avisolowstockproducto"]'
+          ).value
+        );
+
+        if (!Number.isFinite(precio) || precio < 1) {
+          notificarError(
+            'Precio no válido',
+            'El precio unitario debe ser igual o mayor que 1.'
+          );
+          return;
+        }
+
+        if (!Number.isInteger(cantidad) || cantidad < 1) {
+          notificarError(
+            'Cantidad no válida',
+            'La cantidad debe ser un número entero mayor que cero.'
+          );
+          return;
+        }
+
+        if (
+          !Number.isInteger(cantidadMinima) ||
+          cantidadMinima < 1
+        ) {
+          notificarError(
+            'Stock mínimo no válido',
+            'El stock mínimo debe ser un entero mayor que cero.'
+          );
+          return;
+        }
+
+        // Validar la imagen, si el usuario seleccionó una.
+        const archivo = formulario.querySelector(
+          '#Fotoproducto'
+        ).files[0];
+
+        if (archivo) {
+          const tiposPermitidos = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+          ];
+
+          if (!tiposPermitidos.includes(archivo.type)) {
+            notificarError(
+              'Archivo no válido',
+              'Selecciona una imagen JPG, PNG o WEBP.'
+            );
+            return;
+          }
+
+          if (archivo.size > 5 * 1024 * 1024) {
+            notificarError(
+              'Imagen demasiado grande',
+              'La imagen no puede superar los 5 MB.'
+            );
+            return;
+          }
+        }
+
+        // Preparar todos los campos y la imagen.
+        const datosFormulario = new FormData(formulario);
+
+        // Normalizar opciones de vencimiento para el backend.
+        datosFormulario.set(
+          'TieneFV',
+          tieneFecha.value
+        );
+
+        datosFormulario.set(
+          'RegistrarFecha',
+          tieneFecha.value === 'Si'
+            ? conoceFecha.value
+            : 'No'
+        );
+
+        datosFormulario.set(
+          'FechaVencimiento',
+          tieneFecha.value === 'Si' &&
+            conoceFecha.value === 'Si'
+            ? fechaVencimiento
+            : ''
+        );
+
+        // Encontrar el botón de envío del modal.
+        const boton = $(modal).find('.btn-success');
+        const textoOriginal = boton.length
+          ? boton.first().text()
+          : 'Subir información';
+
+        formulario.dataset.enviando = 'true';
+
+        boton
+          .prop('disabled', true)
+          .first()
+          .text('Guardando...');
+
+        try {
+          const respuesta = await fetch(
+            '../Back_end/Controlador/Registrar_producto.php',
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Accept': 'application/json'
+              },
+              body: datosFormulario
+            }
+          );
+
+          const textoRespuesta = await respuesta.text();
+          let resultado;
+
+          // Convertir la respuesta a JSON.
+          try {
+            resultado = JSON.parse(textoRespuesta);
+          } catch (error) {
+            console.error(
+              'Respuesta no válida del servidor:',
+              textoRespuesta
+            );
+
+            notificarError(
+              'Error del servidor',
+              'PHP no devolvió JSON válido. Revisa la respuesta en la pestaña Red (Network).'
+            );
+            return;
+          }
+
+          // Comprobar el resultado del registro.
+          if (
+            !respuesta.ok ||
+            Number(resultado.resultado) !== 1
+          ) {
+            notificarError(
+              'No se pudo registrar',
+              resultado.mensaje ||
+              'No fue posible guardar el producto.'
+            );
+            return;
+          }
+
+          // Mostrar confirmación.
+          notificarExito(
+            'Producto registrado',
+            resultado.mensaje ||
+            'El producto se guardó correctamente.'
+          );
+
+          // Cerrar el modal.
+          if (typeof $(modal).modal === 'function') {
+            $(modal).modal('hide');
+          }
+
+          // Actualizar la lista de productos.
+          setTimeout(function () {
+            window.location.reload();
+          }, 1500);
+
+        } catch (error) {
+          console.error(
+            'Error al enviar el formulario:',
+            error
+          );
+
+          notificarError(
+            'Error de conexión',
+            'No se pudo conectar con el servidor. Verifica que Apache y MySQL estén funcionando.'
+          );
+
+        } finally {
+          formulario.dataset.enviando = 'false';
+
+          boton
+            .prop('disabled', false)
+            .first()
+            .text(textoOriginal);
+        }
       }
     }
   ]
 });
 
-
-/* =====================================================
-   EVENTOS JQUERY
-   ===================================================== */
-
-/* Primer Radio: ¿Tiene Fecha de Vencimiento? */
-$(document).on('change', 'input[name="TieneFV"]', function () {
-  if ($('#radioSi').is(':checked')) {
-    $('#segundoRadio').slideDown();
-    $('input[name="RegistrarFecha"]').prop('required', true);
-  } else if ($('#radioNo').is(':checked')) {
-    $('#segundoRadio').slideUp();
-    $('#campoFecha').slideUp();
-
-    $('input[name="RegistrarFecha"]').prop('required', false).prop('checked', false);
-    $('#FechaVencimiento').prop('required', false).val('');
-  }
-});
-
-/* Segundo Radio: ¿Desea Registrar Fecha? */
-$(document).on('change', 'input[name="RegistrarFecha"]', function () {
-  if ($('#registrarFechaSi').is(':checked')) {
-    $('#campoFecha').slideDown();
-    $('#FechaVencimiento').prop('required', true);
-  } else if ($('#registrarFechaNo').is(':checked')) {
-    $('#campoFecha').slideUp();
-    $('#FechaVencimiento').prop('required', false).val('');
-  }
-});
 
 for (let i = 0; i <= 4; i++) {
   let modal_1_5_body = '<div>';
@@ -754,140 +1065,140 @@ modal_4_body += '</form>';
 modal_4_body += '</div>';
 
 $("#modal-4").fireModal({
-    title: 'Actualizar contraseña',
+  title: 'Actualizar contraseña',
 
-    body: modal_4_body,
+  body: modal_4_body,
 
-    buttons: [
-        {
-            text: 'Cambiar contraseña',
-            class: 'btn btn-success btn-shadow',
+  buttons: [
+    {
+      text: 'Cambiar contraseña',
+      class: 'btn btn-success btn-shadow',
 
-            handler: async function (modal) {
+      handler: async function (modal) {
 
-                const formulario = document.getElementById(
-                    'formRestablecerPassword_user'
-                );
+        const formulario = document.getElementById(
+          'formRestablecerPassword_user'
+        );
 
-                // Validar campos obligatorios
-                if (!formulario.checkValidity()) {
-                    formulario.reportValidity();
-                    return;
-                }
-
-                const contraseñaAnterior = document.getElementById(
-                    'Contraseñaanti'
-                ).value;
-
-                const nuevaPassword = document.getElementById(
-                    'nuevaPassword_u'
-                ).value;
-
-                const confirmarPassword = document.getElementById(
-                    'confirmarPassword_u'
-                ).value;
-
-                // Validar que la nueva contraseña sea diferente
-                if (contraseñaAnterior === nuevaPassword) {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'La nueva contraseña debe ser diferente a la anterior.',
-                        position: 'bottomRight'
-                    });
-                    return;
-                }
-
-                // Validar coincidencia
-                if (nuevaPassword !== confirmarPassword) {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'Las contraseñas nuevas no coinciden.',
-                        position: 'bottomRight'
-                    });
-                    return;
-                }
-
-                try {
-                    const respuesta = await fetch(
-                        '../Back_end/Controlador/Cambiar_contrasena_usuario.php',
-                        {
-                            method: 'POST',
-                            credentials: 'same-origin',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                            },
-                            body: new URLSearchParams({
-                                contrasena_anterior: contraseñaAnterior,
-                                nueva_contrasena: nuevaPassword,
-                                confirmar_contrasena: confirmarPassword
-                            })
-                        }
-                    );
-
-                    // Leer la respuesta del servidor
-                    const texto = await respuesta.text();
-                    let datos;
-
-                    try {
-                        datos = JSON.parse(texto);
-                    } catch (error) {
-                        console.error(
-                            'Respuesta no válida del servidor:',
-                            texto
-                        );
-
-                        iziToast.error({
-                            title: 'Error',
-                            message: 'El servidor no devolvió una respuesta válida. Revisa el controlador PHP.',
-                            position: 'bottomRight'
-                        });
-                        return;
-                    }
-
-                    // Si la sesión expiró
-                    if (respuesta.status === 401) {
-                        window.location.replace('login.html');
-                        return;
-                    }
-
-                    // Verificar el resultado de PHP
-                    if (!respuesta.ok || datos.resultado !== 1) {
-                        iziToast.error({
-                            title: 'Error',
-                            message: datos.mensaje ||
-                                'No se pudo actualizar la contraseña.',
-                            position: 'bottomRight'
-                        });
-                        return;
-                    }
-
-                    // Solo cerrar el modal cuando PHP confirme el cambio
-                    modal.modal('hide');
-
-                    formulario.reset();
-
-                    iziToast.success({
-                        title: 'Contraseña actualizada',
-                        message: datos.mensaje,
-                        position: 'bottomRight'
-                    });
-
-                } catch (error) {
-                    console.error(
-                        'Error al enviar las contraseñas:',
-                        error
-                    );
-
-                    iziToast.error({
-                        title: 'Error de conexión',
-                        message: 'No se pudo conectar con el servidor PHP.',
-                        position: 'bottomRight'
-                    });
-                }
-            }
+        // Validar campos obligatorios
+        if (!formulario.checkValidity()) {
+          formulario.reportValidity();
+          return;
         }
-    ]
+
+        const contraseñaAnterior = document.getElementById(
+          'Contraseñaanti'
+        ).value;
+
+        const nuevaPassword = document.getElementById(
+          'nuevaPassword_u'
+        ).value;
+
+        const confirmarPassword = document.getElementById(
+          'confirmarPassword_u'
+        ).value;
+
+        // Validar que la nueva contraseña sea diferente
+        if (contraseñaAnterior === nuevaPassword) {
+          iziToast.error({
+            title: 'Error',
+            message: 'La nueva contraseña debe ser diferente a la anterior.',
+            position: 'bottomRight'
+          });
+          return;
+        }
+
+        // Validar coincidencia
+        if (nuevaPassword !== confirmarPassword) {
+          iziToast.error({
+            title: 'Error',
+            message: 'Las contraseñas nuevas no coinciden.',
+            position: 'bottomRight'
+          });
+          return;
+        }
+
+        try {
+          const respuesta = await fetch(
+            '../Back_end/Controlador/Cambiar_contrasena_usuario.php',
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              },
+              body: new URLSearchParams({
+                contrasena_anterior: contraseñaAnterior,
+                nueva_contrasena: nuevaPassword,
+                confirmar_contrasena: confirmarPassword
+              })
+            }
+          );
+
+          // Leer la respuesta del servidor
+          const texto = await respuesta.text();
+          let datos;
+
+          try {
+            datos = JSON.parse(texto);
+          } catch (error) {
+            console.error(
+              'Respuesta no válida del servidor:',
+              texto
+            );
+
+            iziToast.error({
+              title: 'Error',
+              message: 'El servidor no devolvió una respuesta válida. Revisa el controlador PHP.',
+              position: 'bottomRight'
+            });
+            return;
+          }
+
+          // Si la sesión expiró
+          if (respuesta.status === 401) {
+            window.location.replace('login.html');
+            return;
+          }
+
+          // Verificar el resultado de PHP
+          if (!respuesta.ok || datos.resultado !== 1) {
+            iziToast.error({
+              title: 'Error',
+              message: datos.mensaje ||
+                'No se pudo actualizar la contraseña.',
+              position: 'bottomRight'
+            });
+            return;
+          }
+
+          // Solo cerrar el modal cuando PHP confirme el cambio
+          modal.modal('hide');
+
+          formulario.reset();
+
+          iziToast.success({
+            title: 'Contraseña actualizada',
+            message: datos.mensaje,
+            position: 'bottomRight'
+          });
+
+        } catch (error) {
+          console.error(
+            'Error al enviar las contraseñas:',
+            error
+          );
+
+          iziToast.error({
+            title: 'Error de conexión',
+            message: 'No se pudo conectar con el servidor PHP.',
+            position: 'bottomRight'
+          });
+        }
+      }
+    }
+  ]
 });
 
 // =====================================================
@@ -953,75 +1264,75 @@ modal_5_body += '</div>';
 // =====================================================
 
 async function cargarDatosModalUsuario() {
-    try {
-        const respuesta = await fetch(
-            '../Back_end/Controlador/Consultar_usuario.php',
-            {
-                method: 'GET',
-                credentials: 'same-origin',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }
-        );
-
-        const datos = await respuesta.json();
-
-        if (respuesta.status === 401) {
-            window.location.replace('login.html');
-            return;
+  try {
+    const respuesta = await fetch(
+      '../Back_end/Controlador/Consultar_usuario.php',
+      {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json'
         }
+      }
+    );
 
-        if (!respuesta.ok || datos.resultado !== 1) {
-            iziToast.error({
-                title: 'Error',
-                message: datos.mensaje ||
-                    'No se pudieron cargar los datos del usuario.',
-                position: 'bottomRight'
-            });
-            return;
-        }
+    const datos = await respuesta.json();
 
-        const usuario = datos.usuario;
-
-        // Comprobar que los campos del modal ya existen
-        const id = document.getElementById('Id_usuario_actual');
-        const nombre = document.getElementById('Nombre_usuario_actualizar');
-        const email = document.getElementById('Email_usuario_actualizar');
-        const descripcion = document.getElementById(
-            'Descripcion_usuario_actualizar'
-        );
-        const foto = document.getElementById('Foto_usuario_actual');
-        const contador = document.getElementById('charCounter');
-
-        if (!id || !nombre || !email || !descripcion || !foto) {
-            console.error('No se encontraron los campos del modal.');
-            return;
-        }
-
-        // Rellenar el formulario
-        id.value = usuario.Id_usuario ?? '';
-        nombre.value = usuario.Nombre_usuario ?? '';
-        email.value = usuario.Email_usuario ?? '';
-        descripcion.value = usuario.Descripcion_usuario ?? '';
-
-        if (contador) {
-            contador.textContent = descripcion.value.length;
-        }
-
-        // Foto guardada en la base de datos
-        foto.src = usuario.Foto_usuario ||
-            'assets/img/avatar-4.png';
-
-    } catch (error) {
-        console.error('Error al cargar los datos del modal:', error);
-
-        iziToast.error({
-            title: 'Error',
-            message: 'No fue posible consultar la información del usuario.',
-            position: 'bottomRight'
-        });
+    if (respuesta.status === 401) {
+      window.location.replace('login.html');
+      return;
     }
+
+    if (!respuesta.ok || datos.resultado !== 1) {
+      iziToast.error({
+        title: 'Error',
+        message: datos.mensaje ||
+          'No se pudieron cargar los datos del usuario.',
+        position: 'bottomRight'
+      });
+      return;
+    }
+
+    const usuario = datos.usuario;
+
+    // Comprobar que los campos del modal ya existen
+    const id = document.getElementById('Id_usuario_actual');
+    const nombre = document.getElementById('Nombre_usuario_actualizar');
+    const email = document.getElementById('Email_usuario_actualizar');
+    const descripcion = document.getElementById(
+      'Descripcion_usuario_actualizar'
+    );
+    const foto = document.getElementById('Foto_usuario_actual');
+    const contador = document.getElementById('charCounter');
+
+    if (!id || !nombre || !email || !descripcion || !foto) {
+      console.error('No se encontraron los campos del modal.');
+      return;
+    }
+
+    // Rellenar el formulario
+    id.value = usuario.Id_usuario ?? '';
+    nombre.value = usuario.Nombre_usuario ?? '';
+    email.value = usuario.Email_usuario ?? '';
+    descripcion.value = usuario.Descripcion_usuario ?? '';
+
+    if (contador) {
+      contador.textContent = descripcion.value.length;
+    }
+
+    // Foto guardada en la base de datos
+    foto.src = usuario.Foto_usuario ||
+      'assets/img/avatar-4.png';
+
+  } catch (error) {
+    console.error('Error al cargar los datos del modal:', error);
+
+    iziToast.error({
+      title: 'Error',
+      message: 'No fue posible consultar la información del usuario.',
+      position: 'bottomRight'
+    });
+  }
 }
 
 
@@ -1030,11 +1341,11 @@ async function cargarDatosModalUsuario() {
 // =====================================================
 
 $(document).on(
-    'input',
-    '#Descripcion_usuario_actualizar',
-    function () {
-        $('#charCounter').text(this.value.length);
-    }
+  'input',
+  '#Descripcion_usuario_actualizar',
+  function () {
+    $('#charCounter').text(this.value.length);
+  }
 );
 
 
@@ -1045,51 +1356,51 @@ $(document).on(
 let urlFotoTemporal = null;
 
 $(document).on('change', '#Foto_usuario_nueva', function () {
-    const archivo = this.files[0];
+  const archivo = this.files[0];
 
-    if (!archivo) {
-        return;
-    }
+  if (!archivo) {
+    return;
+  }
 
-    const tiposPermitidos = [
-        'image/jpeg',
-        'image/png',
-        'image/webp'
-    ];
+  const tiposPermitidos = [
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+  ];
 
-    if (!tiposPermitidos.includes(archivo.type)) {
-        iziToast.error({
-            title: 'Archivo no válido',
-            message: 'Selecciona una imagen JPG, PNG o WEBP.',
-            position: 'bottomRight'
-        });
+  if (!tiposPermitidos.includes(archivo.type)) {
+    iziToast.error({
+      title: 'Archivo no válido',
+      message: 'Selecciona una imagen JPG, PNG o WEBP.',
+      position: 'bottomRight'
+    });
 
-        this.value = '';
-        return;
-    }
+    this.value = '';
+    return;
+  }
 
-    if (archivo.size > 5 * 1024 * 1024) {
-        iziToast.error({
-            title: 'Imagen demasiado grande',
-            message: 'La imagen no puede superar los 5 MB.',
-            position: 'bottomRight'
-        });
+  if (archivo.size > 5 * 1024 * 1024) {
+    iziToast.error({
+      title: 'Imagen demasiado grande',
+      message: 'La imagen no puede superar los 5 MB.',
+      position: 'bottomRight'
+    });
 
-        this.value = '';
-        return;
-    }
+    this.value = '';
+    return;
+  }
 
-    if (urlFotoTemporal) {
-        URL.revokeObjectURL(urlFotoTemporal);
-    }
+  if (urlFotoTemporal) {
+    URL.revokeObjectURL(urlFotoTemporal);
+  }
 
-    urlFotoTemporal = URL.createObjectURL(archivo);
+  urlFotoTemporal = URL.createObjectURL(archivo);
 
-    const imagen = document.getElementById('Foto_usuario_actual');
+  const imagen = document.getElementById('Foto_usuario_actual');
 
-    if (imagen) {
-        imagen.src = urlFotoTemporal;
-    }
+  if (imagen) {
+    imagen.src = urlFotoTemporal;
+  }
 });
 
 
@@ -1098,135 +1409,135 @@ $(document).on('change', '#Foto_usuario_nueva', function () {
 // =====================================================
 
 $("#modal-5").fireModal({
-    title: 'Actualizar información',
+  title: 'Actualizar información',
 
-    body: modal_5_body,
+  body: modal_5_body,
 
-    buttons: [
-        {
-            text: 'Actualizar información',
-            class: 'btn btn-success btn-shadow',
+  buttons: [
+    {
+      text: 'Actualizar información',
+      class: 'btn btn-success btn-shadow',
 
-            handler: async function (modal) {
-                const formulario = document.getElementById('Actu_user');
+      handler: async function (modal) {
+        const formulario = document.getElementById('Actu_user');
 
-                if (!formulario) {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'No se encontró el formulario.',
-                        position: 'bottomRight'
-                    });
-                    return;
-                }
-
-                if (!formulario.checkValidity()) {
-                    formulario.reportValidity();
-                    return;
-                }
-
-                const idUsuario = document.getElementById(
-                    'Id_usuario_actual'
-                ).value;
-
-                if (!idUsuario) {
-                    iziToast.error({
-                        title: 'Error',
-                        message: 'No se identificó al usuario que deseas actualizar.',
-                        position: 'bottomRight'
-                    });
-                    return;
-                }
-
-                const datosFormulario = new FormData(formulario);
-
-                // Evitar dobles envíos mientras se procesa
-                const boton = $(modal).find('.btn-success');
-                boton.prop('disabled', true);
-
-                try {
-                    const respuesta = await fetch(
-                        '../Back_end/Controlador/Actualizar_usuario.php',
-                        {
-                            method: 'POST',
-                            credentials: 'same-origin',
-                            headers: {
-                                'Accept': 'application/json'
-                            },
-                            body: datosFormulario
-                        }
-                    );
-
-                    const texto = await respuesta.text();
-                    let datos;
-
-                    try {
-                        datos = JSON.parse(texto);
-                    } catch (error) {
-                        console.error('Respuesta del servidor:', texto);
-
-                        iziToast.error({
-                            title: 'Error',
-                            message: 'El servidor no devolvió JSON válido.',
-                            position: 'bottomRight'
-                        });
-                        return;
-                    }
-
-                    if (respuesta.status === 401) {
-                        window.location.replace('login.html');
-                        return;
-                    }
-
-                    if (!respuesta.ok || datos.resultado !== 1) {
-                        iziToast.error({
-                            title: 'Error',
-                            message: datos.mensaje ||
-                                'No se pudo actualizar la información.',
-                            position: 'bottomRight'
-                        });
-                        return;
-                    }
-
-                    iziToast.success({
-                        title: 'Información actualizada',
-                        message: datos.mensaje ||
-                            'Tu perfil se actualizó correctamente.',
-                        position: 'bottomRight'
-                    });
-
-                    // Liberar la URL temporal de la foto
-                    if (urlFotoTemporal) {
-                        URL.revokeObjectURL(urlFotoTemporal);
-                        urlFotoTemporal = null;
-                    }
-
-                    // Cerrar el modal
-                    modal.modal('hide');
-
-                    // Actualizar la información visible en la página
-                    if (typeof consultarUsuarioSesion === 'function') {
-                        await consultarUsuarioSesion();
-                    }
-
-                    // Recargar para reflejar todos los cambios
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1200);
-
-                } catch (error) {
-                    console.error('Error al actualizar usuario:', error);
-
-                    iziToast.error({
-                        title: 'Error de conexión',
-                        message: 'No fue posible conectar con el servidor.',
-                        position: 'bottomRight'
-                    });
-                } finally {
-                    boton.prop('disabled', false);
-                }
-            }
+        if (!formulario) {
+          iziToast.error({
+            title: 'Error',
+            message: 'No se encontró el formulario.',
+            position: 'bottomRight'
+          });
+          return;
         }
-    ]
+
+        if (!formulario.checkValidity()) {
+          formulario.reportValidity();
+          return;
+        }
+
+        const idUsuario = document.getElementById(
+          'Id_usuario_actual'
+        ).value;
+
+        if (!idUsuario) {
+          iziToast.error({
+            title: 'Error',
+            message: 'No se identificó al usuario que deseas actualizar.',
+            position: 'bottomRight'
+          });
+          return;
+        }
+
+        const datosFormulario = new FormData(formulario);
+
+        // Evitar dobles envíos mientras se procesa
+        const boton = $(modal).find('.btn-success');
+        boton.prop('disabled', true);
+
+        try {
+          const respuesta = await fetch(
+            '../Back_end/Controlador/Actualizar_usuario.php',
+            {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Accept': 'application/json'
+              },
+              body: datosFormulario
+            }
+          );
+
+          const texto = await respuesta.text();
+          let datos;
+
+          try {
+            datos = JSON.parse(texto);
+          } catch (error) {
+            console.error('Respuesta del servidor:', texto);
+
+            iziToast.error({
+              title: 'Error',
+              message: 'El servidor no devolvió JSON válido.',
+              position: 'bottomRight'
+            });
+            return;
+          }
+
+          if (respuesta.status === 401) {
+            window.location.replace('login.html');
+            return;
+          }
+
+          if (!respuesta.ok || datos.resultado !== 1) {
+            iziToast.error({
+              title: 'Error',
+              message: datos.mensaje ||
+                'No se pudo actualizar la información.',
+              position: 'bottomRight'
+            });
+            return;
+          }
+
+          iziToast.success({
+            title: 'Información actualizada',
+            message: datos.mensaje ||
+              'Tu perfil se actualizó correctamente.',
+            position: 'bottomRight'
+          });
+
+          // Liberar la URL temporal de la foto
+          if (urlFotoTemporal) {
+            URL.revokeObjectURL(urlFotoTemporal);
+            urlFotoTemporal = null;
+          }
+
+          // Cerrar el modal
+          modal.modal('hide');
+
+          // Actualizar la información visible en la página
+          if (typeof consultarUsuarioSesion === 'function') {
+            await consultarUsuarioSesion();
+          }
+
+          // Recargar para reflejar todos los cambios
+          setTimeout(function () {
+            location.reload();
+          }, 1200);
+
+        } catch (error) {
+          console.error('Error al actualizar usuario:', error);
+
+          iziToast.error({
+            title: 'Error de conexión',
+            message: 'No fue posible conectar con el servidor.',
+            position: 'bottomRight'
+          });
+        } finally {
+          boton.prop('disabled', false);
+        }
+      }
+    }
+  ]
 });
 
 
@@ -1239,11 +1550,11 @@ $("#modal-5").fireModal({
 // para que sus campos estén disponibles en el DOM.
 
 $(document).on('click', '#modal-5', function () {
-    setTimeout(function () {
-        if (document.getElementById('Actu_user')) {
-            cargarDatosModalUsuario();
-        }
-    }, 100);
+  setTimeout(function () {
+    if (document.getElementById('Actu_user')) {
+      cargarDatosModalUsuario();
+    }
+  }, 100);
 });
 
 $("#modal-6").fireModal({

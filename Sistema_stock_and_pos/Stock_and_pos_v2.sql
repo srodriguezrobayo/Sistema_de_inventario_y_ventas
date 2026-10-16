@@ -114,7 +114,7 @@ INSERT INTO unidad_medida (Descripcion_unidad_medida, Estado_unidad_medida) VALU
 ('Libra',1),
 ('Kilogramo', 1),
 ('Metro', 1),
-('Centimetro',1)
+('Centimetro',1);
 
 /*SISTEMA CRUD TRADUCIDO ICAB*/
 
@@ -134,6 +134,7 @@ DELIMITER ;
 CALL C_Unidad_Medida();
 
 /*Procedimiento para insertar producto y unidad de medida*/
+
 DELIMITER //
 
 CREATE PROCEDURE I_Producto_Unidad(
@@ -152,52 +153,85 @@ CREATE PROCEDURE I_Producto_Unidad(
 )
 BEGIN
     DECLARE v_existe_unidad INT;
+    DECLARE v_producto_id INT;
 
-    -- 1. Verificamos si la unidad de medida ya existe en su tabla correspondiente
-    -- (Asumimos que tu tabla de unidades se llama 'unidad_medida' y el campo es 'Descripcion_unidad_medida')
-    SELECT COUNT(*) INTO v_existe_unidad 
-    FROM unidad_medida 
+    -- 1. Verificar si existe la unidad de medida
+    SELECT COUNT(*) INTO v_existe_unidad
+    FROM unidad_medida
     WHERE Descripcion_unidad_medida = p_unidad_medida;
 
-    -- 2. Si NO existe (es decir, el conteo es 0), la insertamos automáticamente
+    -- 2. Registrar la unidad de medida si no existe
     IF v_existe_unidad = 0 THEN
-        INSERT INTO unidad_medida (Descripcion_unidad_medida, Estado_unidad_medida) 
-        VALUES (p_unidad_medida, 1);
+        INSERT INTO unidad_medida (
+            Descripcion_unidad_medida,
+            Estado_unidad_medida
+        )
+        VALUES (
+            p_unidad_medida,
+            1
+        );
     END IF;
 
-    -- 3. Hacemos la inserción en la tabla 'productos' con todos tus valores
+    -- 3. Insertar el producto
     INSERT INTO productos (
-        Nombre_producto, 
-        Codigo_producto, 
-        Valor_unitario_producto, 
-        Cantidad_Producto, 
-        Unidad_medida_producto, 
-        Tiene_FV, 
-        Conoce_FV, 
-        Fecha_vencimiento, 
-        Foto_producto, 
-        Cantidad_minima, 
-        Estado_producto, 
+        Nombre_producto,
+        Codigo_producto,
+        Valor_unitario_producto,
+        Cantidad_Producto,
+        Unidad_medida_producto,
+        Tiene_FV,
+        Conoce_FV,
+        Fecha_vencimiento,
+        Foto_producto,
+        Cantidad_minima,
+        Estado_producto,
         Usuario_id_usuario
-    ) 
+    )
     VALUES (
-        p_nombre, 
-        p_codigo, 
-        p_valor_unitario, 
-        p_cantidad, 
-        p_unidad_medida, 
-        p_tiene_fv, 
-        p_conoce_fv, 
-        p_fecha_vencimiento, 
-        p_foto, 
-        p_cantidad_minima, 
-        p_estado, 
+        p_nombre,
+        p_codigo,
+        p_valor_unitario,
+        p_cantidad,
+        p_unidad_medida,
+        p_tiene_fv,
+        p_conoce_fv,
+        p_fecha_vencimiento,
+        p_foto,
+        p_cantidad_minima,
+        1,
         p_usuario_id
     );
+
+    -- 4. Obtener el ID del producto recién insertado
+    SET v_producto_id = LAST_INSERT_ID();
+
+    -- 5. Registrar el lote solo si tiene fecha de vencimiento
+    -- y además conoce dicha fecha
+    IF p_tiene_fv = 1 AND p_conoce_fv = 1 THEN
+
+        INSERT INTO log_producto (
+            Fecha_llegada_producto,
+            Cantidad_llegada_producto,
+            Lote_producto,
+            Fecha_vencimiento,
+            producto_id_producto,
+            Estado_log_producto
+        )
+        VALUES (
+            CURDATE(),
+            p_cantidad,
+            'Primer lote',
+            p_fecha_vencimiento,
+            v_producto_id,
+            1
+        );
+
+    END IF;
 
 END //
 
 DELIMITER ;
+
 
 /*Llamado al procedimiento almacenado para insertar producto y unidad de medida*/
 CALL I_Producto_Unidad(
@@ -270,4 +304,22 @@ CALL I_Usuario(
     -- Nombre_usuario
     -- Email_usuario
     -- Contrasena_usuario
+);
+
+/*Procedimiento para consultar producto bajo*/
+DELIMITER //
+
+DELIMITER //
+CREATE PROCEDURE C_Producto_Bajo(IN Usuario INT)
+
+BEGIN
+    SELECT * 
+    FROM `productos` 
+    WHERE Cantidad_Producto <= Cantidad_minima AND Usuario_id_usuario = Usuario ;
+END //
+DELIMITER ;
+
+/*Llamado al procedimiento para consultar productos bajos*/
+CALL C_Producto_Bajo(-- Variable
+    -- Usuario
 );

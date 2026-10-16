@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iniciar Sesi&oacute;n</title>
     <link rel="shortcut icon" href="favicon.ico" />
+    <script>
+        localStorage.removeItem('sesionIniciada');
+    </script>
     <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/modules/prism/prism.css">
@@ -147,7 +150,8 @@
                     <i class="fas fa-lock input-icon"></i>
 
 
-                    <input type="password" id="password" name="Contrasena_usuario" placeholder=" " autocomplete="current-password" required>
+                    <input type="password" id="password" name="Contrasena_usuario" placeholder=" "
+                        autocomplete="current-password" required>
 
 
                     <label for="password">
@@ -179,7 +183,7 @@
                 <div class="login-options">
 
 
-<!--                     <label class="remember">
+                    <!--                     <label class="remember">
 
 
                         <input type="checkbox" id="remember">

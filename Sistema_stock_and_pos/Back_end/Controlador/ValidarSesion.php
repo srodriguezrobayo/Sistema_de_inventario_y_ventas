@@ -3,6 +3,7 @@
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+    echo "<script>console.log('Sesión iniciada');</script>";
 }
 
 if (
@@ -10,5 +11,6 @@ if (
     $_SESSION['autenticado'] !== true
 ) {
     header('Location: login.html');
+    echo "<script>console.log('Sesión no válida');</script>";
     exit;
 }
