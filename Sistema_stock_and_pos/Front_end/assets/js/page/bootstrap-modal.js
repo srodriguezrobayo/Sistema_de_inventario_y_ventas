@@ -529,76 +529,131 @@ $(".trigger-modal-producto").fireModal({
   ]
 });
 
+/* =====================================================
+   BUCLE: CREAR LOS FORMULARIOS DE EDICIÓN
+   ===================================================== */
 
 for (let i = 0; i <= 4; i++) {
+
   let modal_1_5_body = '<div>';
-  modal_1_5_body += '<form id="formEditarproducto_' + i + '">';
+
+  modal_1_5_body +=
+    '<form id="formEditarproducto_' + i + '">';
 
   /* =====================================================
-     FILA 1: Nombre y Código
+     FILA 1: NOMBRE Y CÓDIGO
      ===================================================== */
+
   modal_1_5_body += '<div class="row">';
 
-  /* Nombre producto */
+  // Nombre del producto
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
   modal_1_5_body += '<div class="form-floating">';
-  modal_1_5_body += '<input type="text" class="form-control" id="NombreproductoEditar" name="Nombrep" placeholder="Nombre producto" required>';
-  modal_1_5_body += '<label for="NombreproductoEditar">Nombre producto <span style="color: red;">*</span></label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
 
-  /* Código producto */
+  modal_1_5_body +=
+    '<input type="text" class="form-control" ' +
+    'id="NombreproductoEditar_' + i + '" ' +
+    'name="Nombrep" placeholder="Nombre producto" required>';
+
+  modal_1_5_body +=
+    '<label for="NombreproductoEditar_' + i + '">' +
+    'Nombre producto <span style="color:red;">*</span></label>';
+
+  modal_1_5_body += '</div></div>';
+
+  // Código del producto
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
   modal_1_5_body += '<div class="form-floating">';
-  modal_1_5_body += '<input type="text" class="form-control" id="CodigoproductoEditar" name="codigop" placeholder="Código producto" required>';
-  modal_1_5_body += '<label for="CodigoproductoEditar">Código producto <span style="color: red;">*</span></label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
 
-  modal_1_5_body += '</div>';
+  modal_1_5_body +=
+    '<input type="text" class="form-control" ' +
+    'id="CodigoproductoEditar_' + i + '" ' +
+    'name="codigop" placeholder="Código producto" required>';
 
+  modal_1_5_body +=
+    '<label for="CodigoproductoEditar_' + i + '">' +
+    'Código producto <span style="color:red;">*</span></label>';
+
+  modal_1_5_body += '</div></div>';
+  modal_1_5_body += '</div>';
 
   /* =====================================================
-     FILA 2: Valor unitario y Cantidad
+     FILA 2: VALOR UNITARIO Y CANTIDAD
      ===================================================== */
+
   modal_1_5_body += '<div class="row">';
 
-  /* Valor unitario */
+  // Valor unitario
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
   modal_1_5_body += '<div class="form-floating">';
-  modal_1_5_body += '<input type="number" class="form-control" id="ValoruniproductoEditar" name="Valorunip" placeholder="Valor unitario producto" min="1" required>';
-  modal_1_5_body += '<label for="ValoruniproductoEditar">Valor unitario producto <span style="color: red;">*</span></label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
 
-  /* Cantidad */
+  modal_1_5_body +=
+    '<input type="number" class="form-control" ' +
+    'id="ValoruniproductoEditar_' + i + '" ' +
+    'name="Valorunip" placeholder="Valor unitario producto" ' +
+    'min="1" required>';
+
+  modal_1_5_body +=
+    '<label for="ValoruniproductoEditar_' + i + '">' +
+    'Valor unitario producto ' +
+    '<span style="color:red;">*</span></label>';
+
+  modal_1_5_body += '</div></div>';
+
+  // Cantidad del producto
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="form-floating">';
-  modal_1_5_body += '<input type="number" class="form-control" id="CantidadproductoEditar" name="cantidap" placeholder="Cantidad producto" min="1" required>';
-  modal_1_5_body += '<label for="CantidadproductoEditar">Cantidad producto <span style="color: red;">*</span></label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
+  modal_1_5_body += '<div class="input-group">';
+
+  modal_1_5_body += '<div class="form-floating flex-grow-1">';
+
+  modal_1_5_body +=
+    '<input type="number" class="form-control" ' +
+    'id="CantidadproductoEditar_' + i + '" ' +
+    'name="cantidap" placeholder="Cantidad producto" ' +
+    'min="1" step="1" disabled>';
+
+  modal_1_5_body +=
+    '<label for="CantidadproductoEditar_' + i + '">' +
+    'Cantidad producto</label>';
 
   modal_1_5_body += '</div>';
 
+  // Botón de devolución
+  modal_1_5_body +=
+    '<button type="button" ' +
+    'class="btn btn-outline-secondary btnDevolucionProducto" ' +
+    'data-indice="' + i + '" ' +
+    'title="Realizar devolución" ' +
+    'aria-label="Realizar devolución de cantidad">' +
+    '<i class="fas fa-info-circle"></i>' +
+    '</button>';
+
+  modal_1_5_body += '</div></div>';
+  modal_1_5_body += '</div>';
 
   /* =====================================================
-     FILA 3
+     FILA 3: UNIDAD DE MEDIDA Y STOCK MÍNIMO
      ===================================================== */
+
   modal_1_5_body += '<div class="row">';
 
-  /* -----------------------------------------------------
-     COLUMNA IZQUIERDA
-     ----------------------------------------------------- */
+  // Unidad de medida
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
 
-  /* Unidad de medida */
-  modal_1_5_body += '<div class="mb-3">';
-  modal_1_5_body += '<label for="exampleDataListEditar" class="form-label">Unidad de medida <span style="color: red;">*</span></label>';
+  modal_1_5_body +=
+    '<label for="exampleDataListEditar_' + i + '" ' +
+    'class="form-label">Unidad de medida ' +
+    '<span style="color:red;">*</span></label>';
 
-  modal_1_5_body += '<input class="form-control" list="datalistOptionsEditar" id="exampleDataListEditar" name="unidad" placeholder="Seleccione una unidad" required>';
+  modal_1_5_body +=
+    '<input class="form-control" ' +
+    'list="datalistOptionsEditar_' + i + '" ' +
+    'id="exampleDataListEditar_' + i + '" ' +
+    'name="unidad" placeholder="Seleccione una unidad" required>';
 
-  modal_1_5_body += '<datalist id="datalistOptionsEditar">';
+  modal_1_5_body +=
+    '<datalist id="datalistOptionsEditar_' + i + '">';
+
   modal_1_5_body += '<option value="Unidad">';
   modal_1_5_body += '<option value="Libra">';
   modal_1_5_body += '<option value="Kilogramos">';
@@ -606,118 +661,58 @@ for (let i = 0; i <= 4; i++) {
   modal_1_5_body += '<option value="Litros">';
   modal_1_5_body += '<option value="Centímetros">';
   modal_1_5_body += '<option value="Metros">';
+
   modal_1_5_body += '</datalist>';
-
   modal_1_5_body += '</div>';
 
-
-  /* ¿Conoce fecha? */
-  modal_1_5_body += '<div id="segundoRadioEditar_' + i + '" class="mb-3" style="display: none;">';
-
-  modal_1_5_body += '<label class="form-label">¿Conoce la fecha de vencimiento? <span style="color: red;">*</span></label>';
-
-  modal_1_5_body += '<div class="row">';
-
-  modal_1_5_body += '<div class="col-6">';
-  modal_1_5_body += '<div class="form-check">';
-  modal_1_5_body += '<input class="form-check-input" type="radio" name="RegistrarFechaEditar" id="registrarFechaSiEditar_' + i + '" value="Si">';
-  modal_1_5_body += '<label class="form-check-label" for="registrarFechaSiEditar">Si</label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '<div class="col-6">';
-  modal_1_5_body += '<div class="form-check">';
-  modal_1_5_body += '<input class="form-check-input" type="radio" name="RegistrarFechaEditar" id="registrarFechaNoEditar" value="No">';
-  modal_1_5_body += '<label class="form-check-label" for="registrarFechaNoEditar">No</label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</div>';
-
-
-  /* -----------------------------------------------------
-     COLUMNA DERECHA
-     ----------------------------------------------------- */
+  // Cantidad mínima de stock
   modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
+  modal_1_5_body += '<div class="form-floating">';
 
-  /* ¿Tiene fecha? */
-  modal_1_5_body += '<div class="mb-3">';
+  modal_1_5_body +=
+    '<input type="number" class="form-control" ' +
+    'id="avisolowstockproductoEditar_' + i + '" ' +
+    'name="avisolowstockproducto" ' +
+    'placeholder="Cantidad mínima en stock" ' +
+    'min="1" required>';
 
-  modal_1_5_body += '<label class="form-label">¿Tiene fecha de vencimiento? <span style="color: red;">*</span></label>';
+  modal_1_5_body +=
+    '<label for="avisolowstockproductoEditar_' + i + '">' +
+    'Cantidad mínima en stock ' +
+    '<span style="color:red;">*</span></label>';
 
-  modal_1_5_body += '<br>';
-
-  modal_1_5_body += '<div class="row">';
-
-  modal_1_5_body += '<div class="col-6">';
-  modal_1_5_body += '<div class="form-check">';
-  modal_1_5_body += '<input class="form-check-input" type="radio" name="TieneFVEditar" id="radioSiEditar_' + i + '" value="Si" required>';
-  modal_1_5_body += '<label class="form-check-label" for="radioSiEditar_' + i + '">Si</label>';
+  modal_1_5_body += '</div></div>';
   modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '<div class="col-6">';
-  modal_1_5_body += '<div class="form-check">';
-  modal_1_5_body += '<input class="form-check-input" type="radio" name="TieneFVEditar" id="radioNoEditar_' + i + '" value="No">';
-  modal_1_5_body += '<label class="form-check-label" for="radioNoEditar">No</label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
-
-
-  /* Fecha de vencimiento */
-  modal_1_5_body += '<br>';
-
-  modal_1_5_body += '<div id="campoFechaEditar_' + i + '" class="mb-3" style="display: none;">';
-
-  modal_1_5_body += '<label for="FechaVencimientoEditar" class="form-label">Fecha de vencimiento <span style="color: red;">*</span></label>';
-
-  modal_1_5_body += '<input type="text" class="form-control datepicker FechaVencimientoEditar" id="FechaVencimientoEditar_' + i + '" name="FechaVencimientoEditar">';
-
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</div>';
-
 
   /* =====================================================
-     FILA 4: Foto y Stock mínimo
+     FILA 4: FOTO DEL PRODUCTO
      ===================================================== */
-  modal_1_5_body += '<div class="row">';
 
-  /* Foto */
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<label for="FotoproductoEditar" class="form-label">Foto producto</label>';
-  modal_1_5_body += '<input type="file" class="form-control" id="FotoproductoEditar" name="Fotoproducto" placeholder="Foto producto">';
-  modal_1_5_body += '</div>';
+  modal_1_5_body += '<div class="mb-3">';
 
+  modal_1_5_body +=
+    '<label for="FotoproductoEditar_' + i + '" ' +
+    'class="form-label">Foto producto</label>';
 
-  /* Stock mínimo */
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<br>';
-  modal_1_5_body += '<div class="form-floating">';
-  modal_1_5_body += '<input type="number" class="form-control" id="avisolowstockproductoEditar" name="avisolowstockproducto" placeholder="Cantidad minima en stock" min="1" required>';
-  modal_1_5_body += '<label for="avisolowstockproductoEditar">Cantidad minima en stock <span style="color: red;">*</span></label>';
-  modal_1_5_body += '</div>';
-  modal_1_5_body += '</div>';
+  modal_1_5_body +=
+    '<input type="file" class="form-control" ' +
+    'id="FotoproductoEditar_' + i + '" ' +
+    'name="Fotoproducto" accept="image/*">';
 
   modal_1_5_body += '</div>';
 
   modal_1_5_body += '</form>';
   modal_1_5_body += '</div>';
 
-
   /* =====================================================
-     MODAL EDITAR
+     MODAL EDITAR PRODUCTO
      ===================================================== */
 
-  $(".formEditarproducto_" + i).fireModal({
+  // Guardamos el índice en una constante para evitar
+  // problemas de referencia dentro de los eventos.
+  const indice = i;
+
+  $(".formEditarproducto_" + indice).fireModal({
 
     title: 'Editar producto',
 
@@ -731,7 +726,9 @@ for (let i = 0; i <= 4; i++) {
 
         handler: function (modal) {
 
-          let formulario = document.getElementById("formEditarproducto_" + i);
+          let formulario = document.getElementById(
+            "formEditarproducto_" + indice
+          );
 
           if (!formulario.checkValidity()) {
             formulario.reportValidity();
@@ -752,60 +749,153 @@ for (let i = 0; i <= 4; i++) {
       }
     ]
   });
-
-
-  /* =====================================================
-     EVENTOS JQUERY - EDITAR
-     ===================================================== */
-
-  /* Tiene fecha de vencimiento */
-  $(document).on('change', 'input[name="TieneFVEditar"]', function () {
-
-    if ($('#radioSiEditar_' + i + '').is(':checked')) {
-
-      $('#segundoRadioEditar_' + i).slideDown();
-
-      $('input[name="RegistrarFechaEditar"]')
-        .prop('required', true);
-
-    } else if ($('#radioNoEditar_' + i).is(':checked')) {
-
-      $('#segundoRadioEditar_' + i).slideUp();
-
-      $('#campoFechaEditar_' + i).slideUp();
-
-      $('input[name="RegistrarFechaEditar"]')
-        .prop('required', false)
-        .prop('checked', false);
-
-      $('#FechaVencimientoEditar_' + i)
-        .prop('required', false)
-        .val('');
-    }
-  });
-
-
-  /* Desea registrar fecha */
-  $(document).on('change', 'input[name="RegistrarFechaEditar"]', function () {
-
-    if ($('#registrarFechaSiEditar_' + i).is(':checked')) {
-
-      $('#campoFechaEditar_' + i).slideDown();
-
-      $('#FechaVencimientoEditar_' + i)
-        .prop('required', true);
-
-    } else if ($('#registrarFechaNoEditar').is(':checked')) {
-
-      $('#campoFechaEditar_' + i).slideUp();
-
-      $('#FechaVencimientoEditar_' + i)
-        .prop('required', false)
-        .val('');
-    }
-  });
 }
 
+
+
+/* =====================================================
+   DEVOLUCIÓN DE PRODUCTOS CON SWEETALERT2
+   ===================================================== */
+
+$(document).on('click', '.btnDevolucionProducto', function () {
+
+  const indice = $(this).data('indice');
+
+  const campoCantidad = document.getElementById(
+    'CantidadproductoEditar_' + indice
+  );
+
+  // Comprobar que el campo exista
+  if (!campoCantidad) {
+    console.error('No se encontró el campo de cantidad:', indice);
+    return;
+  }
+
+  // Evitar que Bootstrap interfiera con el foco
+  $(document).off('focusin.bs.modal');
+  /* =====================================================
+   SOLUCIÓN DE CONFLICTO ENTRE BOOTSTRAP Y SWEETALERT2
+   ===================================================== */
+
+  // Permitir que el foco se gestione fuera del modal Bootstrap.
+  // Compatible con versiones de Bootstrap que utilizan
+  // el evento focusin.bs.modal para mantener el foco.
+  $(document).off('focusin.bs.modal');
+
+  /* =====================================================
+     ALERTA 1: CONFIRMAR DEVOLUCIÓN
+     ===================================================== */
+
+  Swal.fire({
+    title: '¿Realizar devolución?',
+    text: '¿Deseas registrar una devolución para este producto?',
+    icon: 'question',
+
+    showCancelButton: true,
+    confirmButtonText: 'Sí, continuar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#198754', // Verde
+    cancelButtonColor: '#dc3545',  // Rojo
+    reverseButtons: true,
+
+    allowOutsideClick: false,
+    returnFocus: false
+
+  }).then((resultado) => {
+
+    if (!resultado.isConfirmed) {
+      return;
+    }
+
+    /* =====================================================
+       ALERTA 2: INGRESAR EL VALOR
+       ===================================================== */
+
+    Swal.fire({
+      title: 'Registrar devolución',
+      text: 'Ingresa el valor correspondiente a la devolución.',
+
+      input: 'text',
+      inputPlaceholder: 'Escribe aquí...',
+      inputValue: '',
+
+      inputAttributes: {
+        autocomplete: 'off',
+        autocapitalize: 'off',
+        spellcheck: 'false'
+      },
+
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar devolución',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#198754', // Verde
+      cancelButtonColor: '#dc3545',  // Rojo
+      reverseButtons: true,
+
+      allowOutsideClick: false,
+      returnFocus: false,
+
+      didOpen: () => {
+        const input = Swal.getInput();
+
+        if (input) {
+          input.disabled = false;
+          input.readOnly = false;
+          input.focus();
+        }
+      },
+
+      inputValidator: (valor) => {
+        if (!valor || !valor.trim()) {
+          return 'Debes ingresar un valor.';
+        }
+      }
+
+    }).then((respuesta) => {
+
+      // Si cancela, no modificar el campo
+      if (!respuesta.isConfirmed) {
+        return;
+      }
+
+      // Obtener el texto escrito en SweetAlert2
+      const valorIngresado = respuesta.value.trim();
+
+      // Colocar el valor en el campo correspondiente
+      campoCantidad.value = valorIngresado;
+
+      // Disparar eventos por si otros scripts escuchan cambios
+      campoCantidad.dispatchEvent(
+        new Event('input', { bubbles: true })
+      );
+
+      campoCantidad.dispatchEvent(
+        new Event('change', { bubbles: true })
+      );
+
+      // Mantener el campo deshabilitado
+      campoCantidad.disabled = true;
+
+      console.log(
+        'Valor asignado al producto ' + indice + ':',
+        campoCantidad.value
+      );
+
+      // Confirmación
+      Swal.fire({
+        title: 'Devolución registrada',
+        text: 'El valor se ha colocado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#53b889', // Verde
+        returnFocus: false
+      });
+
+    });
+
+  });
+
+});
 
 let modal_2_body = '<div>';
 modal_2_body += '<form id="formactcantproduct">';

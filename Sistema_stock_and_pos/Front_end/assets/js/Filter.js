@@ -1,47 +1,62 @@
 
+"use strict";
+
 // =====================================================
 // BUSCADOR DE PRODUCTOS POR TARJETAS
+// Compatible con Generate_product.js
 // =====================================================
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const formulario = document.getElementById('formBuscarProducto');
-    const buscador = document.getElementById('buscarProducto');
+    const formulario = document.getElementById("formBuscarProducto");
+    const buscador = document.getElementById("buscarProducto");
+    const contenedor = document.getElementById("contenedorProductos");
 
     if (!formulario || !buscador) {
-        console.error('No se encontró el formulario o el campo de búsqueda.');
+        console.error(
+            "No se encontró el formulario o el campo de búsqueda."
+        );
         return;
     }
-
-    // Contenedor que agrupa las tarjetas
-    const contenedor = document.querySelector('.row:has(.producto-card)');
 
     if (!contenedor) {
-        console.error('No se encontró el contenedor de los productos.');
+        console.error(
+            "No se encontró el contenedor #contenedorProductos."
+        );
         return;
     }
 
-    // Mensaje cuando no existen coincidencias
-    const mensaje = document.createElement('div');
-    mensaje.id = 'mensajeSinProductos';
-    mensaje.className = 'col-12 text-center text-muted py-4';
-    mensaje.textContent = 'No se encontraron productos.';
-    mensaje.style.display = 'none';
+    // Crear mensaje cuando no hay coincidencias
+    let mensaje = document.getElementById("mensajeSinProductos");
 
-    contenedor.appendChild(mensaje);
+    if (!mensaje) {
+        mensaje = document.createElement("div");
+        mensaje.id = "mensajeSinProductos";
+        mensaje.className = "col-12 text-center text-muted py-4";
+        mensaje.textContent = "No se encontraron productos.";
+        mensaje.style.display = "none";
 
-    // Normalizar texto para ignorar mayúsculas y tildes
+        contenedor.appendChild(mensaje);
+    }
+
+    // Normalizar texto: ignora mayúsculas y tildes
     function normalizarTexto(texto) {
-        return texto
+        return String(texto || "")
             .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
             .trim();
     }
 
+    // Filtrar tarjetas de productos
     function filtrarProductos() {
         const busqueda = normalizarTexto(buscador.value);
-        const tarjetas = contenedor.querySelectorAll('.producto-card');
+
+        // Las tarjetas se generan dinámicamente.
+        // Seleccionamos las columnas que contienen cada tarjeta.
+        const tarjetas = Array.from(contenedor.children).filter(function (elemento) {
+            return elemento.querySelector(".card") !== null;
+        });
 
         let encontrados = 0;
 
@@ -49,23 +64,34 @@ document.addEventListener('DOMContentLoaded', function () {
             const contenido = normalizarTexto(tarjeta.textContent);
             const coincide = contenido.includes(busqueda);
 
-            tarjeta.style.display = coincide ? '' : 'none';
+            tarjeta.style.display = coincide ? "" : "none";
 
             if (coincide) {
                 encontrados++;
             }
         });
 
-        mensaje.style.display = encontrados === 0 ? '' : 'none';
+        mensaje.style.display =
+            encontrados === 0 && tarjetas.length > 0 ? "" : "none";
     }
 
     // Filtrar mientras se escribe
-    buscador.addEventListener('input', filtrarProductos);
+    buscador.addEventListener("input", filtrarProductos);
 
-    // También funciona al pulsar el botón de búsqueda
-    formulario.addEventListener('submit', function (evento) {
+    // Filtrar al pulsar el botón Buscar
+    formulario.addEventListener("submit", function (evento) {
         evento.preventDefault();
         filtrarProductos();
+    });
+
+    // Volver a filtrar cuando Generate_product.js
+    // termine de cargar o cambiar los productos.
+    const observador = new MutationObserver(function () {
+        filtrarProductos();
+    });
+
+    observador.observe(contenedor, {
+        childList: true
     });
 
 });

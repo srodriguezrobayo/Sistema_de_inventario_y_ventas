@@ -308,14 +308,14 @@ CALL I_Usuario(
 
 /*Procedimiento para consultar producto bajo*/
 DELIMITER //
-
-DELIMITER //
-CREATE PROCEDURE C_Producto_Bajo(IN Usuario INT)
+CREATE PROCEDURE C_Producto_Bajo(IN Usuario Varchar(500))
 
 BEGIN
-    SELECT * 
-    FROM `productos` 
-    WHERE Cantidad_Producto <= Cantidad_minima AND Usuario_id_usuario = Usuario ;
+    SELECT productos.* 
+    FROM productos 
+    INNER JOIN usuarios
+    ON usuarios.Id_usuario = productos.Usuario_id_usuario
+    WHERE productos.Cantidad_Producto <= productos.Cantidad_minima AND usuarios.Email_usuario = Usuario;
 END //
 DELIMITER ;
 
