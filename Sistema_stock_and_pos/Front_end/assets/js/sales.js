@@ -1,174 +1,389 @@
-    $(document).ready(function() {
-      
-      // 1. Inicialización de Select2
-      $('.select2-enable').select2({
-        placeholder: 'Buscar o seleccionar producto...',
-        allowClear: true
-      });
 
-      let carrito = [];
+"use strict";
 
-      // 2. Evento Cambio en Select2 para actualizar Precio Unitario
-      $('#selectProducto').on('change', function() {
-        const optionSelected = $(this).find('option:selected');
-        const precio = parseFloat(optionSelected.data('precio')) || 0;
-        $('#precioUnitario').text(`$${precio.toFixed(2)}`);
-      });
+$(document).ready(function () {
 
-      // 3. Agregar elemento al carrito
-      $('#btnAdd').on('click', function() {
-        const optionSelected = $('#selectProducto').find('option:selected');
-        const id = $('#selectProducto').val();
+    // =====================================================
+    // 1. INICIALIZAR SELECT2
+    // =====================================================
 
-        if (!id) {
-          Swal.fire({ icon: 'info', title: 'Atención', text: 'Por favor selecciona un producto.', confirmButtonColor: '#224247' });
-          return;
+    $(".select2-enable").select2({
+        placeholder: "Buscar o seleccionar producto...",
+        allowClear: true,
+        width: "100%"
+    });
+
+    let carrito = [];
+
+    // =====================================================
+    // 2. IDENTIFICAR LA OPERACIÓN
+    // =====================================================
+
+    function esDevolucion() {
+        return $('input[name="value"]:checked').val() === "Devolucion";
+    }
+
+    function formatearMoneda(valor) {
+        const numero = Number(valor) || 0;
+        const importe = Math.abs(numero).toFixed(2);
+
+        if (esDevolucion() && numero !== 0) {
+            return "-$" + importe;
         }
 
-        const nombre = optionSelected.data('nombre');
-        const precio = parseFloat(optionSelected.data('precio'));
-        const cantidad = parseInt($('#inputCantidad').val()) || 1;
+        return "$" + importe;
+    }
 
-        if (cantidad <= 0) return;
+    // =====================================================
+    // 3. ACTUALIZAR PRECIO UNITARIO
+    // =====================================================
 
-        const itemExistente = carrito.find(item => item.id === id);
-        if (itemExistente) {
-          itemExistente.cantidad += cantidad;
-          itemExistente.subtotal = itemExistente.cantidad * itemExistente.precio;
+    $("#selectProducto").on("change", function () {
+
+        const opcion = $(this).find("option:selected");
+        const precio = parseFloat(opcion.data("precio")) || 0;
+
+        $("#precioUnitario").text(formatearMoneda(precio));
+    });
+
+    // =====================================================
+    // 4. CAMBIAR EL BOTÓN SEGÚN LA OPERACIÓN
+    // =====================================================
+
+    function actualizarTipoOperacion() {
+
+        if (esDevolucion()) {
+
+            $("#btnCheckout").html(
+                '<i class="fas fa-undo me-1"></i> Realizar devolución'
+            );
+
+            $(".summary-title").html(
+                '<i class="fas fa-receipt me-2"></i>Resumen de devolución'
+            );
+
+            $(".total-price-label").text("Total de devolución:");
+
         } else {
-          carrito.push({
-            id: id,
-            nombre: nombre,
-            precio: precio,
-            cantidad: cantidad,
-            subtotal: precio * cantidad
-          });
+
+            $("#btnCheckout").html(
+                '<i class="fas fa-check-circle me-1"></i> Realizar Venta'
+            );
+
+            $(".summary-title").html(
+                '<i class="fas fa-receipt me-2"></i>Resumen de Cobro'
+            );
+
+            $(".total-price-label").text("Total a pagar:");
+        }
+
+        actualizarTabla();
+
+        const opcion = $("#selectProducto").find("option:selected");
+
+        if ($("#selectProducto").val()) {
+            const precio = parseFloat(opcion.data("precio")) || 0;
+            $("#precioUnitario").text(formatearMoneda(precio));
+        } else {
+            $("#precioUnitario").text("$0.00");
+        }
+    }
+
+    $('input[name="value"]').on("change", function () {
+        actualizarTipoOperacion();
+    });
+
+    // =====================================================
+    // 5. AGREGAR PRODUCTOS AL CARRITO
+    // =====================================================
+
+    $("#btnAdd").on("click", function () {
+
+        const opcion = $("#selectProducto").find("option:selected");
+        const id = $("#selectProducto").val();
+
+        if (!id) {
+            Swal.fire({
+                icon: "info",
+                title: "Atención",
+                text: "Por favor selecciona un producto.",
+                confirmButtonColor: "#224247"
+            });
+
+            return;
+        }
+
+        const nombre = opcion.data("nombre") || opcion.text();
+        const precio = parseFloat(opcion.data("precio")) || 0;
+        const cantidad = Number($("#inputCantidad").val());
+
+        if (!Number.isInteger(cantidad) || cantidad <= 0) {
+            Swal.fire({
+                icon: "warning",
+                title: "Cantidad inválida",
+                text: "Ingresa una cantidad entera mayor que cero.",
+                confirmButtonColor: "#224247"
+            });
+
+            return;
+        }
+
+        const itemExistente = carrito.find(function (item) {
+            return String(item.id) === String(id);
+        });
+
+        if (itemExistente) {
+
+            itemExistente.cantidad += cantidad;
+
+            itemExistente.subtotal =
+                itemExistente.precio * itemExistente.cantidad;
+
+        } else {
+
+            carrito.push({
+                id: String(id),
+                nombre: String(nombre),
+                precio: precio,
+                cantidad: cantidad,
+                subtotal: precio * cantidad
+            });
         }
 
         actualizarTabla();
         resetCampos();
-      });
+    });
 
-      // 4. Quitar Último Elemento
-      $('#btnRemove').on('click', function() {
+    // =====================================================
+    // 6. QUITAR EL ÚLTIMO PRODUCTO
+    // =====================================================
+
+    $("#btnRemove").on("click", function () {
+
         if (carrito.length > 0) {
-          carrito.pop();
-          actualizarTabla();
+            carrito.pop();
+            actualizarTabla();
         }
-      });
+    });
 
-      // 5. Eliminar elemento individual
-      $(document).on('click', '.btn-delete-row', function() {
-        const index = $(this).data('index');
-        carrito.splice(index, 1);
-        actualizarTabla();
-      });
+    // =====================================================
+    // 7. ELIMINAR PRODUCTO INDIVIDUAL
+    // =====================================================
 
-      // 6. Actualizar Tabla y Totales
-      function actualizarTabla() {
-        const tbody = $('#cartTableBody');
+    $(document).on("click", ".btn-delete-row", function () {
+
+        const indice = Number($(this).attr("data-index"));
+
+        if (
+            Number.isInteger(indice) &&
+            indice >= 0 &&
+            indice < carrito.length
+        ) {
+            carrito.splice(indice, 1);
+            actualizarTabla();
+        }
+    });
+
+    // =====================================================
+    // 8. ACTUALIZAR TABLA Y TOTALES
+    // =====================================================
+
+    function actualizarTabla() {
+
+        const tbody = $("#cartTableBody");
         tbody.empty();
 
         if (carrito.length === 0) {
-          tbody.append(`
-            <tr id="emptyRow">
-              <td colspan="5" class="text-center text-muted py-3">No hay productos agregados</td>
-            </tr>
-          `);
-          $('#subtotalVal').text('$0.00');$('#totalVal').text('$0.00');
-          return;
+
+            tbody.append(`
+                <tr id="emptyRow">
+                    <td colspan="5"
+                        class="text-center text-muted py-3">
+                        No hay productos agregados
+                    </td>
+                </tr>
+            `);
+
+            $("#subtotalVal").text("$0.00");
+            $("#totalVal").text("$0.00");
+
+            return;
         }
 
-        let totalPagar = 0;
+        let total = 0;
 
-        carrito.forEach((item, index) => {
-          totalPagar += item.subtotal;
-          tbody.append(`
-            <tr>
-              <td class="fw-semibold">${item.nombre}</td>
-              <td class="text-center">${item.cantidad}</td>
-              <td class="text-end">$${item.precio.toFixed(2)}</td>
-              <td class="text-end fw-bold">$${item.subtotal.toFixed(2)}</td>
-              <td class="text-center">
-                <button type="button" class="btn btn-sm text-danger border-0 btn-delete-row" data-index="${index}">
-                  <i class="fas fa-times"></i>
-                </button>
-              </td>
-            </tr>
-          `);
+        carrito.forEach(function (item, index) {
+
+            item.subtotal = item.precio * item.cantidad;
+            total += item.subtotal;
+
+            // Crear elementos de forma segura para evitar
+            // insertar nombres de productos directamente como HTML.
+            const fila = $("<tr></tr>");
+
+            $("<td></td>")
+                .addClass("fw-semibold")
+                .text(item.nombre)
+                .appendTo(fila);
+
+            $("<td></td>")
+                .addClass("text-center")
+                .text(item.cantidad)
+                .appendTo(fila);
+
+            $("<td></td>")
+                .addClass("text-end")
+                .text(formatearMoneda(item.precio))
+                .appendTo(fila);
+
+            $("<td></td>")
+                .addClass("text-end fw-bold")
+                .text(formatearMoneda(item.subtotal))
+                .appendTo(fila);
+
+            const celdaEliminar = $("<td></td>")
+                .addClass("text-center");
+
+            $("<button></button>")
+                .attr("type", "button")
+                .attr("data-index", index)
+                .addClass(
+                    "btn btn-sm text-danger border-0 btn-delete-row"
+                )
+                .html('<i class="fas fa-times"></i>')
+                .appendTo(celdaEliminar);
+
+            fila.append(celdaEliminar);
+            tbody.append(fila);
         });
 
-        $('#subtotalVal').text(`$${totalPagar.toFixed(2)}`);
-        $('#totalVal').text(`$${totalPagar.toFixed(2)}`);
-      }
+        $("#subtotalVal").text(formatearMoneda(total));
+        $("#totalVal").text(formatearMoneda(total));
+    }
 
-      function resetCampos() {
-        $('#selectProducto').val(null).trigger('change');
-        $('#precioUnitario').text('$0.00');$('#inputCantidad').val('1');
-      }
+    // =====================================================
+    // 9. REINICIAR CAMPOS
+    // =====================================================
 
-      // 7. Evento Realizar Venta -> Pide el correo con SweetAlert2
-      $('#btnCheckout').on('click', function() {
+    function resetCampos() {
+
+        $("#selectProducto").val(null).trigger("change");
+        $("#precioUnitario").text("$0.00");
+        $("#inputCantidad").val("1");
+    }
+
+    // =====================================================
+    // 10. SOLICITAR CORREO Y FINALIZAR OPERACIÓN
+    // =====================================================
+
+    $("#btnCheckout").on("click", async function () {
+
         if (carrito.length === 0) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Carrito vacío',
-            text: 'Agrega productos antes de realizar la venta.',
-            confirmButtonColor: '#224247'
-          });
-          return;
+
+            Swal.fire({
+                icon: "warning",
+                title: "Carrito vacío",
+                text: "Agrega productos antes de continuar.",
+                confirmButtonColor: "#224247"
+            });
+
+            return;
         }
 
-        const totalPagar = $('#totalVal').text();
+        const devolucion = esDevolucion();
 
-        // Alerta SweetAlert2 para capturar el correo
-        Swal.fire({
-          title: 'Realizar Venta',
-          text: `Total a cobrar: ${totalPagar}. Ingrese el correo para enviar la factura:`,
-          input: 'email',
-          inputPlaceholder: 'correo@cliente.com',
-          showCancelButton: true,
-          confirmButtonText: 'Enviar Factura y Finalizar',
-          cancelButtonText: 'Omitir / Solo Cobrar',
-          confirmButtonColor: '#10b981',
-          cancelButtonColor: '#64748b'
-        }).then((result) => {
-          // Construimos el objeto de la venta para guardarlo en la base de datos o histórico
-          const objetoVenta = {
-            numFactura: $('#lblNumFactura').text(),
-            cajero: $('#lblCajero').text(),
-            fecha: $('#lblFechaExp').text(),
-            items: carrito,
-            total: totalPagar,
-            correoCliente: result.isConfirmed ? result.value : 'No registrado'
-          };
+        const totalNumerico = carrito.reduce(function (acumulado, item) {
+            return acumulado + item.precio * item.cantidad;
+        }, 0);
 
-          console.log("Datos de la venta procesada:", objetoVenta);
+        const totalMostrar = formatearMoneda(totalNumerico);
 
-          if (result.isConfirmed && result.value) {
-            Swal.fire({
-              icon: 'success',
-              title: '¡Venta Realizada!',
-              text: `Factura enviada exitosamente a: ${result.value}`,
-              confirmButtonColor: '#224247',
-              willClose: () => {
-                window.location.href = "History_sales.html";
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: 'success',
-              title: '¡Venta Realizada!',
-              text: 'La venta ha sido registrada correctamente.',
-              confirmButtonColor: '#224247'
-            });
-          }
+        const tipoOperacion = devolucion ? "devolucion" : "venta";
 
-          // Reiniciar para la siguiente venta
-          carrito = [];
-          actualizarTabla();
-          resetCampos();
+        const resultado = await Swal.fire({
+            title: devolucion
+                ? "Realizar devolución"
+                : "Realizar venta",
+
+            text: devolucion
+                ? `Total de devolución: ${totalMostrar}. Ingresa el correo del cliente para enviar el comprobante.`
+                : `Total a cobrar: ${totalMostrar}. Ingresa el correo del cliente para enviar la factura.`,
+
+            input: "email",
+            inputLabel: "Correo electrónico del cliente",
+            inputPlaceholder: "correo@cliente.com",
+
+            inputValidator: function (valor) {
+                if (!valor || !valor.trim()) {
+                    return "Debes ingresar el correo electrónico del cliente.";
+                }
+            },
+
+            showCancelButton: true,
+
+            confirmButtonText: devolucion
+                ? "Enviar comprobante y finalizar"
+                : "Enviar factura y finalizar",
+
+            cancelButtonText: "Cancelar",
+
+            confirmButtonColor: "#10b981",
+            cancelButtonColor: "#64748b"
         });
-      });
 
+        // Si cancela, conservar el carrito.
+        if (!resultado.isConfirmed) {
+            return;
+        }
+
+        const correoCliente = resultado.value.trim();
+
+        // Crear una copia de los datos de la operación.
+        const objetoOperacion = {
+            tipo: tipoOperacion,
+            numFactura: $("#lblNumFactura").text(),
+            cajero: $("#lblCajero").text(),
+            fecha: $("#lblFechaExp").text(),
+
+            items: carrito.map(function (item) {
+                return {
+                    id: item.id,
+                    nombre: item.nombre,
+                    precio: item.precio,
+                    cantidad: item.cantidad,
+                    subtotal: item.subtotal
+                };
+            }),
+
+            // Las devoluciones se representan con un total negativo.
+            total: devolucion ? -totalNumerico : totalNumerico,
+
+            correoCliente: correoCliente
+        };
+
+        console.log("Datos de la operación:", objetoOperacion);
+
+        /*
+         * IMPORTANTE:
+         * Este objeto todavía no se guarda en la base de datos.
+         * Para registrar la venta/devolución, modificar el inventario
+         * y enviar el correo, hay que enviarlo a un controlador PHP.
+         */
+
+        await Swal.fire({
+            icon: "info",
+            title: "Datos preparados",
+            text: devolucion
+                ? "El correo y los datos de la devolución están preparados, pero todavía falta conectarlos al controlador para registrar y enviar el comprobante."
+                : "El correo y los datos de la venta están preparados, pero todavía falta conectarlos al controlador para registrar y enviar la factura.",
+            confirmButtonColor: "#224247"
+        });
     });
+
+    // =====================================================
+    // 11. ESTADO INICIAL
+    // =====================================================
+
+    actualizarTipoOperacion();
+
+});

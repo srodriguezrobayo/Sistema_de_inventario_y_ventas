@@ -218,20 +218,26 @@ function generarProductos(productos) {
 
                         <hr>
 
-                        <button
-                            class="btn btn-warning w-100 formEditarproducto formEditarproducto_${numeroCard}"
-                            type="button"
-                            data-id-producto="${escaparHTML(id)}"
-                        >
-                            <i class="fas fa-edit"></i>
-                            Editar producto
-                        </button>
+<button
+    class="btn btn-warning w-100 formEditarproducto formEditarproducto_${numeroCard}"
+    type="button"
+    data-id-producto="${escaparHTML(id)}"
+    data-nombre="${escaparHTML(producto.Nombre_producto || '')}"
+    data-codigo="${escaparHTML(producto.Codigo_producto || '')}"
+    data-valor="${escaparHTML(producto.Valor_unitario_producto ?? '')}"
+    data-cantidad="${escaparHTML(producto.Cantidad_Producto ?? 0)}"
+    data-unidad="${escaparHTML(producto.Unidad_medida_producto || '')}"
+    data-stock-minimo="${escaparHTML(producto.Cantidad_minima ?? 0)}"
+>
+    <i class="fas fa-edit"></i> Editar producto
+</button>
+
 
                         <button
                             type="button"
                             class="btn btn-danger w-100 mt-2 btn-dejar-vender"
                             data-id-producto="${escaparHTML(id)}"
-                            onclick="AlertaDejarProducto()"
+                            onclick="AlertaDejarProducto(this.dataset.idProducto, this)"
                         >
                             <i class="fas fa-ban"></i>
                             Dejar de vender
@@ -370,7 +376,8 @@ document.addEventListener("click", function (evento) {
             new CustomEvent("actualizarCantidadSolicitada", {
                 detail: {
                     id: idProducto,
-                    idProducto: idProducto
+                    idProducto: idProducto,
+                    boton: botonActualizar
                 }
             })
         );

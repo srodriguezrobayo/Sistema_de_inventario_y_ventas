@@ -71,7 +71,7 @@ $sqlTotal = "
     FROM productos
     INNER JOIN usuarios
         ON productos.Usuario_id_usuario = usuarios.Id_usuario
-    WHERE usuarios.Email_usuario = ?
+    WHERE usuarios.Email_usuario = ? AND productos.Estado_producto = 1;
 ";
 
 $stmtTotal = $con->prepare($sqlTotal);
@@ -136,7 +136,7 @@ $sqlProductos = "
     FROM productos
     INNER JOIN usuarios
         ON productos.Usuario_id_usuario = usuarios.Id_usuario
-    WHERE usuarios.Email_usuario = ?
+    WHERE usuarios.Email_usuario = ? AND productos.Estado_producto = 1
     ORDER BY productos.Id_productos DESC
     LIMIT ? OFFSET ?
 ";

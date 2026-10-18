@@ -319,6 +319,21 @@ select.form-control:not([size]):not([multiple]) {
   color: #fff;
   z-index: 1; }
 
+.selectgroup-input:checked + .selectgroup-button.venta {
+    background-color: #76ef67;
+    color: #fff;
+    border-color: #76ef67;
+    z-index: 1;
+}
+
+.selectgroup-input:checked + .selectgroup-button.devolucion {
+    background-color: #ef7467;
+    color: #fff;
+    border-color: #ef7467;
+    z-index: 1;
+}
+
+
 .selectgroup-pills {
   display: block;
   -ms-flex-wrap: wrap;

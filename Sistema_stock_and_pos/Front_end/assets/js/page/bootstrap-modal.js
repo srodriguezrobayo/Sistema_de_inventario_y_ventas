@@ -529,445 +529,630 @@ $(".trigger-modal-producto").fireModal({
   ]
 });
 
-/* =====================================================
-   BUCLE: CREAR LOS FORMULARIOS DE EDICIÓN
-   ===================================================== */
 
-for (let i = 0; i <= 4; i++) {
+"use strict";
 
-  let modal_1_5_body = '<div>';
+const URL_EDITAR_PRODUCTO =
+  "/Sistema_Stock_And_Pos/Back_end/Controlador/Editar_producto.php";
 
-  modal_1_5_body +=
-    '<form id="formEditarproducto_' + i + '">';
+// =====================================================
+// INICIALIZAR BOTONES DINÁMICOS
+// =====================================================
 
-  /* =====================================================
-     FILA 1: NOMBRE Y CÓDIGO
-     ===================================================== */
+document.addEventListener("DOMContentLoaded", function () {
+  inicializarBotonesEdicion();
 
-  modal_1_5_body += '<div class="row">';
-
-  // Nombre del producto
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="form-floating">';
-
-  modal_1_5_body +=
-    '<input type="text" class="form-control" ' +
-    'id="NombreproductoEditar_' + i + '" ' +
-    'name="Nombrep" placeholder="Nombre producto" required>';
-
-  modal_1_5_body +=
-    '<label for="NombreproductoEditar_' + i + '">' +
-    'Nombre producto <span style="color:red;">*</span></label>';
-
-  modal_1_5_body += '</div></div>';
-
-  // Código del producto
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="form-floating">';
-
-  modal_1_5_body +=
-    '<input type="text" class="form-control" ' +
-    'id="CodigoproductoEditar_' + i + '" ' +
-    'name="codigop" placeholder="Código producto" required>';
-
-  modal_1_5_body +=
-    '<label for="CodigoproductoEditar_' + i + '">' +
-    'Código producto <span style="color:red;">*</span></label>';
-
-  modal_1_5_body += '</div></div>';
-  modal_1_5_body += '</div>';
-
-  /* =====================================================
-     FILA 2: VALOR UNITARIO Y CANTIDAD
-     ===================================================== */
-
-  modal_1_5_body += '<div class="row">';
-
-  // Valor unitario
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="form-floating">';
-
-  modal_1_5_body +=
-    '<input type="number" class="form-control" ' +
-    'id="ValoruniproductoEditar_' + i + '" ' +
-    'name="Valorunip" placeholder="Valor unitario producto" ' +
-    'min="1" required>';
-
-  modal_1_5_body +=
-    '<label for="ValoruniproductoEditar_' + i + '">' +
-    'Valor unitario producto ' +
-    '<span style="color:red;">*</span></label>';
-
-  modal_1_5_body += '</div></div>';
-
-  // Cantidad del producto
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="input-group">';
-
-  modal_1_5_body += '<div class="form-floating flex-grow-1">';
-
-  modal_1_5_body +=
-    '<input type="number" class="form-control" ' +
-    'id="CantidadproductoEditar_' + i + '" ' +
-    'name="cantidap" placeholder="Cantidad producto" ' +
-    'min="1" step="1" disabled>';
-
-  modal_1_5_body +=
-    '<label for="CantidadproductoEditar_' + i + '">' +
-    'Cantidad producto</label>';
-
-  modal_1_5_body += '</div>';
-
-  // Botón de devolución
-  modal_1_5_body +=
-    '<button type="button" ' +
-    'class="btn btn-outline-secondary btnDevolucionProducto" ' +
-    'data-indice="' + i + '" ' +
-    'title="Realizar devolución" ' +
-    'aria-label="Realizar devolución de cantidad">' +
-    '<i class="fas fa-info-circle"></i>' +
-    '</button>';
-
-  modal_1_5_body += '</div></div>';
-  modal_1_5_body += '</div>';
-
-  /* =====================================================
-     FILA 3: UNIDAD DE MEDIDA Y STOCK MÍNIMO
-     ===================================================== */
-
-  modal_1_5_body += '<div class="row">';
-
-  // Unidad de medida
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-
-  modal_1_5_body +=
-    '<label for="exampleDataListEditar_' + i + '" ' +
-    'class="form-label">Unidad de medida ' +
-    '<span style="color:red;">*</span></label>';
-
-  modal_1_5_body +=
-    '<input class="form-control" ' +
-    'list="datalistOptionsEditar_' + i + '" ' +
-    'id="exampleDataListEditar_' + i + '" ' +
-    'name="unidad" placeholder="Seleccione una unidad" required>';
-
-  modal_1_5_body +=
-    '<datalist id="datalistOptionsEditar_' + i + '">';
-
-  modal_1_5_body += '<option value="Unidad">';
-  modal_1_5_body += '<option value="Libra">';
-  modal_1_5_body += '<option value="Kilogramos">';
-  modal_1_5_body += '<option value="Mililitros">';
-  modal_1_5_body += '<option value="Litros">';
-  modal_1_5_body += '<option value="Centímetros">';
-  modal_1_5_body += '<option value="Metros">';
-
-  modal_1_5_body += '</datalist>';
-  modal_1_5_body += '</div>';
-
-  // Cantidad mínima de stock
-  modal_1_5_body += '<div class="col-12 col-md-6 mb-3">';
-  modal_1_5_body += '<div class="form-floating">';
-
-  modal_1_5_body +=
-    '<input type="number" class="form-control" ' +
-    'id="avisolowstockproductoEditar_' + i + '" ' +
-    'name="avisolowstockproducto" ' +
-    'placeholder="Cantidad mínima en stock" ' +
-    'min="1" required>';
-
-  modal_1_5_body +=
-    '<label for="avisolowstockproductoEditar_' + i + '">' +
-    'Cantidad mínima en stock ' +
-    '<span style="color:red;">*</span></label>';
-
-  modal_1_5_body += '</div></div>';
-  modal_1_5_body += '</div>';
-
-  /* =====================================================
-     FILA 4: FOTO DEL PRODUCTO
-     ===================================================== */
-
-  modal_1_5_body += '<div class="mb-3">';
-
-  modal_1_5_body +=
-    '<label for="FotoproductoEditar_' + i + '" ' +
-    'class="form-label">Foto producto</label>';
-
-  modal_1_5_body +=
-    '<input type="file" class="form-control" ' +
-    'id="FotoproductoEditar_' + i + '" ' +
-    'name="Fotoproducto" accept="image/*">';
-
-  modal_1_5_body += '</div>';
-
-  modal_1_5_body += '</form>';
-  modal_1_5_body += '</div>';
-
-  /* =====================================================
-     MODAL EDITAR PRODUCTO
-     ===================================================== */
-
-  // Guardamos el índice en una constante para evitar
-  // problemas de referencia dentro de los eventos.
-  const indice = i;
-
-  $(".formEditarproducto_" + indice).fireModal({
-
-    title: 'Editar producto',
-
-    body: modal_1_5_body,
-
-    buttons: [
-      {
-        text: 'Guardar cambios',
-
-        class: 'btn btn-success btn-shadow',
-
-        handler: function (modal) {
-
-          let formulario = document.getElementById(
-            "formEditarproducto_" + indice
-          );
-
-          if (!formulario.checkValidity()) {
-            formulario.reportValidity();
-            return;
-          }
-
-          modal.modal('hide');
-
-          iziToast.success({
-            title: 'Producto actualizado',
-            message: 'La información del producto ha sido actualizada con éxito'
-          });
-
-          setTimeout(function () {
-            location.reload();
-          }, 2000);
-        }
-      }
-    ]
+  const observador = new MutationObserver(function () {
+    inicializarBotonesEdicion();
   });
-}
 
+  observador.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+});
 
-
-/* =====================================================
-   DEVOLUCIÓN DE PRODUCTOS CON SWEETALERT2
-   ===================================================== */
-
-$(document).on('click', '.btnDevolucionProducto', function () {
-
-  const indice = $(this).data('indice');
-
-  const campoCantidad = document.getElementById(
-    'CantidadproductoEditar_' + indice
-  );
-
-  // Comprobar que el campo exista
-  if (!campoCantidad) {
-    console.error('No se encontró el campo de cantidad:', indice);
-    return;
-  }
-
-  // Evitar que Bootstrap interfiera con el foco
-  $(document).off('focusin.bs.modal');
-  /* =====================================================
-   SOLUCIÓN DE CONFLICTO ENTRE BOOTSTRAP Y SWEETALERT2
-   ===================================================== */
-
-  // Permitir que el foco se gestione fuera del modal Bootstrap.
-  // Compatible con versiones de Bootstrap que utilizan
-  // el evento focusin.bs.modal para mantener el foco.
-  $(document).off('focusin.bs.modal');
-
-  /* =====================================================
-     ALERTA 1: CONFIRMAR DEVOLUCIÓN
-     ===================================================== */
-
-  Swal.fire({
-    title: '¿Realizar devolución?',
-    text: '¿Deseas registrar una devolución para este producto?',
-    icon: 'question',
-
-    showCancelButton: true,
-    confirmButtonText: 'Sí, continuar',
-    cancelButtonText: 'Cancelar',
-    confirmButtonColor: '#198754', // Verde
-    cancelButtonColor: '#dc3545',  // Rojo
-    reverseButtons: true,
-
-    allowOutsideClick: false,
-    returnFocus: false
-
-  }).then((resultado) => {
-
-    if (!resultado.isConfirmed) {
+function inicializarBotonesEdicion() {
+  document.querySelectorAll(".formEditarproducto").forEach(function (boton) {
+    if (boton.dataset.modalEdicionInicializado === "true") {
       return;
     }
 
-    /* =====================================================
-       ALERTA 2: INGRESAR EL VALOR
-       ===================================================== */
+    const id = boton.dataset.idProducto;
 
-    Swal.fire({
-      title: 'Registrar devolución',
-      text: 'Ingresa el valor correspondiente a la devolución.',
+    if (!id || !/^[1-9]\d*$/.test(id)) {
+      console.error("El botón no tiene un ID de producto válido.");
+      return;
+    }
 
-      input: 'text',
-      inputPlaceholder: 'Escribe aquí...',
-      inputValue: '',
+    boton.dataset.modalEdicionInicializado = "true";
 
-      inputAttributes: {
-        autocomplete: 'off',
-        autocapitalize: 'off',
-        spellcheck: 'false'
-      },
+    $(boton).fireModal({
+      title: "Editar producto",
 
-      showCancelButton: true,
-      confirmButtonText: 'Confirmar devolución',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#198754', // Verde
-      cancelButtonColor: '#dc3545',  // Rojo
-      reverseButtons: true,
+      body: crearFormularioEdicion(id, boton),
 
-      allowOutsideClick: false,
-      returnFocus: false,
+      buttons: [
+        {
+          text: "Guardar cambios",
+          class: "btn btn-success btn-shadow",
 
-      didOpen: () => {
-        const input = Swal.getInput();
+          handler: async function (modal) {
+            const formulario = document.getElementById(
+              "formEditarproducto_" + id
+            );
 
-        if (input) {
-          input.disabled = false;
-          input.readOnly = false;
-          input.focus();
+            if (!formulario) {
+              mostrarError("No se encontró el formulario.");
+              return;
+            }
+
+            if (!formulario.checkValidity()) {
+              formulario.reportValidity();
+              return;
+            }
+
+            const botonGuardar = modal.find
+              ? modal.find(".btn-success")
+              : null;
+
+            const datos = new FormData(formulario);
+
+            // Asegurar que se envía el ID correcto.
+            datos.set("Id_productos", id);
+
+            try {
+              const respuesta = await fetch(
+                URL_EDITAR_PRODUCTO,
+                {
+                  method: "POST",
+                  credentials: "same-origin",
+                  headers: {
+                    "Accept": "application/json"
+                  },
+                  body: datos
+                }
+              );
+
+              // Evitar errores confusos si PHP devuelve HTML.
+              const texto = await respuesta.text();
+              let resultado;
+
+              try {
+                resultado = JSON.parse(texto);
+              } catch (errorJSON) {
+                console.error(
+                  "Respuesta inesperada del servidor:",
+                  texto
+                );
+
+                throw new Error(
+                  "El servidor devolvió una respuesta no válida. Revisa los errores de PHP."
+                );
+              }
+
+              if (
+                !respuesta.ok ||
+                Number(resultado.resultado) !== 1
+              ) {
+                throw new Error(
+                  resultado.mensaje ||
+                  "No se pudo actualizar el producto."
+                );
+              }
+
+              // Cerrar únicamente cuando el servidor confirme.
+              modal.modal("hide");
+
+              if (typeof iziToast !== "undefined") {
+                iziToast.success({
+                  title: 'Éxito',
+                  message: 'Producto actualizado correctamente.',
+                  timeout: 1500,
+                  onClosed: function () {
+                    window.location.reload();
+                  }
+                });
+              }
+
+              // Actualizar la lista de productos.
+              if (typeof consultarProductos === "function") {
+                consultarProductos(1);
+              }
+
+            } catch (error) {
+              console.error(
+                "Error al editar producto:",
+                error
+              );
+
+              mostrarError(error.message);
+            }
+          }
         }
-      },
+      ]
+    });
+  });
+}
 
-      inputValidator: (valor) => {
-        if (!valor || !valor.trim()) {
-          return 'Debes ingresar un valor.';
-        }
+// =====================================================
+// CONSTRUIR FORMULARIO
+// =====================================================
+
+function crearFormularioEdicion(id, boton) {
+  const nombre = boton.dataset.nombre || "";
+  const codigo = boton.dataset.codigo || "";
+  const valor = boton.dataset.valor || "";
+  const cantidad = boton.dataset.cantidad || "0";
+  const unidad = boton.dataset.unidad || "";
+  const stockMinimo = boton.dataset.stockMinimo || "0";
+
+  const opcionesUnidad = [
+    "Unidad",
+    "Libra",
+    "Kilogramos",
+    "Mililitros",
+    "Litros",
+    "Centímetros",
+    "Metros"
+  ];
+
+  const opciones = opcionesUnidad.map(function (opcion) {
+    return `<option value="${escaparHTML(opcion)}"></option>`;
+  }).join("");
+
+  return `
+        <div>
+            <form
+                id="formEditarproducto_${id}"
+                enctype="multipart/form-data"
+            >
+                <input
+                    type="hidden"
+                    name="Id_productos"
+                    value="${escaparHTML(id)}"
+                >
+
+                <!-- FILA 1: NOMBRE Y CÓDIGO -->
+                <div class="row">
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="NombreproductoEditar_${id}"
+                                name="Nombrep"
+                                placeholder="Nombre producto"
+                                value="${escaparHTML(nombre)}"
+                                maxlength="100"
+                                required
+                            >
+
+                            <label for="NombreproductoEditar_${id}">
+                                Nombre producto
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="CodigoproductoEditar_${id}"
+                                name="codigop"
+                                placeholder="Código producto"
+                                value="${escaparHTML(codigo)}"
+                                maxlength="100"
+                                required
+                            >
+
+                            <label for="CodigoproductoEditar_${id}">
+                                Código producto
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FILA 2: PRECIO Y CANTIDAD -->
+                <div class="row">
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="ValoruniproductoEditar_${id}"
+                                name="Valorunip"
+                                placeholder="Valor unitario"
+                                min="0.01"
+                                step="0.01"
+                                value="${escaparHTML(valor)}"
+                                required
+                            >
+
+                            <label for="ValoruniproductoEditar_${id}">
+                                Valor unitario producto
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="CantidadproductoEditar_${id}"
+                                name="cantidap"
+                                placeholder="Cantidad producto"
+                                value="${escaparHTML(cantidad)}"
+                                min="0"
+                                step="1"
+                                disabled
+                            >
+
+                            <label for="CantidadproductoEditar_${id}">
+                                Cantidad producto (no editable)
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FILA 3: UNIDAD Y STOCK MÍNIMO -->
+                <div class="row">
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <label
+                            for="exampleDataListEditar_${id}"
+                            class="form-label"
+                        >
+                            Unidad de medida
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            class="form-control"
+                            list="datalistOptionsEditar_${id}"
+                            id="exampleDataListEditar_${id}"
+                            name="unidad"
+                            placeholder="Seleccione una unidad"
+                            value="${escaparHTML(unidad)}"
+                            maxlength="100"
+                            required
+                        >
+
+                        <datalist id="datalistOptionsEditar_${id}">
+                            ${opciones}
+                        </datalist>
+                    </div>
+
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="avisolowstockproductoEditar_${id}"
+                                name="avisolowstockproducto"
+                                placeholder="Cantidad mínima en stock"
+                                min="0"
+                                step="1"
+                                value="${escaparHTML(stockMinimo)}"
+                                required
+                            >
+
+                            <label for="avisolowstockproductoEditar_${id}">
+                                Cantidad mínima en stock
+                                <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FILA 4: IMAGEN OPCIONAL -->
+                <div class="mb-3">
+                    <label
+                        for="FotoproductoEditar_${id}"
+                        class="form-label"
+                    >
+                        Foto producto (opcional)
+                    </label>
+
+                    <input
+                        type="file"
+                        class="form-control"
+                        id="FotoproductoEditar_${id}"
+                        name="Fotoproducto"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                    >
+
+                    <small class="form-text text-muted">
+                        Máximo 5 MB. Si no seleccionas una imagen,
+                        se conservará la actual.
+                    </small>
+                </div>
+
+            </form>
+        </div>
+    `;
+}
+
+// =====================================================
+// ESCAPAR HTML
+// =====================================================
+
+function escaparHTML(valor) {
+  return String(valor ?? "").replace(/[&<>"']/g, function (caracter) {
+    const mapa = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    };
+
+    return mapa[caracter];
+  });
+}
+
+// =====================================================
+// MOSTRAR ERRORES
+// =====================================================
+
+function mostrarError(mensaje) {
+  if (typeof iziToast !== "undefined") {
+    iziToast.error({
+      title: "Error",
+      message: mensaje,
+      timeout: 4000,
+      close: true,
+      progressBar: true
+    });
+  } else {
+    alert(mensaje);
+  }
+}
+
+"use strict";
+
+const URL_ACTUALIZAR_CANTIDAD =
+  "/Sistema_Stock_And_Pos/Back_end/Controlador/Actualizar_cantidad_producto.php";
+
+document.addEventListener(
+  "actualizarCantidadSolicitada",
+  async function (evento) {
+    const boton = evento.detail.boton;
+    const idProducto = evento.detail.idProducto;
+
+    if (!idProducto || !Number.isInteger(Number(idProducto))) {
+      iziToast.error({
+        title: "Error",
+        message: "No se pudo identificar el producto."
+      });
+      return;
+    }
+
+    let tieneFV = 0;
+    let conoceFV = 0;
+
+    // Consultar los indicadores del producto en la base de datos.
+    try {
+      const respuesta = await fetch(
+        URL_ACTUALIZAR_CANTIDAD +
+        "?id_producto=" + encodeURIComponent(idProducto)
+      );
+
+      const datos = await respuesta.json();
+
+      if (!respuesta.ok || Number(datos.resultado) !== 1) {
+        throw new Error(
+          datos.mensaje || "No se pudo consultar el producto."
+        );
       }
 
-    }).then((respuesta) => {
+      tieneFV = Number(datos.tiene_fv);
+      conoceFV = Number(datos.conoce_fv);
 
-      // Si cancela, no modificar el campo
-      if (!respuesta.isConfirmed) {
-        return;
-      }
+    } catch (error) {
+      console.error(error);
 
-      // Obtener el texto escrito en SweetAlert2
-      const valorIngresado = respuesta.value.trim();
-
-      // Colocar el valor en el campo correspondiente
-      campoCantidad.value = valorIngresado;
-
-      // Disparar eventos por si otros scripts escuchan cambios
-      campoCantidad.dispatchEvent(
-        new Event('input', { bubbles: true })
-      );
-
-      campoCantidad.dispatchEvent(
-        new Event('change', { bubbles: true })
-      );
-
-      // Mantener el campo deshabilitado
-      campoCantidad.disabled = true;
-
-      console.log(
-        'Valor asignado al producto ' + indice + ':',
-        campoCantidad.value
-      );
-
-      // Confirmación
-      Swal.fire({
-        title: 'Devolución registrada',
-        text: 'El valor se ha colocado correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#53b889', // Verde
-        returnFocus: false
+      iziToast.error({
+        title: "Error",
+        message: error.message || "No se pudo consultar el producto."
       });
 
-    });
-
-  });
-
-});
-
-let modal_2_body = '<div>';
-modal_2_body += '<form id="formactcantproduct">';
-modal_2_body += '<div class="row">';
-modal_2_body += '<div class="mb-3">';
-modal_2_body += '<label for="FechaRecibimiento" class="form-label">Fecha de llegada <span style="color: red;">*</span></label>';
-modal_2_body += '<input type="text" class="form-control datepicker" id="FechaRecibimiento" name="FechaRecibimiento" required>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '<div class="row">';
-modal_2_body += '<div class="mb-3">';
-modal_2_body += '<div class="form-floating">'
-modal_2_body += '<input type="number" class="form-control" id="Cantidadprod" name="Cantidadprod" placeholder="Subir cantidad" min="1" required>';
-modal_2_body += '<label for="Cantidadprod">Subir cantidad <span style="color: red;">*</span></label>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '</form>';
-modal_2_body += '<p><span style="color:red;">*</span>Nota: En caso de que sea un producto percedero y se conozca fecha de vencimiento se pedira lote y fecha de vencimiento<span style="color:red;">*</span></p>'
-modal_2_body += '<div class="row">';
-modal_2_body += '<div class="mb-3">';
-modal_2_body += '<div class="form-floating">'
-modal_2_body += '<input type="text" class="form-control" id="Lote" name="Lote" placeholder="Lote producto" disabled>';
-modal_2_body += '<label for="Cantidadprod">Lote producto <span style="color: red;">*</span></label>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '<div class="row">';
-modal_2_body += '<div class="mb-3">';
-modal_2_body += '<label for="FechaVencimiento" class="form-label">Fecha de Vencimiento <span style="color: red;">*</span></label>';
-modal_2_body += '<input type="text" class="form-control datepicker" id="FechaVencimiento" name="FechaVencimiento" disabled>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-modal_2_body += '</div>';
-$(".modal-2").fireModal({
-  title: 'Actualizar cantidad de producto',
-
-  body: modal_2_body,
-
-  buttons: [
-    {
-      text: 'Actualizar producto',
-      class: 'btn btn-success btn-shadow',
-
-      handler: function (modal) {
-
-        let formulario = document.getElementById("formactcantproduct");
-
-        // Validar campos obligatorios
-        if (!formulario.checkValidity()) {
-          formulario.reportValidity();
-          return;
-        }
-
-        // Cerrar modal
-        modal.modal('hide');
-
-        // Mostrar mensaje de éxito
-        iziToast.success({
-          title: 'Inventario actualizado',
-          message: 'El inventario se actualizó correctamente.'
-        });
-
-        // Recargar la página después de 2 segundos
-        setTimeout(function () {
-          location.reload();
-        }, 2000);
-      }
+      return;
     }
-  ]
 
-});
+    const necesitaLote = tieneFV === 1 && conoceFV === 1;
+
+    let modal_2_body = '<div>';
+    modal_2_body += '<form id="formactcantproduct">';
+
+    // ID del producto que se actualizará.
+    modal_2_body +=
+      '<input type="hidden" name="id_producto" value="' +
+      String(Number(idProducto)) + '">';
+
+    // Fecha de llegada.
+    modal_2_body += '<div class="row">';
+    modal_2_body += '<div class="col-12 mb-3">';
+    modal_2_body +=
+      '<label for="FechaRecibimiento" class="form-label">' +
+      'Fecha de llegada <span style="color:red;">*</span></label>';
+
+    modal_2_body +=
+      '<input type="date" class="form-control" ' +
+      'id="FechaRecibimiento" name="FechaRecibimiento" required>';
+
+    modal_2_body += '</div>';
+    modal_2_body += '</div>';
+
+    // Cantidad que se sumará al stock actual.
+    modal_2_body += '<div class="row">';
+    modal_2_body += '<div class="col-12 mb-3">';
+    modal_2_body += '<div class="form-floating">';
+
+    modal_2_body +=
+      '<input type="number" class="form-control" ' +
+      'id="Cantidadprod" name="Cantidadprod" ' +
+      'placeholder="Subir cantidad" min="1" step="1" required>';
+
+    modal_2_body +=
+      '<label for="Cantidadprod">Subir cantidad ' +
+      '<span style="color:red;">*</span></label>';
+
+    modal_2_body += '</div>';
+    modal_2_body += '</div>';
+    modal_2_body += '</div>';
+
+    // Lote y vencimiento: solamente si ambos indicadores son 1.
+    if (necesitaLote) {
+      modal_2_body +=
+        '<p><span style="color:red;">*</span> ' +
+        'Este producto requiere lote y fecha de vencimiento. ' +
+        'Ingresa los datos de la nueva llegada.</p>';
+
+      modal_2_body += '<div class="row">';
+      modal_2_body += '<div class="col-12 mb-3">';
+      modal_2_body += '<div class="form-floating">';
+
+      modal_2_body +=
+        '<input type="text" class="form-control" ' +
+        'id="Lote" name="Lote" placeholder="Lote producto" required>';
+
+      modal_2_body +=
+        '<label for="Lote">Lote producto ' +
+        '<span style="color:red;">*</span></label>';
+
+      modal_2_body += '</div>';
+      modal_2_body += '</div>';
+      modal_2_body += '</div>';
+
+      modal_2_body += '<div class="row">';
+      modal_2_body += '<div class="col-12 mb-3">';
+
+      modal_2_body +=
+        '<label for="FechaVencimiento" class="form-label">' +
+        'Fecha de vencimiento <span style="color:red;">*</span></label>';
+
+      modal_2_body +=
+        '<input type="date" class="form-control" ' +
+        'id="FechaVencimiento" name="FechaVencimiento" required>';
+
+      modal_2_body += '</div>';
+      modal_2_body += '</div>';
+    }
+
+    modal_2_body += '</form>';
+    modal_2_body += '</div>';
+
+    $(boton).fireModal({
+      title: "Actualizar cantidad de producto",
+      body: modal_2_body,
+
+      buttons: [
+        {
+          text: "Actualizar producto",
+          class: "btn btn-success btn-shadow",
+
+          handler: async function (modal) {
+            const formulario = document.getElementById(
+              "formactcantproduct"
+            );
+
+            if (!formulario.checkValidity()) {
+              formulario.reportValidity();
+              return;
+            }
+
+            const cantidad = Number(
+              formulario.elements["Cantidadprod"].value
+            );
+
+            if (!Number.isInteger(cantidad) || cantidad <= 0) {
+              iziToast.error({
+                title: "Cantidad inválida",
+                message: "Ingresa una cantidad entera mayor que cero."
+              });
+              return;
+            }
+
+            const fechaLlegada =
+              formulario.elements["FechaRecibimiento"].value;
+
+            if (necesitaLote) {
+              const fechaVencimiento =
+                formulario.elements["FechaVencimiento"].value;
+
+              if (fechaVencimiento < fechaLlegada) {
+                iziToast.error({
+                  title: "Fecha inválida",
+                  message: "La fecha de vencimiento no puede ser anterior a la fecha de llegada."
+                });
+                return;
+              }
+            }
+
+            const datosFormulario = new FormData(formulario);
+
+            try {
+              const respuesta = await fetch(
+                URL_ACTUALIZAR_CANTIDAD,
+                {
+                  method: "POST",
+                  body: datosFormulario
+                }
+              );
+
+              const resultado = await respuesta.json();
+
+              if (
+                !respuesta.ok ||
+                Number(resultado.resultado) !== 1
+              ) {
+                iziToast.error({
+                  title: "No se pudo actualizar",
+                  message: resultado.mensaje ||
+                    "No fue posible actualizar el inventario."
+                });
+                return;
+              }
+
+              modal.modal("hide");
+
+              iziToast.success({
+                title: "Inventario actualizado",
+                message: resultado.mensaje,
+                timeout: 1500,
+                onClosed: function () {
+                  window.location.reload();
+                }
+              });
+
+            } catch (error) {
+              console.error(
+                "Error al actualizar la cantidad:",
+                error
+              );
+
+              iziToast.error({
+                title: "Error",
+                message: "No se pudo conectar con el servidor."
+              });
+            }
+          }
+        }
+      ]
+    });
+  }
+);
 
 
 

@@ -68,3 +68,22 @@ body {
     color: #FFFFFF !important;
     font-family: monospace;
 }
+
+/* Color negro para el texto de los eventos */
+#myEvent-1 .fc-event,
+#myEvent-1 .fc-event .fc-title,
+#myEvent-1 .fc-event .fc-time,
+#myEvent-1 .fc-event a {
+    color: #000 !important;
+}
+
+/* Color negro para el título del calendario */
+#myEvent-1 .fc-toolbar h2 {
+    color: #000 !important;
+}
+
+/* Color negro para los días y números */
+#myEvent-1 .fc-day-header,
+#myEvent-1 .fc-day-number {
+    color: #000 !important;
+}

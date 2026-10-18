@@ -238,3 +238,102 @@ async function consultarConteoProductos() {
         elementoConteo.textContent = "—";
     }
 }
+async function cargarTotalProductos() {
+    const elemento = document.getElementById("totalProductos_bajostock");
+
+    if (!elemento) return;
+
+    try {
+        const respuesta = await fetch(
+            "../Back_end/Controlador/Contar_stock_bajo.php"
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok || Number(datos.resultado) !== 1) {
+            throw new Error(datos.mensaje || "Error al consultar productos");
+        }
+
+        elemento.textContent = datos.Productos_bajo_stock;
+
+    } catch (error) {
+        console.error("Error al cargar el total de productos:", error);
+        elemento.textContent = "0";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", cargarTotalProductos);
+
+
+async function cargarTotalVentasHoy() {
+    const elemento = document.getElementById("totalVentasHoy");
+
+    if (!elemento) return;
+
+    try {
+        const respuesta = await fetch(
+            "/Sistema_Stock_And_Pos/Back_end/Controlador/Suma_ventas_hoy.php"
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok || Number(datos.resultado) !== 1) {
+            throw new Error(
+                datos.mensaje || "No se pudo consultar el total de ventas."
+            );
+        }
+
+        const total = Number(datos.Total_neto) || 0;
+
+        elemento.textContent = total.toLocaleString("es-CO");
+
+    } catch (error) {
+        console.error("Error al cargar las ventas de hoy:", error);
+        elemento.textContent = "0";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", cargarTotalVentasHoy);
+
+
+(function () {
+    function actualizarTituloProductos() {
+        const titulo = document.getElementById(
+            "tituloProductosVendidos"
+        );
+
+        if (!titulo) {
+            return;
+        }
+
+        const fecha = new Date();
+        const mesAnterior = new Date(
+            fecha.getFullYear(),
+            fecha.getMonth() - 1,
+            1
+        );
+
+        const nombreMes = mesAnterior.toLocaleDateString(
+            "es-CO",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+        titulo.textContent =
+            "Productos vendidos en: " +
+            nombreMes.charAt(0).toUpperCase() +
+            nombreMes.slice(1);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            actualizarTituloProductos
+        );
+    } else {
+        actualizarTituloProductos();
+    }
+})();
+

@@ -151,7 +151,9 @@ previous button's border...
   padding: 2px 4px; }
 
 .fc-popover .fc-header .fc-title {
-  margin: 0 2px; }
+  margin: 0 2px;
+  color: #000 !important;
+}
 
 .fc-popover .fc-header .fc-close {
   cursor: pointer; }

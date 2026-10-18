@@ -4,197 +4,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Ver producto</title>
-    <link rel="shortcut icon" href="favicon.ico" />
-    <!-- General CSS Files -->
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- CSS general -->
     <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/Main.css">
-    <!-- <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.min.css"> -->
-    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="assets/bootstrap-5.3.8-dist/css/bootstrap.css">
+
+    <!-- CSS del calendario -->
     <link rel="stylesheet" href="assets/modules/fullcalendar/fullcalendar.min.css">
-    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.css">
+    <link rel="stylesheet" href="assets/modules/izitoast/css/iziToast.min.css">
+
+    <!-- CSS de la plantilla -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
     <link rel="stylesheet" href="assets/css/Product.css">
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
 
-        gtag('config', 'UA-94034622-3');
-    </script>
     <script src="assets/js/Info_db.js"></script>
-    <!-- /END GA -->
 </head>
 
 <body>
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
+
             <div class="navbar-bg"></div>
+
+            <!-- ================= NAVEGACIÓN SUPERIOR ================= -->
+
             <nav class="navbar navbar-expand-lg main-navbar">
+
                 <form class="form-inline mr-auto">
                     <ul class="navbar-nav mr-3">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
-                                    class="fas fa-bars"></i></a></li>
+                        <li>
+                            <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg">
+                                <i class="fas fa-bars"></i>
+                            </a>
+                        </li>
                     </ul>
+
                     <div class="search-element">
-                        <a href="main.html"><img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%"></a>
+                        <a href="main.html">
+                            <img src="assets/img/Logo_SAP.png" alt="Logo" height="45%" width="35%">
+                        </a>
                     </div>
                 </form>
+
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown"><a href="#" data-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="" id="fotoUsuario_nb" class="rounded-circle mr-1">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+
+                            <img alt="Foto del usuario" src="" id="fotoUsuario_nb" class="rounded-circle mr-1">
                         </a>
+
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-title">Usuario</div>
+
                             <a href="Profile.html" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Perfil
                             </a>
+
                             <div class="dropdown-divider"></div>
-                            <a href="../Back_end/Controlador/CerrarSesion.php" class="dropdown-item has-icon text-danger">
+
+                            <a href="../Back_end/Controlador/CerrarSesion.php"
+                                class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </div>
                     </li>
                 </ul>
             </nav>
+
+            <!-- ================= BARRA LATERAL ================= -->
+
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
+
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="main.html" class="titulo_P"><!-- <img src="assets/img/ChatGPT Image 18 sept 2026, 07_58_06 p.m..png"
-                                alt="resum_letter" height="72%" width="106%"> -->SP</a>
+                        <a href="main.html" class="titulo_P">SP</a>
                     </div>
+
                     <div class="sidebar-brand">
-                        <a href="main.html" class="titulo"><!-- <img src="assets/img/Letras_SAP.png" alt="Letras_SAP" height="90%"
-                                width="40%"> -->SAP</a>
+                        <a href="main.html" class="titulo">SAP</a>
                     </div>
+
                     <ul class="sidebar-menu">
+
                         <li class="menu-header">Stock and pos</li>
+
                         <li>
-                            <a href="main.html"><i class="fas fa-home"></i><span>Inicio</span></a>
+                            <a href="main.html">
+                                <i class="fas fa-home"></i>
+                                <span>Inicio</span>
+                            </a>
                         </li>
+
                         <li class="menu-header">Inventario</li>
+
                         <li>
-                            <a href="Stock.html"><i class="fas fa-boxes"></i> <span>Stock</span></a>
+                            <a href="Stock.html">
+                                <i class="fas fa-boxes"></i>
+                                <span>Stock</span>
+                            </a>
                         </li>
+
                         <li class="menu-header">Vender</li>
+
                         <li class="dropdown">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i>
-                                <span>Ventas</span></a>
+                            <a href="#" class="nav-link has-dropdown">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Ventas</span>
+                            </a>
+
                             <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="Sale.html"><i class="fas fa-cart-plus"></i> A&ntilde;adir
-                                        venta</a></li>
-                                <li><a class="nav-link" href="History_sales.html"><i class="fas fa-history"></i>
-                                        Historial de ventas</a></li>
+                                <li>
+                                    <a class="nav-link" href="Sale.html">
+                                        <i class="fas fa-cart-plus"></i>
+                                        Añadir venta
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="nav-link" href="History_sales.html">
+                                        <i class="fas fa-history"></i>
+                                        Historial de ventas
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                    </ul>
 
+                    </ul>
                 </aside>
             </div>
 
-            <!-- Main Content -->
+            <!-- ================= CONTENIDO PRINCIPAL ================= -->
+
             <div class="main-content">
+
                 <section class="section" style="padding-top: 6% !important;">
 
-                    <!-- Top Navigation -->
+                    <!-- Navegación del detalle -->
                     <div class="detail-nav-bar">
+
                         <a href="Stock.html" class="btn-back">
-                            <i class="fas fa-arrow-left"></i> Volver al inventario
+                            <i class="fas fa-arrow-left"></i>
+                            Volver al inventario
                         </a>
                         <div class="d-flex">
-                            <button class="btn btn-outline-warning btn-sm rounded-2 formEditarproducto_1"
+
+                            <button type="button" id="btnEditarProducto"
+                                class="btn btn-outline-warning btn-sm rounded-2 formEditarproducto"
                                 style="margin-right: 8px;">
-                                <i class="fas fa-pen me-1"></i> Editar
+
+                                <i class="fas fa-pen me-1"></i>
+                                Editar
                             </button>
-                            <button class="btn btn-outline-danger btn-sm rounded-2" onclick="AlertaDejarProducto()">
-                                <i class="fas fa-ban me-1"></i> Desactivar
+
+                            <button type="button" id="btnDesactivarProducto"
+                                class="btn btn-outline-danger btn-sm rounded-2" onclick="AlertaDejarProducto()">
+
+                                <i class="fas fa-ban me-1"></i>
+                                Dejar de vender &#40;Desactivar&#41;
                             </button>
+
                         </div>
                     </div>
 
-                    <!-- Detail Layout Grid -->
-                    <div class="product-detail-grid">
+                    <!-- Mensajes de carga y error -->
+                    <div id="mensajeEstado" class="alert alert-info" role="status">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Cargando información del producto...
+                    </div>
 
-                        <!-- Left Column: Product Summary Card -->
+                    <!-- Diseño de detalle -->
+                    <div class="product-detail-grid" id="detalleProducto" style="display: none;">
+
+                        <!-- ================= TARJETA DEL PRODUCTO ================= -->
+
                         <div class="info-card">
+
                             <div class="product-hero-img">
-                                <img src="assets/img/images.png" alt="Producto Estrella Alfa" width="50%" height="50%">
+                                <img id="fotoProducto" src="assets/img/images.png" alt="Foto del producto" width="50%"
+                                    height="50%">
                             </div>
 
                             <div class="product-title-header">
-                                <h3>Producto Estrella Alfa</h3>
-                                <span class="badge-code"> COD: 8882026</span>
+
+                                <h3 id="nombreProducto">
+                                    Cargando producto...
+                                </h3>
+
+                                <span class="badge-code" id="codigoProducto">
+                                    Código
+                                </span>
+
                             </div>
 
                             <div class="stat-row">
-                                <span class="stat-label">Stock en Inventario</span>
-                                <span class="stat-value text-success">850 Unidades</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">Ventas acumuladas</span>
-                                <span class="stat-value">1,240 Unidades</span>
-                            </div>
-                            <div class="stat-row">
-                                <span class="stat-label">Estado de Venta</span>
-                                <span
-                                    class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 fw-semibold">Activo</span>
+                                <span class="stat-label">Precio unitario</span>
+                                <span class="stat-value" id="precioProducto">-</span>
                             </div>
 
-                            <!-- Próximos Vencimientos -->
-                            <div class="expiration-box">
-                                <h6><i class="fas fa-clock-rotate-left"></i> Próximos Vencimientos</h6>
-                                <div class="expiration-item">
-                                    <span>Lote #88820</span>
-                                    <strong>24 / 09 / 2026</strong>
-                                </div>
-                                <div class="expiration-item">
-                                    <span>Lote #1428R3</span>
-                                    <strong>01 / 10 / 2026</strong>
-                                </div>
-                                <div class="expiration-item">
-                                    <span>Lote #B90221</span>
-                                    <strong>28 / 10 / 2026</strong>
-                                </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Stock en inventario</span>
+                                <span class="stat-value text-success" id="stockProducto">-</span>
                             </div>
+
+                            <div class="stat-row">
+                                <span class="stat-label">Cantidad mínima</span>
+                                <span class="stat-value" id="cantidadMinima">-</span>
+                            </div>
+
+                            <div class="stat-row">
+                                <span class="stat-label">Unidad de medida</span>
+                                <span class="stat-value" id="unidadProducto">-</span>
+                            </div>
+
+                            <div class="stat-row">
+                                <span class="stat-label">Fecha de registro</span>
+                                <span class="stat-value" id="fechaRegistro">-</span>
+                            </div>
+
+                            <div class="stat-row">
+                                <span class="stat-label">Estado de venta</span>
+                                <span id="estadoProducto">-</span>
+                            </div>
+
+                            <!-- Lista de vencimientos: inicialmente oculta -->
+                            <div class="expiration-box" id="expirationBox" style="display: none;">
+
+                                <h6>
+                                    <i class="fas fa-clock-rotate-left"></i>
+                                    Próximos vencimientos
+                                </h6>
+
+                                <div id="listaVencimientos"></div>
+                            </div>
+
                         </div>
 
-                        <!-- Right Column: Interactive Expiration Calendar -->
-                        <div class="calendar-card">
-                            <h5><i class="far fa-calendar-alt text-teal"></i> Calendario de Trazabilidad y Vencimientos
+                        <!-- ================= CALENDARIO ================= -->
+
+                        <div class="calendar-card" id="calendarioCard" style="display: none;">
+
+                            <h5>
+                                <i class="far fa-calendar-alt text-teal"></i>
+                                Calendario de trazabilidad y vencimientos
                             </h5>
-                            <div id="myEvent-1" style="flex-grow: 1; min-height: 480px;"></div>
+
+                            <div id="myEvent-1" style="flex-grow: 1; min-height: 480px;">
+                            </div>
+
                         </div>
 
                     </div>
+
                 </section>
             </div>
+
         </div>
     </div>
-    <!-- General JS Scripts -->
+
+    <!-- ================= LIBRERÍAS JAVASCRIPT ================= -->
+
     <script src="assets/modules/jquery.min.js"></script>
     <script src="assets/modules/popper.js"></script>
     <script src="assets/modules/tooltip.js"></script>
     <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
     <script src="assets/modules/moment.min.js"></script>
+
     <script src="assets/js/stisla.js"></script>
     <script src="assets/js/page/bootstrap-modal.js"></script>
     <script src="assets/js/alerts_main.js"></script>
-    <!-- <script src="assets/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script> -->
-    <!-- JS Libraies -->
+    <script src="assets/js/page/bootstrap-modal.js"></script>
+
+    <!-- FullCalendar -->
     <script src="assets/modules/fullcalendar/fullcalendar.min.js"></script>
     <script src="assets/modules/fullcalendar/locale/es.js"></script>
-    <script src="assets/js/page/modules-calendar.js"></script>
+    <script src="assets/js/page/modules-toastr.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.js"></script>
+    <script src="assets/modules/izitoast/js/iziToast.min.js"></script>
+
     <script src="assets/js/page/Sweetalert2.js"></script>
-    <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>
+
+    <!-- ================= CARGA DEL PRODUCTO ================= -->
+
+    <script src="assets/js/Cargar_producto.js"></script>
+
 </body>
 
 </html>
