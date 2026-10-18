@@ -6,6 +6,9 @@ $(document).ready(function () {
   $("#myEvent").fullCalendar({
 
     height: 'auto',
+    defaultView: 'month',
+    defaultDate: moment().format('YYYY-MM-DD'),
+    locale: 'es',
 
     header: {
       left: 'prev,next today',
@@ -25,7 +28,7 @@ $(document).ready(function () {
     events: function (start, end, timezone, callback) {
 
       $.ajax({
-        url: '/Sistema_Stock_And_Pos/Back_end/Controlador/Fechas_vencimiento_producto.php',
+        url: '../Back_end/Controlador/Fechas_vencimiento_producto.php',
         type: 'GET',
         dataType: 'json',
 

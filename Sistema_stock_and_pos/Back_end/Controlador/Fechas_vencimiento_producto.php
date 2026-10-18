@@ -46,27 +46,32 @@ try {
         }
 
         $nombre = $producto['Nombre_producto'] ?? 'Producto';
-        $lote = $producto['Lote_producto'] ?? 'Sin lote';
+        $lote = trim((string) ($producto['Lote_producto'] ?? ''));
 
-        if ($fechaObjeto < $hoy) {
-            // Producto vencido
+        $diasRestantes = (int) $hoy->diff($fechaObjeto)->format('%r%a');
+
+        if ($diasRestantes < 0) {
             $color = '#dc3545';
-        } elseif ($fechaObjeto <= $hoy->modify('+30 days')) {
-            // Vence en los próximos 30 días
+            $estadoVencimiento = 'Vencido hace ' . abs($diasRestantes) . ' días';
+        } elseif ($diasRestantes <= 30) {
             $color = '#ffc107';
+            $estadoVencimiento = $diasRestantes === 0
+                ? 'Vence hoy'
+                : 'Vence en ' . $diasRestantes . ' días';
         } else {
-            // Vencimiento futuro
             $color = '#28a745';
+            $estadoVencimiento = 'Vencimiento futuro';
         }
 
+        $referenciaLote = $lote !== '' ? ' - Lote: ' . $lote : '';
         $eventos[] = [
-            'title' => $nombre . ' - Lote: ' . $lote,
+            'title' => $estadoVencimiento . ' - ' . $nombre . $referenciaLote,
             'start' => $fecha,
             'allDay' => true,
             'backgroundColor' => $color,
             'borderColor' => $color,
             'textColor' => $color === '#ffc107' ? '#000000' : '#ffffff',
-            'description' => 'Vencimiento: ' . $fecha
+            'description' => $estadoVencimiento . ' | Vencimiento: ' . $fecha
         ];
     }
 

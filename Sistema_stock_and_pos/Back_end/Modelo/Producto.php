@@ -40,7 +40,7 @@ class ProductoModel
         }
 
         $consulta->bind_param(
-            "ssdisssssisi",
+            "ssdisiissiii",
             $nombre,
             $codigo,
             $precio,
@@ -571,45 +571,38 @@ public function obtenerLotesVista(int $idProducto): array
     }
         public function obtenerFechasVencimiento($correo)
     {
-        $sql = "CALL C_fechas_vencimiento_productos(?)";
+        $sql = "SELECT
+                    p.Nombre_producto,
+                    l.Lote_producto,
+                    COALESCE(l.Fecha_vencimiento, p.Fecha_vencimiento)
+                        AS Fecha_vencimiento
+                FROM Productos p
+                INNER JOIN Usuarios u
+                    ON u.Id_usuario = p.Usuario_id_usuario
+                LEFT JOIN Log_producto l
+                    ON l.Producto_id_producto = p.Id_productos
+                   AND l.Estado_log_producto = 1
+                   AND l.Fecha_vencimiento IS NOT NULL
+                WHERE u.Email_usuario = ?
+                  AND u.Estado_usuario = 1
+                  AND p.Estado_producto = 1
+                  AND COALESCE(l.Fecha_vencimiento, p.Fecha_vencimiento)
+                      IS NOT NULL
+                ORDER BY Fecha_vencimiento ASC";
 
         $stmt = $this->conexion->prepare($sql);
-
         if (!$stmt) {
-            throw new Exception(
-                "Error al preparar consulta: " . $this->conexion->error
-            );
+            throw new Exception($this->conexion->error);
         }
 
-        try {
-            $stmt->bind_param("s", $correo);
-            $stmt->execute();
+        $stmt->bind_param('s', $correo);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $productos = $resultado->fetch_all(MYSQLI_ASSOC);
+        $resultado->free();
+        $stmt->close();
 
-            $resultado = $stmt->get_result();
-            $productos = $resultado->fetch_all(MYSQLI_ASSOC);
-
-            $resultado->free();
-            $stmt->close();
-
-            // Limpiar resultados pendientes del procedimiento almacenado
-            while ($this->conexion->more_results()) {
-                if (!$this->conexion->next_result()) {
-                    break;
-                }
-
-                $pendiente = $this->conexion->store_result();
-
-                if ($pendiente instanceof mysqli_result) {
-                    $pendiente->free();
-                }
-            }
-
-            return $productos;
-
-        } catch (Throwable $e) {
-            $stmt->close();
-            throw $e;
-        }
+        return $productos;
     }
 }
 ?>

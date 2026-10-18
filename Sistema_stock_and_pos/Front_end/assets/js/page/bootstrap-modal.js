@@ -72,9 +72,9 @@ modal_1_body += '<div class="col-12 col-md-6 mb-3">';
 modal_1_body += '<div class="mb-3">';
 modal_1_body += '<label for="exampleDataList" class="form-label">Unidad de medida <span style="color:red;">*</span></label>';
 
-modal_1_body += '<input class="form-control" list="datalistOptions" id="exampleDataList" name="unidad" placeholder="Seleccione una unidad" autocomplete="off" required>';
-
-modal_1_body += '<datalist id="datalistOptions"></datalist>';
+modal_1_body += '<select class="form-select" id="exampleDataList" name="unidad" required>';
+modal_1_body += '<option value="" disabled selected>Seleccione una unidad</option>';
+modal_1_body += '</select>';
 
 modal_1_body += '</div>';
 
@@ -675,6 +675,18 @@ function inicializarBotonesEdicion() {
   });
 }
 
+$(document).on('click', '.formEditarproducto', function () {
+  const id = this.dataset.idProducto;
+  const unidad = this.dataset.unidad || '';
+
+  setTimeout(function () {
+    const formulario = document.getElementById('formEditarproducto_' + id);
+    if (formulario) {
+      CargarUnidadesDatalist(formulario, unidad);
+    }
+  }, 300);
+});
+
 // =====================================================
 // CONSTRUIR FORMULARIO
 // =====================================================
@@ -686,20 +698,6 @@ function crearFormularioEdicion(id, boton) {
   const cantidad = boton.dataset.cantidad || "0";
   const unidad = boton.dataset.unidad || "";
   const stockMinimo = boton.dataset.stockMinimo || "0";
-
-  const opcionesUnidad = [
-    "Unidad",
-    "Libra",
-    "Kilogramos",
-    "Mililitros",
-    "Litros",
-    "Centímetros",
-    "Metros"
-  ];
-
-  const opciones = opcionesUnidad.map(function (opcion) {
-    return `<option value="${escaparHTML(opcion)}"></option>`;
-  }).join("");
 
   return `
         <div>
@@ -816,20 +814,14 @@ function crearFormularioEdicion(id, boton) {
                             <span class="text-danger">*</span>
                         </label>
 
-                        <input
-                            class="form-control"
-                            list="datalistOptionsEditar_${id}"
-                            id="exampleDataListEditar_${id}"
-                            name="unidad"
-                            placeholder="Seleccione una unidad"
-                            value="${escaparHTML(unidad)}"
-                            maxlength="100"
-                            required
+                        <select
+                          class="form-select"
+                          id="exampleDataListEditar_${id}"
+                          name="unidad"
+                          required
                         >
-
-                        <datalist id="datalistOptionsEditar_${id}">
-                            ${opciones}
-                        </datalist>
+                          <option value="" disabled selected>Seleccione una unidad</option>
+                        </select>
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">

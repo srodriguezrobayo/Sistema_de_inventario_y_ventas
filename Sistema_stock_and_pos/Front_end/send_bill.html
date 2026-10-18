@@ -115,10 +115,10 @@
                                 <!-- Tarjeta de Factura -->
                                 <div class="card invoice-card">
                                     <div class="invoice-header text-center">
-                                        <h4 class="mb-1 font-weight-bold">Nombre de usuario</h4>
+                                        <h4 class="mb-1 font-weight-bold" id="facturaCajero">Cargando factura...</h4>
                                         <p class="mb-0 text-white-50">Numero de factura: <span
-                                                class="text-white font-weight-bold">#4444</span></p>
-                                        <small>Fecha expedición factura: 2026/09/24</small>
+                                            class="text-white font-weight-bold" id="facturaNumero">--</span></p>
+                                        <small id="facturaFecha">Fecha expedición factura</small>
                                     </div>
 
                                     <div class="card-body p-4">
@@ -133,22 +133,15 @@
                                                         <th class="text-right">Total</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr class="border-bottom">
-                                                        <td class="font-weight-bold text-dark">Producto: -------</td>
-                                                        <td class="text-center text-muted">#####</td>
-                                                        <td class="text-right text-muted">$$$</td>
-                                                        <td class="text-right font-weight-bold text-dark">$$$</td>
-                                                    </tr>
-                                                </tbody>
+                                                <tbody id="facturaDetalle"></tbody>
                                             </table>
                                         </div> <!-- Total a pagar -->
                                         <div class="row mt-4 align-items-center bg-light p-3 rounded">
                                             <div class="col-6">
-                                                <h5 class="text-muted mb-0">Total a pagar:</h5>
+                                                <h5 class="text-muted mb-0" id="facturaTotalLabel">Total a pagar:</h5>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <h3 class="text-success font-weight-bold mb-0">$$$</h3>
+                                                <h3 class="text-success font-weight-bold mb-0" id="facturaTotal">--</h3>
                                             </div>
                                         </div>
 
@@ -183,7 +176,6 @@
     <!-- JS Libraies -->
     <script src="assets/modules/select2/dist/js/select2.full.min.js"></script>
     <!-- Page Specific JS File -->
-    <script src="assets/js/page/forms-advanced-forms.js"></script>
     <script src="assets/js/page/modules-toastr.js"></script>
     <script src="assets/modules/izitoast/js/iziToast.js"></script>
     <script src="assets/modules/izitoast/js/iziToast.min.js"></script>
@@ -191,47 +183,7 @@
     <!-- Template JS File -->
     <script src="assets/js/scripts.js"></script>
     <script src="assets/js/custom.js"></script>
-    <script>
-        document.getElementById('btnEnviar').addEventListener('click', function () {
-            Swal.fire({
-                title: 'Enviar Factura',
-                text: 'Ingrese el correo electrónico del cliente',
-                input: 'email',
-                inputPlaceholder: 'correo@ejemplo.com',
-                showCancelButton: true,
-                confirmButtonText: 'Enviar',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#6c757d',
-                reverseButtons: true,
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown animate__faster'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp animate__faster'
-                },
-                inputValidator: (value) => {
-                    if (!value) {
-                        return '¡Por favor ingrese un correo válido!';
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Enviado!',
-                        text: `La factura ha sido enviada a: ${result.value}`,
-                        confirmButtonColor: '#28a745',
-                        timer: 2000,
-                        showConfirmButton: false,
-                        willClose: () => {
-                            window.location.href = "History_sales.html"; // Redirige a la página de historial de ventas después de enviar
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="assets/js/send_bill.js?v=1"></script>
     <script src="assets/js/alerts_main.js"></script>
 
 </body>

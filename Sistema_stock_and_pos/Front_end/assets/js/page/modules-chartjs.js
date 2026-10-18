@@ -10,6 +10,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const ctx = canvas.getContext("2d");
+  const titulo = document.getElementById("tituloProductosVendidos");
+
+  if (titulo) {
+    titulo.textContent = "Productos vendidos en " +
+      new Intl.DateTimeFormat("es-CO", {
+        month: "long",
+        year: "numeric"
+      }).format(new Date());
+  }
 
   let myChart3 = null;
 
@@ -123,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+if (document.getElementById("myChart")) {
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'line',
@@ -165,7 +175,9 @@ var myChart = new Chart(ctx, {
     },
   }
 });
+}
 
+if (document.getElementById("myChart2")) {
 var ctx = document.getElementById("myChart2").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'bar',
@@ -208,7 +220,9 @@ var myChart = new Chart(ctx, {
     },
   }
 });
+}
 
+if (document.getElementById("myChart4")) {
 var ctx = document.getElementById("myChart4").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'pie',
@@ -245,3 +259,4 @@ var myChart = new Chart(ctx, {
     },
   }
 });
+}

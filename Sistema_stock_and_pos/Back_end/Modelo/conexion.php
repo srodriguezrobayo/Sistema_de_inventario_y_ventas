@@ -6,7 +6,7 @@ $con = mysqli_connect(
     'root',
     '',
     'sap',
-    3307
+    3306
 );
 
 if (!$con) {

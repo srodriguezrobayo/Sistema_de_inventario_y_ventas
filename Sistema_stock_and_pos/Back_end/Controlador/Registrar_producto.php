@@ -153,7 +153,7 @@ try {
     $cantidad = (int)$cantidad;
     $cantidadMinima = (int)$cantidadMinima;
     $usuario = (int)$usuario;
-    $estado = 'Activo';
+    $estado = 1;
 
     // Guardar en la base de datos
     $modelo = new ProductoModel();

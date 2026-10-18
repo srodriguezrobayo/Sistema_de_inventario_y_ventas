@@ -168,6 +168,13 @@ function generarProductos(productos) {
         );
 
         const stockMinimo = Number(producto.Cantidad_minima) || 0;
+        const precio = Number(producto.Valor_unitario_producto) || 0;
+        const precioFormateado = new Intl.NumberFormat("es-CO", {
+            style: "currency",
+            currency: "COP",
+            maximumFractionDigits: 0
+        }).format(precio);
+        const unidad = escaparHTML(producto.Unidad_medida_producto || "");
 
         // Imagen almacenada en la base de datos.
         const imagen = escaparHTML(
@@ -177,45 +184,66 @@ function generarProductos(productos) {
         // Mantiene las clases del diseño original.
         const claseCard =
             stockMinimo > 0 && stock <= stockMinimo
-                ? "card h-100 bg-warning-subtle text-warning-emphasis border border-light-subtle"
-                : "card h-100";
+                ? "card h-100 stock-product-card bg-warning-subtle text-warning-emphasis border border-light-subtle"
+                : "card h-100 stock-product-card";
 
         const numeroCard = indice + 1;
 
         return `
-            <div class="col-12 col-sm-6 col-lg-3 mb-4">
+            <div class="col-12 col-sm-6 col-lg-4 mb-4 stock-product-column">
                 <div class="${claseCard}">
 
-                    <div class="card-header text-center">
+                    <div class="card-header text-center stock-product-image-frame">
                         <img
                             src="${imagen}"
-                            class="img-fluid"
+                            class="img-fluid stock-product-image"
                             alt="${nombre}"
                         >
                     </div>
 
                     <a
-                        class="btn btn-light"
+                        class="btn btn-light stock-product-view"
                         href="View_product.html?id=${encodeURIComponent(id)}"
                     >
                         <i class="far fa-eye"></i>
                         Ver producto
                     </a>
 
-                    <div class="card-body">
+                    <div class="card-body stock-product-body">
 
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">${nombre}</p>
-                            <p class="mb-2">Código: ${codigo}</p>
+                        <div class="mb-3 stock-product-identity">
+                            <h6 class="mb-1 text-break stock-product-name" title="${nombre}">${nombre}</h6>
+                            <small class="text-muted stock-product-code" title="Código: ${codigo || "Sin código"}">Código: ${codigo || "Sin código"}</small>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <p class="mb-2">
-                                Cantidad vendida: ${cantidadVendida}
-                            </p>
-                            <p class="mb-2">Stock: ${stock}</p>
+                        <div class="row g-2 mb-3 stock-product-metrics">
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded stock-product-metric">
+                                    <small class="d-block text-muted">Stock disponible</small>
+                                    <strong>${stock}${unidad ? " " + unidad : ""}</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded stock-product-metric">
+                                    <small class="d-block text-muted">Vendidas netas</small>
+                                    <strong>${cantidadVendida}</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded stock-product-metric">
+                                    <small class="d-block text-muted">Stock mínimo</small>
+                                    <strong>${stockMinimo}${unidad ? " " + unidad : ""}</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded stock-product-metric">
+                                    <small class="d-block text-muted">Precio unitario</small>
+                                    <strong>${escaparHTML(precioFormateado)}</strong>
+                                </div>
+                            </div>
                         </div>
 
+                        <div class="stock-product-actions">
                         <hr>
 
 <button
@@ -251,6 +279,7 @@ function generarProductos(productos) {
                             <i class="fas fa-truck"></i>
                             Actualizar cantidad
                         </button>
+                        </div>
 
                     </div>
                 </div>

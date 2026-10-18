@@ -5,14 +5,17 @@ $(document).ready(function () {
     $('#Fechaexpedicion').val(fechaActual);
 });
 
-document.getElementById('btnGuardarUsuario').addEventListener('click', function () {
+const botonGuardarUsuario = document.getElementById('btnGuardarUsuario');
+const campoIdUsuario = document.getElementById('Id_usuario');
 
-    // Reemplaza idUsuario por la variable que ya contiene el ID real.
-    localStorage.setItem('id_usuario', id_usuario);
+if (botonGuardarUsuario && campoIdUsuario) {
+    botonGuardarUsuario.addEventListener('click', function () {
+        const idUsuario = 'value' in campoIdUsuario
+            ? campoIdUsuario.value
+            : campoIdUsuario.textContent;
 
-    console.log(
-        'ID guardado:',
-        localStorage.getItem('Id_usuario')
-    );
-
-});
+        if (idUsuario) {
+            localStorage.setItem('id_usuario', idUsuario);
+        }
+    });
+}

@@ -179,9 +179,64 @@ if (!$stmtProductos->execute()) {
 
 $resultadoProductos = $stmtProductos->get_result();
 
+$sqlVentas = "SELECT ventas.Descripcion_venta, ventas.Accion_venta
+              FROM Ventas
+              INNER JOIN Usuarios
+                  ON Usuarios.Id_usuario = Ventas.Usuario_id_usuario
+              WHERE Usuarios.Email_usuario = ?
+                AND Ventas.Estado_venta = 1
+                AND Ventas.Accion_venta IN ('Venta', 'Devolucion')";
+$stmtVentas = $con->prepare($sqlVentas);
+
+if (!$stmtVentas) {
+    error_log('Error SQL al consultar cantidades vendidas: ' . $con->error);
+    http_response_code(500);
+    echo json_encode([
+        'resultado' => 0,
+        'mensaje' => 'No fue posible consultar las cantidades vendidas.'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+$stmtVentas->bind_param('s', $emailUsuario);
+$stmtVentas->execute();
+$resultadoVentas = $stmtVentas->get_result();
+$ventasPorProducto = [];
+
+while ($venta = $resultadoVentas->fetch_assoc()) {
+    $detalleVenta = json_decode($venta['Descripcion_venta'], true);
+    if (!is_array($detalleVenta) || !is_array($detalleVenta['items'] ?? null)) {
+        continue;
+    }
+
+    $signo = $venta['Accion_venta'] === 'Devolucion' ? -1 : 1;
+    foreach ($detalleVenta['items'] as $item) {
+        $idProducto = filter_var(
+            $item['id'] ?? null,
+            FILTER_VALIDATE_INT
+        );
+        $cantidad = filter_var(
+            $item['cantidad'] ?? null,
+            FILTER_VALIDATE_INT
+        );
+
+        if (!$idProducto || $cantidad === false || $cantidad < 1) {
+            continue;
+        }
+
+        $ventasPorProducto[$idProducto] =
+            ($ventasPorProducto[$idProducto] ?? 0) + ($signo * $cantidad);
+    }
+}
+
+$resultadoVentas->free();
+$stmtVentas->close();
+
 $productos = [];
 
 while ($fila = $resultadoProductos->fetch_assoc()) {
+    $idProducto = (int) $fila['Id_productos'];
+    $fila['Cantidad_vendida'] = (int) ($ventasPorProducto[$idProducto] ?? 0);
     $productos[] = $fila;
 }
 

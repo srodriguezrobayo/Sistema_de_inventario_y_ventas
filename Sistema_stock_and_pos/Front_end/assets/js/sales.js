@@ -15,6 +15,58 @@ $(document).ready(function () {
 
     let carrito = [];
 
+    async function cargarProductos() {
+        try {
+            const respuesta = await fetch(
+                "../Back_end/Controlador/Productos_venta.php",
+                { credentials: "same-origin" }
+            );
+            const datos = await respuesta.json();
+
+            if (!respuesta.ok || datos.resultado !== 1) {
+                throw new Error(datos.mensaje || "No se pudieron cargar los productos.");
+            }
+
+            const selector = $("#selectProducto").empty();
+            selector.append($('<option value="" disabled selected></option>').text(
+                datos.productos.length
+                    ? "Buscar o seleccionar producto..."
+                    : "No hay productos activos en el inventario"
+            ));
+
+            const productos = datos.productos;
+            productos.forEach(function (producto) {
+                const precio = Number(producto.Valor_unitario_producto) || 0;
+                const stock = Number(producto.Cantidad_Producto) || 0;
+                selector.append(
+                    $("<option></option>")
+                        .val(producto.Id_productos)
+                        .data("precio", precio)
+                        .data("nombre", producto.Nombre_producto)
+                        .data("stock", stock)
+                        .text(
+                            producto.Nombre_producto + " - " +
+                            formatearMoneda(precio) + " - Stock: " + stock
+                        )
+                );
+            });
+
+            if (datos.usuario) {
+                $("#lblCajero").text(datos.usuario);
+            }
+
+            selector.trigger("change");
+        } catch (error) {
+            console.error("Error al cargar productos para venta:", error);
+            Swal.fire({
+                icon: "error",
+                title: "No se cargó el inventario",
+                text: error.message || "Comprueba tu sesión y vuelve a cargar la página.",
+                confirmButtonColor: "#224247"
+            });
+        }
+    }
+
     // =====================================================
     // 2. IDENTIFICAR LA OPERACIÓN
     // =====================================================
@@ -132,6 +184,19 @@ $(document).ready(function () {
             return String(item.id) === String(id);
         });
 
+        const stock = Number(opcion.data("stock")) || 0;
+        const cantidadAcumulada = (itemExistente ? itemExistente.cantidad : 0) + cantidad;
+
+        if (!esDevolucion() && cantidadAcumulada > stock) {
+            Swal.fire({
+                icon: "warning",
+                title: "Stock insuficiente",
+                text: "Disponible: " + stock + " unidades.",
+                confirmButtonColor: "#224247"
+            });
+            return;
+        }
+
         if (itemExistente) {
 
             itemExistente.cantidad += cantidad;
@@ -146,6 +211,7 @@ $(document).ready(function () {
                 nombre: String(nombre),
                 precio: precio,
                 cantidad: cantidad,
+                stock: stock,
                 subtotal: precio * cantidad
             });
         }
@@ -338,46 +404,68 @@ $(document).ready(function () {
 
         const correoCliente = resultado.value.trim();
 
-        // Crear una copia de los datos de la operación.
-        const objetoOperacion = {
-            tipo: tipoOperacion,
-            numFactura: $("#lblNumFactura").text(),
-            cajero: $("#lblCajero").text(),
-            fecha: $("#lblFechaExp").text(),
+        const botonCheckout = $("#btnCheckout");
+        botonCheckout.prop("disabled", true);
+        $("#btnAdd, #btnRemove, #selectProducto, #inputCantidad, .btn-delete-row")
+            .prop("disabled", true);
 
-            items: carrito.map(function (item) {
-                return {
-                    id: item.id,
-                    nombre: item.nombre,
-                    precio: item.precio,
-                    cantidad: item.cantidad,
-                    subtotal: item.subtotal
-                };
-            }),
+        try {
+            const respuesta = await fetch(
+                "../Back_end/Controlador/Registrar_venta.php",
+                {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        tipo: tipoOperacion === "devolucion" ? "Devolucion" : "Venta",
+                        correoCliente: correoCliente,
+                        items: carrito.map(function (item) {
+                            return {
+                                id: Number(item.id),
+                                cantidad: item.cantidad
+                            };
+                        })
+                    })
+                }
+            );
+            const datos = await respuesta.json();
 
-            // Las devoluciones se representan con un total negativo.
-            total: devolucion ? -totalNumerico : totalNumerico,
+            if (!respuesta.ok || datos.resultado !== 1) {
+                throw new Error(datos.mensaje || "No se pudo registrar la operación.");
+            }
 
-            correoCliente: correoCliente
-        };
+            $("#lblNumFactura").text(datos.factura);
+            $("#lblFechaExp").text(new Date().toLocaleString());
 
-        console.log("Datos de la operación:", objetoOperacion);
+            await Swal.fire({
+                icon: datos.correo_enviado ? "success" : "warning",
+                title: datos.correo_enviado
+                    ? "Operación completada"
+                    : "Operación registrada",
+                text: datos.mensaje,
+                confirmButtonColor: "#224247"
+            });
 
-        /*
-         * IMPORTANTE:
-         * Este objeto todavía no se guarda en la base de datos.
-         * Para registrar la venta/devolución, modificar el inventario
-         * y enviar el correo, hay que enviarlo a un controlador PHP.
-         */
-
-        await Swal.fire({
-            icon: "info",
-            title: "Datos preparados",
-            text: devolucion
-                ? "El correo y los datos de la devolución están preparados, pero todavía falta conectarlos al controlador para registrar y enviar el comprobante."
-                : "El correo y los datos de la venta están preparados, pero todavía falta conectarlos al controlador para registrar y enviar la factura.",
-            confirmButtonColor: "#224247"
-        });
+            carrito = [];
+            actualizarTabla();
+            await cargarProductos();
+        } catch (error) {
+            console.error("Error al registrar la operación:", error);
+            Swal.fire({
+                icon: "error",
+                title: "No se pudo completar",
+                text: error.message || "Comprueba la conexión y vuelve a intentarlo.",
+                confirmButtonColor: "#224247"
+            });
+        } finally {
+            botonCheckout.prop("disabled", false);
+            $("#btnAdd, #btnRemove, #selectProducto, #inputCantidad")
+                .prop("disabled", false);
+            $(".btn-delete-row").prop("disabled", false);
+        }
     });
 
     // =====================================================
@@ -385,5 +473,7 @@ $(document).ready(function () {
     // =====================================================
 
     actualizarTipoOperacion();
+    cargarProductos();
+    window.addEventListener("focus", cargarProductos);
 
 });

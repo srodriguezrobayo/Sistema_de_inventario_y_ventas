@@ -165,16 +165,22 @@ async function ConsultarUnidades() {
    LLENAR EL DATALIST CON LAS UNIDADES DE MYSQL
    ===================================================== */
 
-async function CargarUnidadesDatalist(formulario) {
-    const datalist = formulario.querySelector('#datalistOptions');
+async function CargarUnidadesDatalist(formulario, unidadSeleccionada = '') {
+    const selector = formulario.querySelector('select[name="unidad"]');
 
-    if (!datalist) {
-        console.error('No se encontró el datalist de unidades.');
+    if (!selector) {
+        console.error('No se encontró el selector de unidades.');
         return;
     }
 
-    // Limpiar opciones anteriores.
-    datalist.replaceChildren();
+    selector.replaceChildren();
+
+    const opcionInicial = document.createElement('option');
+    opcionInicial.value = '';
+    opcionInicial.textContent = 'Seleccione una unidad';
+    opcionInicial.disabled = true;
+    opcionInicial.selected = true;
+    selector.appendChild(opcionInicial);
 
     // Consultar las unidades al controlador PHP.
     const unidades = await ConsultarUnidades();
@@ -188,9 +194,37 @@ async function CargarUnidadesDatalist(formulario) {
 
         const opcion = document.createElement('option');
         opcion.value = descripcion;
+        opcion.textContent = descripcion;
 
-        datalist.appendChild(opcion);
+        selector.appendChild(opcion);
     });
+
+    if (
+        unidadSeleccionada &&
+        !unidades.some(function (unidad) {
+            return unidad.Descripcion_unidad_medida === unidadSeleccionada;
+        })
+    ) {
+        const opcionActual = document.createElement('option');
+        opcionActual.value = unidadSeleccionada;
+        opcionActual.textContent = unidadSeleccionada;
+        selector.appendChild(opcionActual);
+    }
+
+    const $selector = $(selector);
+    if (typeof $selector.select2 === 'function') {
+        const $modal = $selector.closest('.modal');
+        $selector.select2({
+            width: '100%',
+            placeholder: 'Seleccione una unidad',
+            minimumResultsForSearch: 0,
+            tags: false,
+            dropdownParent: $modal.length ? $modal : $(document.body)
+        });
+        $selector.val(unidadSeleccionada || '').trigger('change');
+    } else {
+        selector.value = unidadSeleccionada || '';
+    }
 }
 
 
